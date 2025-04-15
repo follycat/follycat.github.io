@@ -1,0 +1,845 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>jeecgboot3.5.3版本各类sql注入漏洞代码分析 | follycat&#39;blog</title>
+<link rel="shortcut icon" href="https://follycat.github.io//favicon.ico?v=1744681794955">
+<link href="https://cdn.jsdelivr.net/npm/remixicon@2.3.0/fonts/remixicon.css" rel="stylesheet">
+<link rel="stylesheet" href="https://follycat.github.io//styles/main.css">
+<link rel="alternate" type="application/atom+xml" title="jeecgboot3.5.3版本各类sql注入漏洞代码分析 | follycat&#39;blog - Atom Feed" href="https://follycat.github.io//atom.xml">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Droid+Serif:400,700">
+
+
+
+    <meta name="description" content="jeecgboot3.5.3版本各类sql注入漏洞代码分析
+这篇文章主要分享在实际项目中各类SQL注入漏洞形成的原因，并且使用了较多企业使用的开源项目jeecg-boot为例子，从而进一步理解SQL注入漏洞是如何形成以及为什么会出现sql注..." />
+    <meta name="keywords" content="代码审计学习" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.5.1/build/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="main">
+      <div class="main-content">
+        <div class="site-header">
+  <a href="https://follycat.github.io/">
+  <img class="avatar" src="https://follycat.github.io//images/avatar.png?v=1744681794955" alt="">
+  </a>
+  <h1 class="site-title">
+    follycat&#39;blog
+  </h1>
+  <p class="site-description">
+    无聊ini
+  </p>
+  <div class="menu-container">
+    
+      
+        <a href="/" class="menu">
+          首页
+        </a>
+      
+    
+      
+        <a href="/archives" class="menu">
+          归档
+        </a>
+      
+    
+      
+        <a href="/tags" class="menu">
+          标签
+        </a>
+      
+    
+      
+        <a href="/post/about" class="menu">
+          关于
+        </a>
+      
+    
+  </div>
+  <div class="social-container">
+    
+      
+    
+      
+    
+      
+    
+      
+    
+      
+    
+  </div>
+</div>
+
+        <div class="post-detail">
+          <article class="post">
+            <h2 class="post-title">
+              jeecgboot3.5.3版本各类sql注入漏洞代码分析
+            </h2>
+            <div class="post-info">
+              <span>
+                2025-04-15
+              </span>
+              <span>
+                22 min read
+              </span>
+              
+                <a href="https://follycat.github.io/tag/suy4cSBuK6/" class="post-tag">
+                  # 代码审计学习
+                </a>
+              
+            </div>
+            
+              <img class="post-feature-image" src="https://follycat.github.io//post-images/JmT91EXeGR.png" alt="">
+            
+            <div class="post-content-wrapper">
+              <div class="post-content" v-pre>
+                <h1 id="jeecgboot353版本各类sql注入漏洞代码分析">jeecgboot3.5.3版本各类sql注入漏洞代码分析</h1>
+<p>这篇文章主要分享在实际项目中各类SQL注入漏洞形成的原因，并且使用了较多企业使用的开源项目jeecg-boot为例子，从而进一步理解SQL注入漏洞是如何形成以及为什么会出现sql注入漏洞。</p>
+<h2 id="jinmureport中的未授权sql注入布尔盲注">jinmureport中的未授权sql注入(布尔盲注)</h2>
+<p>CVE-2023-42268以及CVE-2023-41543这俩个漏洞都是依赖这段防护代码进行绕过，并且jeecgboot中存在某些路由无需使用token进行身份检测，可以直接未授权拿到数据库。</p>
+<p>这里取的是<code>/jeecg-boot/jmreport/show</code>接口，</p>
+<p>首先，可以找到位于<code>org.jeecg.modules.jmreport.desreport.a.a</code>中的show方法。</p>
+<figure data-type="image" tabindex="1"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1743501943858-9fda7da7-2942-416b-b646-856efa5d43e8.png" alt="" loading="lazy"></figure>
+<p>其造成漏洞的方法为POST访问的show方法</p>
+<pre><code>    @PostMapping({&quot;/show&quot;})
+    public Result&lt;?&gt; a(@RequestBody JSONObject var1) {
+        String var2 = var1.getString(&quot;id&quot;);
+        a.info(&quot;--------进入show方法-----------, id = &quot; + var2);
+
+        try {
+            String var3 = var1.getString(&quot;params&quot;);
+            return this.jmReportDesignService.show(var2, var3, (List)null);
+        } catch (Exception var4) {
+            a.error(var4.getMessage(), var4);
+            return Result.error(var4.getMessage());
+        }
+    }
+</code></pre>
+<p>这个方法获取了json数据中的id以及params这俩个参数，并将其放入<code>jmReportDesignService.show</code>中进行数据查询操作。</p>
+<p>跟进show方法，找到实现这个接口的<code>org.jeecg.modules.jmreport.desreport.service.a.e</code>类中的show方法。</p>
+<figure data-type="image" tabindex="2"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1743502377210-f2bdb8f3-5cf7-4b98-8702-822e451f095b.png" alt="" loading="lazy"></figure>
+<p>完整代码如下：</p>
+<pre><code>    public Result&lt;JimuReport&gt; show(String id, String params, List&lt;String&gt; dbCode) {
+        JSONObject var4 = new JSONObject();
+        boolean var5 = false;
+        if (org.jeecg.modules.jmreport.common.b.g.d(params)) {
+            var4 = JSON.parseObject(params);
+            var5 = &quot;1&quot;.equals(var4.getString(&quot;onlyPageData&quot;));
+        }
+
+        a.debug(&quot;============EXCEL JSON数据查询==========&quot;);
+        JimuReport var6 = this.reportDao.get(id);
+        String var7 = var6.getJsonStr();
+        this.a(var4, var7);
+        Map var8 = this.getDataById(var6, var4, var5, dbCode);
+        this.a(var7, var8);
+        var6.setDataList(var8);
+        a.debug(&quot;====配置的json字符串===&quot; + var6.getJsonStr());
+        var7 = ReportUtil.a(var8, var7);
+        JSONObject var9 = (JSONObject)var8.get(&quot;replaceParams&quot;);
+        var7 = ReportUtil.a(var7, var9);
+        var6.setJsonStr(var7);
+        RenderInfo var10 = new RenderInfo(var6);
+        var10.setStrategyName(org.jeecg.modules.jmreport.desreport.render.a.a.b.class.getSimpleName());
+        Result var11 = this.a(var10);
+        ExpressUtil.a(var11);
+        return var11;
+    }
+</code></pre>
+<p>看到<code>json</code>查询部分，这部分代码主要是进行参数的查询以及数据的返回，其中造成漏洞的参数为<code>params</code>参数，所以重点看到<code>getDataById</code>这个方法。</p>
+<pre><code>    public Map&lt;String, Object&gt; getDataById(JimuReport report, JSONObject paramJson, boolean onlyPageData, List&lt;String&gt; excelDbcode) {
+        HashMap var5 = new HashMap(5);
+        if (report == null) {
+            return var5;
+        } else {
+            JSONObject var6 = new JSONObject();
+            var6.putAll(paramJson);
+            List var7 = this.reportDbDao.selectList(report.getId());
+            if (var7 == null) {
+                return var5;
+            } else {
+                String var8 = &quot;&quot;;
+                JSONObject var9 = JSONObject.parseObject(report.getJsonStr());
+                JSONArray var10 = null;
+                ArrayList var11 = new ArrayList();
+                if (var9 != null) {
+                    if (var9.containsKey(&quot;groupField&quot;) &amp;&amp; var9.containsKey(&quot;isGroup&quot;)) {
+                        var8 = var9.getString(&quot;groupField&quot;);
+                    }
+
+                    var10 = var9.getJSONArray(&quot;dbexps&quot;);
+                }
+
+                if (var10 != null &amp;&amp; var10.size() &gt; 0) {
+                    for(int var12 = 0; var12 &lt; var10.size(); ++var12) {
+                        String var13 = var10.getString(var12);
+                        JmExpression var14 = new JmExpression(var13);
+                        var11.add(var14);
+                    }
+                }
+
+                String var48 = paramJson.getString(&quot;printAll&quot;);
+                var7 = this.c(var7);
+                HashMap var49 = new HashMap(5);
+                JSONObject var50 = org.jeecg.modules.jmreport.common.b.g.a(paramJson);
+                Map var15 = this.a(var7, paramJson);
+                Iterator var16 = var7.iterator();
+
+                while(true) {
+                    JmReportDb var17;
+                    do {
+                        do {
+                            if (!var16.hasNext()) {
+                                Map var51 = JmExpression.getExpMapByList(var11);
+                                var5.put(&quot;expData&quot;, var51);
+                                var5.put(&quot;replaceParams&quot;, var6);
+                                return var5;
+                            }
+
+                            var17 = (JmReportDb)var16.next();
+                        } while(onlyPageData &amp;&amp; !&quot;1&quot;.equals(var17.getIsPage()));
+                    } while(null != excelDbcode &amp;&amp; excelDbcode.size() &gt; 0 &amp;&amp; excelDbcode.contains(var17.getDbCode()));
+
+                    Object var18 = new ArrayList();
+                    String var19 = var17.getDbCode();
+                    new JSONObject();
+                    paramJson = org.jeecg.modules.jmreport.common.b.g.a(var50);
+                    this.a((JmReportDb)var17, (Map)var49, (Map)var15);
+                    this.a(paramJson, var6, var17);
+                    this.a(paramJson, var19, var6, var17);
+                    ReportDbInfo var21;
+                    if (&quot;2&quot;.equals(var17.getDbType())) {
+                        var21 = this.a((JmReportDb)var17, (JSONObject)paramJson, (List)var18);
+                        var5.put(var19, var21);
+                    }
+
+                    String var28;
+                    JSONObject var52;
+                    String var65;
+                    if (&quot;0&quot;.equals(var17.getDbType())) {
+                        var52 = new JSONObject();
+                        JSONObject var22 = (JSONObject)var15.get(&quot;shared_query_param&quot;);
+                        JSONObject var23 = (JSONObject)var15.get(var19);
+                        var52.putAll(var22);
+                        var52.putAll(var23);
+                        String var24 = this.getDbSql(var17, var52, paramJson, var11, var8);
+                        a.info(&quot;------报表【&quot; + var19 + &quot;】，查询的sql: &quot; + var24);
+                        String var25 = var17.getDbSource();
+                        Integer var26 = org.jeecg.modules.jmreport.common.b.g.a(paramJson.get(&quot;pageSize&quot;), 10);
+                        Integer var27 = org.jeecg.modules.jmreport.common.b.g.a(paramJson.get(&quot;pageNo&quot;), 1);
+                        if (org.jeecg.modules.jmreport.common.b.g.c(var25) &amp;&amp; this.jmBaseConfig.getSaas() &amp;&amp; this.jmBaseConfig.getSafeMode() != null &amp;&amp; this.jmBaseConfig.getSafeMode()) {
+                            throw new JimuReportException(&quot;安全模式下，不允许使用平台数据源（请配置数据源）！&quot;);
+                        }
+
+                        var28 = org.jeecg.modules.jmreport.desreport.util.f.e(var24);
+                        ReportDbInfo var29;
+                        List var30;
+                        if (org.jeecg.modules.jmreport.common.b.g.d(var28)) {
+                            var29 = new ReportDbInfo();
+                            var30 = this.jmreportDynamicDbUtil.a(var25, var28);
+                            if (org.jeecg.modules.jmreport.common.b.g.d(var30)) {
+                                var30 = ReportUtil.a(var30);
+                            }
+
+                            var29.setList(var30);
+                            var5.put(var19, var29);
+                        } else if (this.jmReportDbSourceService.isNoSql(var25)) {
+                            var29 = new ReportDbInfo();
+                            var30 = this.jmreportNoSqlService.findList(var24, var25);
+                            if (org.jeecg.modules.jmreport.common.b.g.d(var30)) {
+                                var30 = ReportUtil.a(var30);
+                            }
+
+                            var29.setList(var30);
+                            var5.put(var19, var29);
+                        } else {
+                            Object var67;
+                            Object var69;
+                            if (org.jeecg.modules.jmreport.common.b.g.d(var25)) {
+                                a.info(&quot;------数据源 dbSourceKey:【&quot; + var25 + &quot;】&quot;);
+                                if (org.jeecg.modules.jmreport.common.b.g.d(var48)) {
+                                    var29 = new ReportDbInfo();
+                                    var67 = new ArrayList();
+
+                                    try {
+                                        var67 = this.jmreportDynamicDbUtil.b(var25, var24, new Object[0]);
+                                    } catch (Exception var47) {
+                                        this.a(var47);
+                                    }
+
+                                    if (org.jeecg.modules.jmreport.common.b.g.d(var67)) {
+                                        var67 = ReportUtil.a((List)var67);
+                                    }
+
+                                    var29.setList((List)var67);
+                                    var5.put(var19, var29);
+                                } else {
+                                    var65 = org.jeecg.modules.jmreport.dyndb.util.b.e(var24);
+                                    var67 = new HashMap(5);
+
+                                    try {
+                                        JmreportDynamicDataSourceVo var31 = org.jeecg.modules.jmreport.dyndb.a.a(var25);
+                                        if (org.jeecg.modules.jmreport.common.b.g.c(var31.getDbUrl())) {
+                                            throw new JimuReportException(&quot;数据源配置无效,请检查!&quot;);
+                                        }
+
+                                        if (&quot;sqlserver&quot;.equals(var31.getDbType().toLowerCase()) &amp;&amp; !var65.toUpperCase().contains(&quot;CONVERT&quot;)) {
+                                            SqlServerParse var32 = new SqlServerParse();
+                                            var65 = var32.removeOrderBy(var65);
+                                        }
+
+                                        var67 = (Map)this.jmreportDynamicDbUtil.a(var25, var65, new Object[0]);
+                                    } catch (Exception var46) {
+                                        this.a(var46);
+                                    }
+
+                                    int var66 = 1;
+                                    var69 = ((Map)var67).get(&quot;total&quot;);
+                                    int var33 = 0;
+                                    if (var69 != null) {
+                                        var33 = Integer.parseInt(var69.toString());
+                                        double var34 = Double.parseDouble(var69.toString()) / (double)var26;
+                                        var66 = (int)Math.ceil(var34);
+                                    }
+
+                                    List var72 = null;
+                                    if (&quot;1&quot;.equals(var17.getIsPage())) {
+                                        JmreportDynamicDataSourceVo var35 = org.jeecg.modules.jmreport.dyndb.a.a(var25);
+                                        String var36 = MiniDaoUtil.createPageSql(var35.getDbUrl(), var24, var27, var26);
+
+                                        try {
+                                            var72 = this.jmreportDynamicDbUtil.b(var25, var36, new Object[0]);
+                                        } catch (Exception var45) {
+                                            a.warn(var45.getMessage(), var45);
+                                            throw new JimuReportException(var45.getMessage());
+                                        }
+                                    } else {
+                                        try {
+                                            var72 = this.jmreportDynamicDbUtil.b(var25, var24, new Object[0]);
+                                        } catch (Exception var44) {
+                                            a.warn(var44.getMessage(), var44);
+                                            throw new JimuReportException(var44.getMessage());
+                                        }
+                                    }
+
+                                    ReportDbInfo var73 = new ReportDbInfo((long)var66, (long)var33, var17.getIsPage(), var17.getIsList(), var17.getDbType());
+                                    if (org.jeecg.modules.jmreport.common.b.g.d(var72)) {
+                                        var72 = ReportUtil.a(var72);
+                                    }
+
+                                    var73.setList(var72);
+                                    var5.put(var19, var73);
+                                }
+                            } else if (org.jeecg.modules.jmreport.common.b.g.d(var48)) {
+                                var29 = new ReportDbInfo();
+                                var67 = new ArrayList();
+
+                                try {
+                                    var67 = this.reportDbDao.selectListBySql(var24);
+                                } catch (Exception var43) {
+                                    this.a(var43);
+                                }
+
+                                if (org.jeecg.modules.jmreport.common.b.g.d(var67)) {
+                                    var67 = ReportUtil.a((List)var67);
+                                }
+
+                                var29.setList((List)var67);
+                                var5.put(var19, var29);
+                            } else {
+                                var65 = var17.getIsPage();
+                                String var74 = var17.getIsList();
+                                if (&quot;0&quot;.equals(var65) || org.jeecg.modules.jmreport.common.b.g.c(var65)) {
+                                    var27 = 1;
+                                }
+
+                                ReportDbInfo var68 = null;
+                                if (&quot;1&quot;.equals(var65)) {
+                                    MiniDaoPage var70 = new MiniDaoPage();
+
+                                    try {
+                                        var70 = this.reportDbDao.selectPageBySql(var24, var27, var26);
+                                    } catch (Exception var42) {
+                                        this.a(var42);
+                                    }
+
+                                    var68 = new ReportDbInfo((long)var70.getPages(), (long)var70.getTotal(), var65, var74, var17.getDbType());
+                                    List var71 = var70.getResults();
+                                    if (org.jeecg.modules.jmreport.common.b.g.d(var71)) {
+                                        var71 = ReportUtil.a(var71);
+                                    }
+
+                                    var68.setList(var71);
+                                } else {
+                                    var69 = new ArrayList();
+
+                                    try {
+                                        var69 = this.reportDbDao.selectListBySql(var24);
+                                    } catch (Exception var41) {
+                                        this.a(var41);
+                                    }
+
+                                    if (var69 != null) {
+                                        var68 = new ReportDbInfo(1L, (long)((List)var69).size(), var65, var74, var17.getDbType());
+                                        if (org.jeecg.modules.jmreport.common.b.g.d(var69)) {
+                                            var69 = ReportUtil.a((List)var69);
+                                        }
+
+                                        var68.setList((List)var69);
+                                    }
+                                }
+
+                                var5.put(var19, var68);
+                            }
+                        }
+
+                        var29 = (ReportDbInfo)var5.get(var19);
+                        var30 = var29.getList();
+                        var18 = org.jeecg.modules.jmreport.common.b.g.a(var30);
+                        this.replaceDbCode(var17, var30);
+                        var29.setList(var30);
+                        var5.replace(var19, var29);
+                    }
+
+                    if (&quot;1&quot;.equals(var17.getDbType())) {
+                        var52 = this.getApiRequestParams(var17, var15, var48, var8);
+                        String var53 = this.jimuTokenClient.getToken();
+                        Object var55 = new HashMap(5);
+
+                        try {
+                            var55 = this.getApiData(var17, var53, var52);
+                        } catch (ResourceAccessException var38) {
+                            throw new JimuReportException(&quot;api连接超时，请重试！&quot;);
+                        } catch (JimuReportException var39) {
+                            throw new JimuReportException(var39.getMessage());
+                        } catch (Exception var40) {
+                            a.warn(var40.getMessage(), var40);
+                        }
+
+                        ReportDbInfo var57 = new ReportDbInfo(var17.getIsPage(), var17.getIsList(), var17.getDbType());
+                        Object var59 = ((Map)var55).get(&quot;dataList&quot;);
+                        if (org.jeecg.modules.jmreport.common.b.g.d(var59)) {
+                            var57.setList((List)var59);
+                        }
+
+                        if (org.jeecg.modules.jmreport.common.b.g.c(var48)) {
+                            Object var61 = ((Map)var55).get(&quot;linkList&quot;);
+                            if (org.jeecg.modules.jmreport.common.b.g.d(var61)) {
+                                var57.setLinkList((List)var61);
+                            }
+
+                            var57.setTotal(org.jeecg.modules.jmreport.common.b.b.a(((Map)var55).get(&quot;total&quot;), 0L));
+                            var57.setCount(org.jeecg.modules.jmreport.common.b.b.a(((Map)var55).get(&quot;count&quot;), 0L));
+                        }
+
+                        if (null != var57.getList()) {
+                            List var62 = var57.getList();
+                            var18 = org.jeecg.modules.jmreport.common.b.g.a(var62);
+                            this.replaceDbCode(var17, var62);
+                            var57.setList(var62);
+                        }
+
+                        var5.put(var19, var57);
+                    }
+
+                    if (&quot;3&quot;.equals(var17.getDbType())) {
+                        var21 = this.a(var17, paramJson, var48, var19);
+                        var18 = org.jeecg.modules.jmreport.common.b.g.a(var21.getList());
+                        var5.put(var19, var21);
+                    }
+
+                    var21 = (ReportDbInfo)var5.get(var19);
+                    List var54 = var21.getList();
+
+                    for(int var56 = 0; var56 &lt; var54.size(); ++var56) {
+                        Map var58 = (Map)var54.get(var56);
+                        Iterator var60 = var58.keySet().iterator();
+
+                        while(var60.hasNext()) {
+                            String var63 = (String)var60.next();
+                            Object var64 = var58.get(var63);
+                            if (var64 != null) {
+                                var28 = var64.toString();
+                                if (var28.indexOf(&quot;\&quot;&quot;) &gt;= 0) {
+                                    var65 = var28.replaceAll(&quot;\&quot;&quot;, &quot;“&quot;);
+                                    var58.put(var63, var65);
+                                }
+                            }
+                        }
+                    }
+
+                    this.a((JmReportDb)var17, (Map)var49, (List)var18);
+                }
+            }
+        }
+    }
+</code></pre>
+<p><code>getDataById</code>这个方法很长，这个方法的主要起到通过报表ID来获取报表数据的作用</p>
+<figure data-type="image" tabindex="3"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1743504913716-c418192f-3d57-4544-bca6-47f983a07c14.png" alt="" loading="lazy"></figure>
+<p>继续跟进后会走到<code>getDbsql</code>中，这个方法是执行sql语句查询的方法。</p>
+<p>进入到<code>getDbSql</code>方法，代码如下</p>
+<pre><code>    public String getDbSql(JmReportDb reportDb, JSONObject paramObject, JSONObject paramJson, List&lt;JmExpression&gt; expList, String groupField) {
+        String var6 = this.getBaseSql(reportDb, paramObject);
+        i.a(var6);
+        String var7 = this.a(reportDb, paramJson);
+        this.a(reportDb, var6, var7, expList);
+        String var8 = null;
+        if (org.jeecg.modules.jmreport.common.b.g.d(groupField)) {
+            String[] var9 = groupField.split(&quot;.&quot;);
+            byte var10 = 2;
+            if (var9.length == var10 &amp;&amp; reportDb.getDbCode().equals(var9[0])) {
+                var8 = var9[1];
+            }
+        }
+
+        String var11 = this.a(var6, var7, var8);
+        return var11;
+    }
+</code></pre>
+<p>这个方法主要进行sql数据的查询操作，其中包括了对sql语句的校验、过滤以及执行。</p>
+<p>其中过滤操作位于<code>i.a</code>方法中，可以跟进该方法，以查看造成该漏洞的过滤代码。</p>
+<pre><code>    public static void a(String var0) {
+        String[] var1 = &quot; exec |peformance_schema|information_schema|extractvalue|updatexml|geohash|gtid_subset|gtid_subtract| insert | alter | delete | grant | update | drop | chr | mid | master | truncate | char | declare |user()|&quot;.split(&quot;\\|&quot;);
+        if (var0 != null &amp;&amp; !&quot;&quot;.equals(var0)) {
+            b(var0);
+            var0 = var0.toLowerCase();
+            c(var0);
+            var0 = var0.replaceAll(&quot;/\\*.*\\*/&quot;, &quot;&quot;);
+
+            for(int var2 = 0; var2 &lt; var1.length; ++var2) {
+                if (var0.indexOf(var1[var2]) &gt; -1 || var0.startsWith(var1[var2].trim())) {
+                    a.error(&quot;请注意，存在SQL注入关键词---&gt; {}&quot;, var1[var2]);
+                    a.error(&quot;请注意，值可能存在SQL注入风险!---&gt; {}&quot;, var0);
+                    throw new JimuReportException(1001, &quot;请注意，值可能存在SQL注入风险!---&gt;&quot; + var0);
+                }
+            }
+
+            if (Pattern.matches(&quot;show\\s+tables&quot;, var0) || Pattern.matches(&quot;user[\\s]*\\([\\s]*\\)&quot;, var0)) {
+                throw new RuntimeException(&quot;请注意，值可能存在SQL注入风险!---&gt;&quot; + var0);
+            }
+        }
+    }
+</code></pre>
+<p>可以看到其过滤的黑名单为<code>&quot; exec |peformance_schema|information_schema|extractvalue|updatexml|geohash|gtid_subset|gtid_subtract| insert | alter | delete | grant | update | drop | chr | mid | master | truncate | char | declare |user()|&quot;;</code>，因为其过滤并不完全，没有过滤<code>ascii,having</code>等可以造成注入的代码，从而导致了布尔注入，由于这个路由的代码都没有身份校验，所以无需登录以及token即可完成注入。</p>
+<p>exp:</p>
+<pre><code>1 'having {ascii}=(nullif (ascii (substring ((select database()), {place}, 1)), 0) or'
+</code></pre>
+<h3 id="漏洞成因分析">漏洞成因分析</h3>
+<p>这个漏洞的成因就是黑名单过滤不完全，从而导致了sql注入漏洞。</p>
+<h3 id="漏洞修复">漏洞修复</h3>
+<p>作者升级了积木报表的版本，并补全了黑名单。</p>
+<h2 id="jeecgboot中的sql注入时间盲注">jeecgboot中的sql注入(时间盲注)</h2>
+<p>这里分析选择的是<code>/sys/dict/loadTreeData</code>路由，位于<code>org/jeecg/modules/system/controller/SysDictController</code>类中</p>
+<figure data-type="image" tabindex="4"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744201013517-65210a3a-6181-4178-8d3c-c53915ef4119.png" alt="" loading="lazy"></figure>
+<p>其完整代码如下：</p>
+<pre><code>	@RequestMapping(value = &quot;/loadTreeData&quot;, method = RequestMethod.GET)
+	public Result&lt;List&lt;TreeSelectModel&gt;&gt; loadTreeData(@RequestParam(name=&quot;pid&quot;,required = false) String pid,@RequestParam(name=&quot;pidField&quot;) String pidField,
+												  @RequestParam(name=&quot;tableName&quot;) String tbname,
+												  @RequestParam(name=&quot;text&quot;) String text,
+												  @RequestParam(name=&quot;code&quot;) String code,
+												  @RequestParam(name=&quot;hasChildField&quot;) String hasChildField,
+												  @RequestParam(name=&quot;converIsLeafVal&quot;,defaultValue =&quot;1&quot;) int converIsLeafVal,
+												  @RequestParam(name=&quot;condition&quot;) String condition,
+												  @RequestParam(value = &quot;sign&quot;,required = false) String sign,HttpServletRequest request) {
+		Result&lt;List&lt;TreeSelectModel&gt;&gt; result = new Result&lt;List&lt;TreeSelectModel&gt;&gt;();
+		Map&lt;String, String&gt; query = null;
+		if(oConvertUtils.isNotEmpty(condition)) {
+			query = JSON.parseObject(condition, Map.class);
+		}
+		String dictCode = tbname+&quot;,&quot;+text+&quot;,&quot;+code+&quot;,&quot;+condition;
+        SqlInjectionUtil.filterContent(dictCode);
+		if(!dictQueryBlackListHandler.isPass(dictCode)){
+			return result.error500(dictQueryBlackListHandler.getError());
+		}
+		List&lt;TreeSelectModel&gt; ls = sysDictService.queryTreeList(query,tbname, text, code, pidField, pid,hasChildField,converIsLeafVal);
+		result.setSuccess(true);
+		result.setResult(ls);
+		return result;
+	}
+</code></pre>
+<p>这段代码中sql校验的代码为<code>SqlInjectionUtil.filterContent(dictCode);</code>其他进行sql语句查询的方法也是用该方法进行校验的，所以跟进到<code>SqlInjectionUtil</code>类中的<code>filterContent</code>方法</p>
+<figure data-type="image" tabindex="5"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744201149141-17cb317a-1cae-4ad5-b4f0-e240928adf1b.png" alt="" loading="lazy"></figure>
+<p>代码如下：</p>
+<pre><code>public static void filterContent(String[] values) {
+    filterContent(values, null);
+}
+
+/**
+ * sql注入过滤处理，遇到注入关键字抛异常
+ * 
+ * @param values
+ * @return
+ */
+public static void filterContent(String[] values, String customXssString) {
+    String[] xssArr = XSS_STR.split(&quot;\\|&quot;);
+    for (String value : values) {
+        if (value == null || &quot;&quot;.equals(value)) {
+            return;
+        }
+        // 校验sql注释 不允许有sql注释
+        checkSqlAnnotation(value);
+        // 统一转为小写
+        value = value.toLowerCase();
+        //SQL注入检测存在绕过风险 https://gitee.com/jeecg/jeecg-boot/issues/I4NZGE
+        //value = value.replaceAll(&quot;/\\*.*\\*/&quot;,&quot;&quot;);
+
+        for (int i = 0; i &lt; xssArr.length; i++) {
+            if (value.indexOf(xssArr[i]) &gt; -1) {
+                log.error(&quot;请注意，存在SQL注入关键词---&gt; {}&quot;, xssArr[i]);
+                log.error(&quot;请注意，值可能存在SQL注入风险!---&gt; {}&quot;, value);
+                throw new RuntimeException(&quot;请注意，值可能存在SQL注入风险!---&gt;&quot; + value);
+            }
+        }
+        //update-begin-author:taoyan date:2022-7-13 for: 除了XSS_STR这些提前设置好的，还需要额外的校验比如 单引号
+        if (customXssString != null) {
+            String[] xssArr2 = customXssString.split(&quot;\\|&quot;);
+            for (int i = 0; i &lt; xssArr2.length; i++) {
+                if (value.indexOf(xssArr2[i]) &gt; -1) {
+                    log.error(&quot;请注意，存在SQL注入关键词---&gt; {}&quot;, xssArr2[i]);
+                    log.error(&quot;请注意，值可能存在SQL注入风险!---&gt; {}&quot;, value);
+                    throw new RuntimeException(&quot;请注意，值可能存在SQL注入风险!---&gt;&quot; + value);
+                }
+            }
+        }
+        //update-end-author:taoyan date:2022-7-13 for: 除了XSS_STR这些提前设置好的，还需要额外的校验比如 单引号
+        if(Pattern.matches(SHOW_TABLES, value) || Pattern.matches(REGULAR_EXPRE_USER, value)){
+            throw new RuntimeException(&quot;请注意，值可能存在SQL注入风险!---&gt;&quot; + value);
+        }
+    }
+    return;
+}
+</code></pre>
+<p><code>fielterContent</code>方法是jeecgboot3.5.3版本中的检测sql语句是否安全的方法，基本上所有进行sql语句查询的方法都调用了这个方法，这个方法首先校验传入参数是否为空，然后进入到<code>checkSqlAnnotation</code>方法继续校验，跟进到<code>checkSqlAnnotation</code></p>
+<figure data-type="image" tabindex="6"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744201305180-2a0e79a0-136c-4e90-8b5f-4b0acf0b7d7c.png" alt="" loading="lazy"></figure>
+<p>代码如下：</p>
+<pre><code>	public static void checkSqlAnnotation(String str){
+		Matcher matcher = SQL_ANNOTATION.matcher(str);
+		if(matcher.find()){
+			String error = &quot;请注意，值可能存在SQL注入风险---&gt; \\*.*\\&quot;;
+			log.error(error);
+			throw new RuntimeException(error);
+		}
+		
+		// issues/4737 sys/duplicate/check SQL注入 #4737
+		Matcher sleepMatcher = FUN_SLEEP.matcher(str);
+		if(sleepMatcher.find()){
+			String error = &quot;请注意，值可能存在SQL注入风险---&gt; sleep&quot;;
+			log.error(error);
+			throw new RuntimeException(error);
+		}
+	}
+</code></pre>
+<p>这个方法首先校验了是否存在违规的字符，然后判断是否有sleep位于参数中。</p>
+<p>仔细观察<code>filterContent</code>方法的逻辑，如图，他是先判断违规字符以及sleep是否存在于参数中，然后再进行小写转换的，所以当sleep为大写时，就可以绕过sleep。</p>
+<figure data-type="image" tabindex="7"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744201347400-f1cb79b5-562e-4bab-a8bd-7e110bc6beb5.png" alt="" loading="lazy"></figure>
+<p>这个漏洞还存在于</p>
+<p>验证exp:parseSql路由以及其他使用sql查询的路由中</p>
+<pre><code>(SELECT 6240 FROM (SELECT(SLEEP(5)) AND 1=1)vidl)
+</code></pre>
+<h3 id="漏洞成因分析-2">漏洞成因分析</h3>
+<p>正则表达式不匹配不完全，或者代码逻辑错误，将sleep的匹配放到了将其转换为小写之前。</p>
+<h3 id="漏洞修复-2">漏洞修复</h3>
+<figure data-type="image" tabindex="8"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744362658217-03f11673-cfac-4666-821a-a3ea49f7f5e7.png" alt="" loading="lazy"></figure>
+<p>作者对正则表达式进行了修改，让其不区分大小写进行匹配sleep。</p>
+<h2 id="jeecgboot中的sql注入普通用户越权查询所有表的信息">jeecgboot中的sql注入(普通用户越权查询所有表的信息)</h2>
+<p>这里分析的同样也是<code>/sys/dict/loadTreeData</code>路由，但造成漏洞的原因与上面的时间盲注漏洞并不相同，这个漏洞是由于没有对用户权限以及用户输入进行有效的过滤，从而导致普通用户可以直接查询到管理员用户的账号密码等信息。</p>
+<p>之前在对<code>/sys/dict/loadTreeData</code>路由代码审计的过程中，以及审计完了验证sql语句安全的代码<code>SqlInjectionUtil.filterContent(dictCode);</code></p>
+<p>接下来继续向下分析</p>
+<figure data-type="image" tabindex="9"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744359315853-cb31fe7c-6ffb-491a-a778-8e5104763c22.png" alt="" loading="lazy"></figure>
+<p>可以看到有一个黑名单检测的操作，造成sql注入的代码就是这一段，继续跟进isPass方法，</p>
+<figure data-type="image" tabindex="10"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744359669120-6df4fa26-6348-4b4d-9f8c-4796ce8cfbf6.png" alt="" loading="lazy"></figure>
+<p>代码如下：</p>
+<pre><code>public boolean isPass(String sql) {
+List&lt;QueryTable&gt; list = null;
+//【jeecg-boot/issues/4040】在线报表不支持子查询，解析报错 #4040
+try {
+    list = this.getQueryTableInfo(sql.toLowerCase());
+} catch (Exception e) {
+    log.warn(&quot;校验sql语句，解析报错：{}&quot;,e.getMessage());
+}
+
+if(list==null){
+    return true;
+}
+log.info(&quot;--获取sql信息--&quot;, list.toString());
+boolean flag = checkTableAndFieldsName(list);
+if(flag == false){
+    return false;
+}
+for (QueryTable table : list) {
+    String name = table.getName();
+    String fieldString = ruleMap.get(name);
+    // 有没有配置这张表
+    if (fieldString != null) {
+        if (&quot;*&quot;.equals(fieldString) || table.isAll()) {
+            flag = false;
+            log.warn(&quot;sql黑名单校验，表【&quot;+name+&quot;】禁止查询&quot;);
+            break;
+        } else if (table.existSameField(fieldString)) {
+            flag = false;
+            break;
+        }
+
+    }
+}
+return flag;
+}
+</code></pre>
+<p>这个方法通过解析传入的 SQL 语句，获取其中的表格信息，并根据规则检查表格和字段是否合法。如果 SQL 涉及的表或字段在黑名单中，则返回 <code>false</code>，否则返回 <code>true</code>。</p>
+<p>首先，跟进<code>getQueryTableInfo</code>方法，来查看是如何解析sql语句的</p>
+<figure data-type="image" tabindex="11"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744360529907-701ab08d-6874-496b-9c7b-532fb4baa862.png" alt="" loading="lazy"></figure>
+<p>代码如下：</p>
+<pre><code>public class DictQueryBlackListHandler extends AbstractQueryBlackListHandler {
+
+    @Override
+    protected List&lt;QueryTable&gt; getQueryTableInfo(String dictCodeString) {
+        if (dictCodeString != null &amp;&amp; dictCodeString.indexOf(SymbolConstant.COMMA) &gt; 0) {
+            String[] arr = dictCodeString.split(SymbolConstant.COMMA);
+            if (arr.length != 3 &amp;&amp; arr.length != 4) {
+                return null;
+            }
+            String tableName = getTableName(arr[0]);
+            QueryTable table = new QueryTable(tableName, &quot;&quot;);
+            // 无论什么场景 第二、三个元素一定是表的字段，直接add
+            table.addField(arr[1].trim());
+            String filed = arr[2].trim();
+            if (oConvertUtils.isNotEmpty(filed)) {
+                table.addField(filed);
+            }
+            List&lt;QueryTable&gt; list = new ArrayList&lt;&gt;();
+            list.add(table);
+            return list;
+        }
+        return null;
+    }
+</code></pre>
+<p>这段代码首先，对字符串进行了检查与拆分，并判断差分字符串的数组长度是否符合预期的3或者4，然后使用<code>getTableName</code>方法来获取表的具体值，因此继续跟进到<code>getTableName</code>方法中。</p>
+<figure data-type="image" tabindex="12"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744362177810-eb7cce3f-0413-456d-8143-353f6a552273.png" alt="" loading="lazy"></figure>
+<p>代码如下:</p>
+<pre><code>
+    private String getTableName(String str) {
+        String[] arr = str.split(&quot;\\s+(?i)where\\s+&quot;);
+        // sys_user , (sys_user), sys_user%20, %60sys_user%60  issues/4393
+        String reg = &quot;\\s+|\\(|\\)|`&quot;;
+        return arr[0].replaceAll(reg, &quot;&quot;);
+    }
+</code></pre>
+<p>进入<code>getTableName</code>方法中可以发现其对sys这一类型的表进行了正则操作，以此来维护管理员账号以及密码的安全，但是其过滤并不完全，从而导致了该漏洞的产生。</p>
+<p>只需要给表添加别名即可绕过</p>
+<p>exp：</p>
+<pre><code>http://localhost:8080/jeecg-boot/sys/dict/loadTreeData?tableName=sys_user t&amp;text=password,id&amp;code=password&amp;hasChildField=&amp;converIsLeafVal=1&amp;condition=&amp;pid=admin&amp;pidField=username
+</code></pre>
+<h3 id="漏洞成因分析-3">漏洞成因分析</h3>
+<p>对于黑名单的表单正则匹配并不完全，导致出现越权查询漏洞。</p>
+<h3 id="漏洞修复-3">漏洞修复</h3>
+<p>这个漏洞进行了多次修复，其中包括去除前后空格如果表名包含数据库名（即 <code>.</code>），则去除数据库名部分。去除表名中的空格，使用正则表达式去除表名中的空格、括号和反引号等特殊字符。</p>
+<p>最终修复代码：</p>
+<figure data-type="image" tabindex="13"><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1744363305305-14821863-f318-4616-a2b2-e5a6aea96e96.png" alt="" loading="lazy"></figure>
+<h1 id="总结">总结</h1>
+<p>在实战中，造成sql注入的原因主要有下面三点</p>
+<ol>
+<li>sql语句过滤不完全，导致可以进行绕过导致漏洞产生</li>
+<li>代码逻辑错误，导致本来可以进行过滤的操作无法产生效果。</li>
+<li>对用户的查询操作没有进行权限限制，或者限制不完全，从而导致获取到本不应该获取的数据。</li>
+</ol>
+
+              </div>
+              <div class="toc-container">
+                <ul class="markdownIt-TOC">
+<li><a href="#jeecgboot353%E7%89%88%E6%9C%AC%E5%90%84%E7%B1%BBsql%E6%B3%A8%E5%85%A5%E6%BC%8F%E6%B4%9E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90">jeecgboot3.5.3版本各类sql注入漏洞代码分析</a>
+<ul>
+<li><a href="#jinmureport%E4%B8%AD%E7%9A%84%E6%9C%AA%E6%8E%88%E6%9D%83sql%E6%B3%A8%E5%85%A5%E5%B8%83%E5%B0%94%E7%9B%B2%E6%B3%A8">jinmureport中的未授权sql注入(布尔盲注)</a>
+<ul>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0%E5%88%86%E6%9E%90">漏洞成因分析</a></li>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D">漏洞修复</a></li>
+</ul>
+</li>
+<li><a href="#jeecgboot%E4%B8%AD%E7%9A%84sql%E6%B3%A8%E5%85%A5%E6%97%B6%E9%97%B4%E7%9B%B2%E6%B3%A8">jeecgboot中的sql注入(时间盲注)</a>
+<ul>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0%E5%88%86%E6%9E%90-2">漏洞成因分析</a></li>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D-2">漏洞修复</a></li>
+</ul>
+</li>
+<li><a href="#jeecgboot%E4%B8%AD%E7%9A%84sql%E6%B3%A8%E5%85%A5%E6%99%AE%E9%80%9A%E7%94%A8%E6%88%B7%E8%B6%8A%E6%9D%83%E6%9F%A5%E8%AF%A2%E6%89%80%E6%9C%89%E8%A1%A8%E7%9A%84%E4%BF%A1%E6%81%AF">jeecgboot中的sql注入(普通用户越权查询所有表的信息)</a>
+<ul>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E6%88%90%E5%9B%A0%E5%88%86%E6%9E%90-3">漏洞成因分析</a></li>
+<li><a href="#%E6%BC%8F%E6%B4%9E%E4%BF%AE%E5%A4%8D-3">漏洞修复</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#%E6%80%BB%E7%BB%93">总结</a></li>
+</ul>
+
+              </div>
+            </div>
+          </article>
+        </div>
+
+        
+          <div class="next-post">
+            <div class="next">下一篇</div>
+            <a href="https://follycat.github.io/post/xxl-job-zi-ren-wu-yue-quan-lou-dong-dai-ma-fen-xi-ji-xiu-fu-dai-ma-fen-xi-cve-2024-42681/">
+              <h3 class="post-title">
+                xxl-job子任务越权漏洞代码分析及修复代码分析(CVE-2024-42681)
+              </h3>
+            </a>
+          </div>
+        
+
+        
+
+        <div class="site-footer">
+  Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a>
+  <a class="rss" href="https://follycat.github.io//atom.xml" target="_blank">
+    <i class="ri-rss-line"></i> RSS
+  </a>
+</div>
+
+      </div>
+    </div>
+
+    <script>
+      hljs.initHighlightingOnLoad()
+
+      let mainNavLinks = document.querySelectorAll(".markdownIt-TOC a");
+
+      // This should probably be throttled.
+      // Especially because it triggers during smooth scrolling.
+      // https://lodash.com/docs/4.17.10#throttle
+      // You could do like...
+      // window.addEventListener("scroll", () => {
+      //    _.throttle(doThatStuff, 100);
+      // });
+      // Only not doing it here to keep this Pen dependency-free.
+
+      window.addEventListener("scroll", event => {
+        let fromTop = window.scrollY;
+
+        mainNavLinks.forEach((link, index) => {
+          let section = document.getElementById(decodeURI(link.hash).substring(1));
+          let nextSection = null
+          if (mainNavLinks[index + 1]) {
+            nextSection = document.getElementById(decodeURI(mainNavLinks[index + 1].hash).substring(1));
+          }
+          if (section.offsetTop <= fromTop) {
+            if (nextSection) {
+              if (nextSection.offsetTop > fromTop) {
+                link.classList.add("current");
+              } else {
+                link.classList.remove("current");    
+              }
+            } else {
+              link.classList.add("current");
+            }
+          } else {
+            link.classList.remove("current");
+          }
+        });
+      });
+
+    </script>
+  </body>
+</html>
